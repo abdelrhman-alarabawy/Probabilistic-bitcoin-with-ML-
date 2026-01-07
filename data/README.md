@@ -1,5 +1,5 @@
 # Data
-Store local datasets here. Large files and CSVs are ignored by git.
+Store local datasets here. CSV files are ignored by git.
 Layout:
 - raw: immutable source data
 - interim: intermediate transforms
