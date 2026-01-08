@@ -1,6 +1,8 @@
-import pandas as pd
+from collections import Counter
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Sequence, Tuple
+
+import pandas as pd
 
 
 # === CONFIGURATION ===
@@ -35,11 +37,35 @@ TIMEFRAME_CONFIG = {
 
 # Granular candles used to resolve which side hit first when both TP/SL are touched.
 # Set to None to skip tie-break by lower timeframe.
-FIVE_MIN_CSV: Optional[Path] = None
+FIVE_MIN_CSV: Optional[Path] = Path(
+    r"D:\GitHub\bitcoin-probabilistic-learning\data\processed\BTCUSDT_5m_2026-01-03.csv"
+)
+
+# Run both modes in a single execution.
+RUN_MODES: Sequence[str] = ("no5m", "with5m")
+
+# Output locations for 1h relabeling runs.
+OUTPUT_1H_BASELINE = Path("pipeline/source/labeling/output_1h_labels_baseline_no5m.csv")
+OUTPUT_1H_WITH5M = Path("pipeline/source/labeling/output_1h_labels_with5m.csv")
+TRANSITION_OUTPUT = Path("pipeline/source/labeling/label_transition_1h_no5m_vs_with5m.csv")
 
 # Date range filter (UTC dates). If None, will use full range of each file.
 START_DATE: Optional[pd.Timestamp] = None
 END_DATE: Optional[pd.Timestamp] = None
+
+ALLOWED_LABELS = ("long", "short", "skip")
+
+
+def detect_timestamp_column(columns: Sequence[str]) -> str:
+    if "timestamp" in columns:
+        return "timestamp"
+    for candidate in ("ts_utc", "time", "open_time", "datetime"):
+        if candidate in columns:
+            return candidate
+    for col in columns:
+        if "timestamp" in col.lower():
+            return col
+    raise ValueError("No timestamp column found in 5-minute CSV.")
 
 
 def load_five_min(path: Optional[Path]) -> Optional[pd.DataFrame]:
@@ -47,12 +73,138 @@ def load_five_min(path: Optional[Path]) -> Optional[pd.DataFrame]:
         return None
     if not path.exists():
         raise FileNotFoundError(f"5-minute CSV not found: {path}")
-    df = pd.read_csv(path, parse_dates=["timestamp"])
+    df = pd.read_csv(path)
+    df.columns = df.columns.str.strip()
+    ts_col = detect_timestamp_column(df.columns)
+    if ts_col != "timestamp":
+        df = df.rename(columns={ts_col: "timestamp"})
     df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
+    df = df.sort_values("timestamp").reset_index(drop=True)
+    for col in ["high", "low"]:
+        if col not in df.columns:
+            raise ValueError(f"Missing required OHLCV column '{col}' in {path}")
+        df[col] = pd.to_numeric(df[col], errors="coerce")
     return df
 
 
-df_5 = load_five_min(FIVE_MIN_CSV)
+class FiveMinIndex:
+    def __init__(self, df: pd.DataFrame) -> None:
+        self.index = pd.DatetimeIndex(df["timestamp"])
+        self.high = df["high"].to_numpy()
+        self.low = df["low"].to_numpy()
+
+    def slice_high_low(self, start: pd.Timestamp, end: pd.Timestamp) -> Tuple[pd.Series, pd.Series]:
+        left = self.index.searchsorted(start, side="left")
+        right = self.index.searchsorted(end, side="left")
+        return self.high[left:right], self.low[left:right]
+
+
+def label_candles(
+    df_primary_filtered: pd.DataFrame,
+    horizon_delta: pd.Timedelta,
+    tp_points: float,
+    sl_points: float,
+    five_min_index: Optional[FiveMinIndex],
+) -> Tuple[Sequence[str], Sequence[bool]]:
+    labels: list[str] = []
+    ambiguous_flags: list[bool] = []
+
+    for _, row in df_primary_filtered.iterrows():
+        ts = row["timestamp"]
+        o = row["open"]
+        h = row["high"]
+        l = row["low"]
+        multiplier = o / 100000
+        Long_TP = o + tp_points * multiplier
+        Long_SL = o - sl_points * multiplier
+
+        Short_TP = o - tp_points * multiplier
+        Short_SL = o + sl_points * multiplier
+
+        def get_slice() -> Tuple[Optional[pd.Series], Optional[pd.Series]]:
+            if five_min_index is None:
+                return None, None
+            return five_min_index.slice_high_low(ts, ts + horizon_delta)
+
+        # Case 1: Long candle (clean long)
+        if h >= Long_TP and l >= Long_SL:
+            labels.append("long")
+            ambiguous_flags.append(False)
+
+        # Case 2: Short candle (clean short)
+        elif l <= Short_TP and h <= Short_SL:
+            labels.append("short")
+            ambiguous_flags.append(False)
+
+        # Case 3: Both thresholds touched -- check which one came first using 5-min candles
+        elif h >= Long_TP and l <= Short_TP:
+            signal_type = "skip"
+            slice_high, slice_low = get_slice()
+            if slice_high is not None:
+                for high_5, low_5 in zip(slice_high, slice_low):
+                    if high_5 >= Long_TP:
+                        signal_type = "long"
+                        break
+                    if low_5 <= Short_TP:
+                        signal_type = "short"
+                        break
+            labels.append(signal_type)
+            ambiguous_flags.append(True)
+
+        # Case 4.1: High hit, low partially hit (TP hit first, SL not yet)
+        elif h >= Long_TP:
+            if l < Long_SL:
+                signal_type = "skip"  # Default is skip
+                slice_high, slice_low = get_slice()
+                if slice_high is not None:
+                    for high_5, low_5 in zip(slice_high, slice_low):
+                        if high_5 >= Long_TP:  # TP hit first
+                            signal_type = "long"  # Long if TP reached before SL
+                            break
+                        if low_5 <= Long_SL:  # SL hit before TP
+                            signal_type = "skip"
+                            break
+                labels.append(signal_type)
+                ambiguous_flags.append(True)
+            else:
+                labels.append("long")
+                ambiguous_flags.append(False)
+
+        # Case 4.2: Low hit first (SL hit first, TP not yet)
+        elif l <= Short_TP:
+            if h > Short_SL:
+                signal_type = "skip"  # Default is skip
+                slice_high, slice_low = get_slice()
+                if slice_high is not None:
+                    for high_5, low_5 in zip(slice_high, slice_low):
+                        if low_5 <= Short_TP:  # SL hit first
+                            signal_type = "short"  # Short if SL reached before TP
+                            break
+                        if high_5 >= Short_SL:  # TP hit before SL
+                            signal_type = "skip"
+                            break
+                labels.append(signal_type)
+                ambiguous_flags.append(True)
+            else:
+                labels.append("short")
+                ambiguous_flags.append(False)
+        else:
+            labels.append("skip")
+            ambiguous_flags.append(False)
+
+    return labels, ambiguous_flags
+
+
+def print_counts(title: str, labels: Sequence[str]) -> Counter:
+    counts = Counter(labels)
+    total = len(labels)
+    print(f"\n=== {title} ===")
+    for candle_type in ALLOWED_LABELS:
+        count = counts.get(candle_type, 0)
+        pct = (count / total) * 100 if total > 0 else 0
+        print(f"{candle_type}:  {count} ({pct:.2f}%)")
+    return counts
+
 
 for timeframe in TIMEFRAMES_TO_RUN:
     if timeframe not in TIMEFRAME_CONFIG:
@@ -60,11 +212,12 @@ for timeframe in TIMEFRAMES_TO_RUN:
 
     cfg = TIMEFRAME_CONFIG[timeframe]
     input_csv = cfg["input_csv"]
-    output_csv = cfg["output_csv"]
     horizon_minutes = cfg["horizon_minutes"]
     tp_points = cfg["tp_points"]
     sl_points = cfg["sl_points"]
 
+    if timeframe != "1h":
+        raise ValueError("This script execution is configured to run 1h only.")
     if not input_csv.exists():
         raise FileNotFoundError(f"Input CSV not found: {input_csv}")
 
@@ -87,108 +240,82 @@ for timeframe in TIMEFRAMES_TO_RUN:
     df_primary["date"] = df_primary["timestamp"].dt.date
 
     # === FILTER DATE RANGE ONLY (full-file by default) ===
-    effective_start = (START_DATE.date() if START_DATE is not None else df_primary["date"].min())
-    effective_end = (END_DATE.date() if END_DATE is not None else df_primary["date"].max())
-    df_primary_filtered = df_primary[(df_primary["date"] >= effective_start) & (df_primary["date"] <= effective_end)]
+    effective_start = START_DATE.date() if START_DATE is not None else df_primary["date"].min()
+    effective_end = END_DATE.date() if END_DATE is not None else df_primary["date"].max()
+    df_primary_filtered = df_primary[
+        (df_primary["date"] >= effective_start) & (df_primary["date"] <= effective_end)
+    ]
 
     horizon_delta = pd.Timedelta(minutes=horizon_minutes)
 
-    # === PROCESS ===
-    results = []
-
-    for _, row in df_primary_filtered.iterrows():
-        ts = row["timestamp"]
-        o = row["open"]
-        h = row["high"]
-        l = row["low"]
-        c = row["close"]
-        v = row["volume"]
-        multiplier = o / 100000
-        Long_TP = o + tp_points * multiplier
-        Long_SL = o - sl_points * multiplier
-
-        Short_TP = o - tp_points * multiplier
-        Short_SL = o + sl_points * multiplier
-
+    five_min_index = None
+    if "with5m" in RUN_MODES:
+        df_5 = load_five_min(FIVE_MIN_CSV)
         if df_5 is not None:
-            df_5_slice = df_5[(df_5["timestamp"] >= ts) & (df_5["timestamp"] < ts + horizon_delta)]
-        else:
-            df_5_slice = pd.DataFrame(columns=["high", "low"])
+            five_min_index = FiveMinIndex(df_5)
 
-        # Case 1: Long candle (clean long)
-        if h >= Long_TP and l >= Long_SL:
-            results.append((ts, o, h, l, c, v, "long"))
+    def run_mode(mode_name: str, five_min_index_for_run: Optional[FiveMinIndex], output_path: Path):
+        labels, ambiguous_flags = label_candles(
+            df_primary_filtered,
+            horizon_delta,
+            tp_points,
+            sl_points,
+            five_min_index_for_run,
+        )
+        if len(labels) != len(df_primary_filtered):
+            raise ValueError("Label count does not match number of 1h candles.")
+        if not set(labels).issubset(ALLOWED_LABELS):
+            raise ValueError(f"Unexpected labels detected: {set(labels) - set(ALLOWED_LABELS)}")
 
-        # Case 2: Short candle (clean short)
-        elif l <= Short_TP and h <= Short_SL:
-            results.append((ts, o, h, l, c, v, "short"))
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_df = df_primary_filtered.copy()
+        output_df["candle_type"] = labels
+        if timestamp_col == "ts_utc":
+            output_df = output_df.rename(columns={"timestamp": "ts_utc"})
+        output_df.to_csv(output_path, index=False)
+        return labels, ambiguous_flags
 
-        # Case 3: Both thresholds touched -- check which one came first using 5-min candles
-        elif h >= Long_TP and l <= Short_TP:
-            signal_type = "skip"
-            for _, r5 in df_5_slice.iterrows():
-                if r5["high"] >= Long_TP:
-                    signal_type = "long"
-                    break
-                elif r5["low"] <= Short_TP:
-                    signal_type = "short"
-                    break
-            results.append((ts, o, h, l, c, v, signal_type))
+    labels_baseline, ambiguous_baseline = run_mode("no5m", None, OUTPUT_1H_BASELINE)
+    labels_with5m, ambiguous_with5m = run_mode("with5m", five_min_index, OUTPUT_1H_WITH5M)
 
-        # Case 4.1: High hit, low partially hit (TP hit first, SL not yet)
-        elif h >= Long_TP:
-            if l < Long_SL:
-                signal_type = "skip"  # Default is skip
-                for _, r5 in df_5_slice.iterrows():
-                    if r5["high"] >= Long_TP:  # TP hit first
-                        signal_type = "long"  # Long if TP reached before SL
-                        break  # Break immediately when TP is hit
-                    elif r5["low"] <= Long_SL:  # SL hit before TP
-                        signal_type = "skip"  # Skip if SL hits before TP
-                        break  # Break immediately when SL is hit
-                results.append((ts, o, h, l, c, v, signal_type))
-            else:
-                results.append((ts, o, h, l, c, v, "long"))
+    if len(labels_baseline) != len(labels_with5m):
+        raise ValueError("Baseline and with-5m outputs have different row counts.")
 
-        # Case 4.2: Low hit first (SL hit first, TP not yet)
-        elif l <= Short_TP:
-            if h > Short_SL:
-                signal_type = "skip"  # Default is skip
-                for _, r5 in df_5_slice.iterrows():
-                    if r5["low"] <= Short_TP:  # SL hit first
-                        signal_type = "short"  # Short if SL reached before TP
-                        break  # Break immediately when SL is hit
-                    elif r5["high"] >= Short_SL:  # TP hit before SL
-                        signal_type = "skip"  # Skip if TP hits before SL
-                        break  # Break immediately when TP is hit
-                results.append((ts, o, h, l, c, v, signal_type))
-            else:
-                results.append((ts, o, h, l, c, v, "short"))
-        else:
-            results.append((ts, o, h, l, c, v, "skip"))
+    counts_baseline = print_counts("Baseline (NO 5m)", labels_baseline)
+    counts_with5m = print_counts("With 5m tie-break", labels_with5m)
 
-    # === OUTPUT TO CSV ===
-    output_csv.parent.mkdir(parents=True, exist_ok=True)
-    output_df = df_primary_filtered.copy()
-    output_df["candle_type"] = [row[-1] for row in results]
-    if timestamp_col == "ts_utc":
-        output_df = output_df.rename(columns={"timestamp": "ts_utc"})
-    output_df.to_csv(output_csv, index=False)
+    print("\n=== Delta (with5m - baseline) ===")
+    for candle_type in ALLOWED_LABELS:
+        delta = counts_with5m.get(candle_type, 0) - counts_baseline.get(candle_type, 0)
+        print(f"{candle_type}:  {delta:+d}")
 
-    print(f"Timeframe {timeframe}: Done. Output written to {output_csv}")
-    print(f"Timeframe: {timeframe}, horizon: {horizon_minutes} minutes, TP/SL points: {tp_points}/{sl_points}")
+    transition_df = pd.crosstab(
+        pd.Series(labels_baseline, name="from"),
+        pd.Series(labels_with5m, name="to"),
+        dropna=False,
+    ).reindex(index=ALLOWED_LABELS, columns=ALLOWED_LABELS, fill_value=0)
+    transition_df.index.name = "from\\to"
 
-    from collections import Counter
+    TRANSITION_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    transition_df.to_csv(TRANSITION_OUTPUT)
 
-    # Count the types
-    counts = Counter([row[-1] for row in results])
-    total = sum(counts.values())
+    print("\n=== Label transition matrix ===")
+    print("from\\to, long, short, skip")
+    for row_label in ALLOWED_LABELS:
+        row = transition_df.loc[row_label]
+        print(f"{row_label},   {row['long']},    {row['short']},     {row['skip']}")
 
-    # Print header
-    print("\n=== Candle Signal Summary ===")
+    changed_indices = [
+        i for i, (base_label, new_label) in enumerate(zip(labels_baseline, labels_with5m))
+        if base_label != new_label
+    ]
+    non_ambiguous_changes = [
+        i for i in changed_indices
+        if not (ambiguous_baseline[i] or ambiguous_with5m[i])
+    ]
+    if non_ambiguous_changes:
+        print(f"\nWARNING: {len(non_ambiguous_changes)} label changes occurred outside ambiguous cases.")
 
-    # Loop over types and print percentage
-    for candle_type in ["long", "short", "skip"]:
-        count = counts.get(candle_type, 0)
-        pct = (count / total) * 100 if total > 0 else 0
-        print(f"{candle_type.capitalize()} candles: {count} ({pct:.2f}%)")
+    print(
+        f"\nTimeframe {timeframe}: Done. Outputs: {OUTPUT_1H_BASELINE} and {OUTPUT_1H_WITH5M}"
+    )
