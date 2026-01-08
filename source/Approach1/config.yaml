@@ -1,0 +1,100 @@
+paths:
+  input_csv: D:/GitHub/bitcoin-probabilistic-learning/data/processed/features_1h_ALL-2025_merged_prev_indicators_labeled.csv
+  output_dir: source/Approach1/output
+  continuous_output: random_variables_continuous.csv
+  discrete_output: random_variables_discrete.csv
+  metadata_output: rv_metadata.json
+  report_output: data_report.md
+
+columns:
+  timestamp_candidates:
+    - nts-utc
+    - ts_utc
+    - timestamp
+    - time
+    - datetime
+    - date
+  open_candidates:
+    - open
+  high_candidates:
+    - high
+  low_candidates:
+    - low
+  close_candidates:
+    - close
+  volume_candidates:
+    - volume
+    - vol
+  label_candidates:
+    - candle_type
+    - Candle_type
+    - CandleType
+    - candleType
+    - label
+    - y
+  optional:
+    atm_iv:
+      - atm_iv_1d
+      - atm_iv_2d
+      - atm_iv_7d
+    term_slope:
+      - term_slope_1d_7d
+    implied_move_1h:
+      - implied_move_1h_pct_1sigma
+    implied_move_24h:
+      - implied_move_24h_pct_1sigma
+    spread_bps_last:
+      - spread_bps_last
+    spread_last:
+      - spread_last
+    bid_last:
+      - bid_last
+    ask_last:
+      - ask_last
+    mid_last:
+      - mid_last
+    imbalance_last:
+      - imbalance_last
+    imbalance_mean:
+      - imbalance_mean
+    liq_notional:
+      - liq_notional
+    liq_amount:
+      - liq_amount
+    liq_count:
+      - liq_count
+    liq_buy_notional:
+      - liq_buy_notional
+    liq_sell_notional:
+      - liq_sell_notional
+    liq_net_notional:
+      - liq_net_notional_long_minus_short
+
+rv_settings:
+  return_lag: 1
+  realized_vol_window: 24
+  tail_risk_window: 72
+  momentum_horizons: [3, 6, 12, 24]
+  momentum_z_window: 120
+  trend_fast_window: 12
+  trend_slow_window: 48
+  mean_reversion_window: 48
+  volume_window: 24
+  volume_trend_window: 24
+  imbalance_window: 24
+  spread_smooth_window: 24
+  signal_weights:
+    momentum: 0.6
+    trend: 0.4
+  signal_confidence:
+    sigmoid_scale: 1.0
+    alignment_boost: 0.4
+    tail_risk_penalty: 0.6
+
+
+discretization:
+  method: quantile
+  bins: 3
+  min_unique: 8
+  label_suffix: _bin
+  missing_value: -1

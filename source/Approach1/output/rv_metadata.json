@@ -1,0 +1,401 @@
+{
+  "created_at": "2026-01-08T14:59:35.353880Z",
+  "discretization": {
+    "bin_counts": {
+      "body_1h": 3,
+      "implied_move_ratio": 3,
+      "iv_level": 3,
+      "mean_reversion_score": 3,
+      "momentum_score": 3,
+      "order_imbalance_score": 3,
+      "range_1h": 3,
+      "realized_vol_24h": 3,
+      "ret_1h": 3,
+      "signal_confidence": 3,
+      "signal_direction_score": 3,
+      "spread_cost_bps": 3,
+      "tail_risk_z": 3,
+      "term_structure_slope": 3,
+      "trend_score": 3,
+      "volume_trend_24h": 3,
+      "volume_z_24h": 3
+    },
+    "bin_edges": {
+      "body_1h": [
+        -0.1022889230944644,
+        -0.0014229535645747106,
+        0.0015578870966128859,
+        0.1111111111111111
+      ],
+      "implied_move_ratio": [
+        0.20412414523191627,
+        0.20412414523192982,
+        0.2041241452319309,
+        0.20412414523193328
+      ],
+      "iv_level": [
+        0.17095898599255532,
+        0.5282463739049513,
+        0.7104389140469625,
+        2.7063589220786732
+      ],
+      "mean_reversion_score": [
+        -0.18491171170242118,
+        -0.008205452305341386,
+        0.005866277438448956,
+        0.18901640959956914
+      ],
+      "momentum_score": [
+        -10.865936951893794,
+        -0.2956758409233929,
+        0.29429806880865955,
+        12.140657280847787
+      ],
+      "order_imbalance_score": [
+        -4.0230339310098415,
+        -0.3748164877764389,
+        0.3712341485589522,
+        3.884398125490812
+      ],
+      "range_1h": [
+        5.463585204611266e-05,
+        0.005084239961223474,
+        0.009636902924623183,
+        0.21233682559247016
+      ],
+      "realized_vol_24h": [
+        0.0004800357654920043,
+        0.004147722835068258,
+        0.006551648898723039,
+        0.03483096329269889
+      ],
+      "ret_1h": [
+        -0.09738885703386103,
+        -0.0014213146919330004,
+        0.001559349690888466,
+        0.11778303565638346
+      ],
+      "signal_confidence": [
+        3.5049392036009745e-10,
+        0.22949074368738037,
+        0.3684683535701613,
+        0.8612248798402925
+      ],
+      "signal_direction_score": [
+        -6.528911167989848,
+        -0.17767100960775428,
+        0.1768039430603954,
+        7.2840183910400285
+      ],
+      "spread_cost_bps": [
+        0.0727905343189171,
+        0.1650187708951741,
+        0.2783925630767522,
+        16.05987606623941
+      ],
+      "tail_risk_z": [
+        -18.949329905200656,
+        -0.2968352491816282,
+        0.30170359210408126,
+        35.129740647401384
+      ],
+      "term_structure_slope": [
+        -0.237869420823263,
+        -0.05193254080561257,
+        -0.005398383535600571,
+        1.2417002633039222
+      ],
+      "trend_score": [
+        -0.12647784285954342,
+        -0.004343368591625567,
+        0.0059101958541964246,
+        0.10908956513828244
+      ],
+      "volume_trend_24h": [
+        -2166.8914578260874,
+        -23.88670985507247,
+        24.06908289855072,
+        3336.3658673913046
+      ],
+      "volume_z_24h": [
+        -2.226735617527535,
+        -0.5563603580081418,
+        -0.0019087894551221502,
+        139.30715369053956
+      ]
+    },
+    "bins": 3,
+    "label_suffix": "_bin",
+    "method": "quantile",
+    "missing_value": -1
+  },
+  "input_csv": "D:/GitHub/bitcoin-probabilistic-learning/data/processed/features_1h_ALL-2025_merged_prev_indicators_labeled.csv",
+  "resolved_columns": {
+    "ask_last": "ask_last",
+    "atm_iv": "atm_iv_1d",
+    "atm_iv_cols": [
+      "atm_iv_1d",
+      "atm_iv_2d",
+      "atm_iv_7d"
+    ],
+    "bid_last": "bid_last",
+    "close": "close",
+    "high": "high",
+    "imbalance_last": "imbalance_last",
+    "imbalance_mean": "imbalance_mean",
+    "implied_move_1h": "implied_move_1h_pct_1sigma",
+    "implied_move_24h": "implied_move_24h_pct_1sigma",
+    "label": "candle_type",
+    "liq_amount": "liq_amount",
+    "liq_buy_notional": "liq_buy_notional",
+    "liq_count": "liq_count",
+    "liq_net_notional": "liq_net_notional_long_minus_short",
+    "liq_notional": "liq_notional",
+    "liq_sell_notional": "liq_sell_notional",
+    "low": "low",
+    "mid_last": "mid_last",
+    "open": "open",
+    "spread_bps_last": "spread_bps_last",
+    "spread_last": "spread_last",
+    "term_slope": "term_slope_1d_7d",
+    "timestamp": "ts_utc",
+    "volume": "volume"
+  },
+  "rv_definitions": {
+    "aggressor_bias": {
+      "description": "Net aggressor bias from liquidation flows.",
+      "formula": "bias_t = (buy_notional - sell_notional) / (buy_notional + sell_notional)",
+      "inputs": [
+        "liq_buy_notional",
+        "liq_sell_notional"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "body_1h": {
+      "description": "Normalized candle body.",
+      "formula": "body_t = (C_t - O_t) / C_t",
+      "inputs": [
+        "open",
+        "close"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "direction_sign": {
+      "description": "Signed return direction (-1, 0, 1).",
+      "formula": "direction_t = sign(ret_t)",
+      "inputs": [
+        "ret_1h"
+      ],
+      "shift": 0,
+      "type": "discrete",
+      "window": 0
+    },
+    "implied_move_ratio": {
+      "description": "Ratio of 1h to 24h implied move.",
+      "formula": "implied_ratio_t = move_1h / move_24h",
+      "inputs": [
+        "implied_move_1h_pct_1sigma",
+        "implied_move_24h_pct_1sigma"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "iv_level": {
+      "description": "Average ATM implied volatility level.",
+      "formula": "iv_level_t = mean(atm_iv_horizons)",
+      "inputs": [
+        "atm_iv_1d",
+        "atm_iv_2d",
+        "atm_iv_7d"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "liquidity_intensity": {
+      "description": "Log-scaled liquidation intensity.",
+      "formula": "liq_intensity_t = log(1 + liq_metric_t)",
+      "inputs": [
+        "liq_notional"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "mean_reversion_score": {
+      "description": "Negative distance from slow moving average (overbought/oversold).",
+      "formula": "mr_t = -(C_t - MA_slow) / MA_slow",
+      "inputs": [
+        "close"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 48
+    },
+    "momentum_score": {
+      "description": "Average z-scored multi-horizon return momentum.",
+      "formula": "momentum_t = mean(zscore(log(C_t/C_{t-h})) for h in horizons)",
+      "inputs": [
+        "close"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 120
+    },
+    "order_imbalance_score": {
+      "description": "Order book imbalance z-score (last and mean).",
+      "formula": "imbalance_t = mean(zscore(imb_last), zscore(imb_mean))",
+      "inputs": [
+        "imbalance_last",
+        "imbalance_mean"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 24
+    },
+    "range_1h": {
+      "description": "Normalized high-low range.",
+      "formula": "range_t = (H_t - L_t) / C_t",
+      "inputs": [
+        "high",
+        "low",
+        "close"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "realized_vol_24h": {
+      "description": "Trailing realized volatility (24 bars).",
+      "formula": "rv_t = std(ret_{t-1..t-24})",
+      "inputs": [
+        "ret_1h"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 24
+    },
+    "ret_1h": {
+      "description": "Log return over 1 hour.",
+      "formula": "ret_t = log(C_t / C_{t-1})",
+      "inputs": [
+        "close"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 0
+    },
+    "signal_confidence": {
+      "description": "Soft confidence score in [0,1] for downstream evidence.",
+      "formula": "conf_t = sigmoid(|signal_dir_t|) * alignment * exp(-|tail_z|)",
+      "inputs": [
+        "signal_direction_score",
+        "tail_risk_z"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "signal_direction_score": {
+      "description": "Weighted direction score from trend and momentum.",
+      "formula": "signal_dir_t = w_m * momentum_t + w_t * trend_t",
+      "inputs": [
+        "momentum_score",
+        "trend_score"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "spread_cost_bps": {
+      "description": "Estimated spread cost in basis points.",
+      "formula": "spread_bps_t = (ask_t - bid_t) / mid_t * 1e4",
+      "inputs": [
+        "spread_bps_last"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "tail_risk_z": {
+      "description": "Return z-score versus trailing window (tail risk proxy).",
+      "formula": "tail_z_t = (ret_t - mean(ret_{t-1..t-N})) / std(ret_{t-1..t-N})",
+      "inputs": [
+        "ret_1h"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 72
+    },
+    "term_structure_slope": {
+      "description": "Implied volatility term structure slope.",
+      "formula": "term_slope_t = iv_7d - iv_1d",
+      "inputs": [
+        "term_slope_1d_7d"
+      ],
+      "shift": 0,
+      "type": "continuous",
+      "window": 0
+    },
+    "trend_score": {
+      "description": "Distance between fast and slow moving averages.",
+      "formula": "trend_t = (MA_fast - MA_slow) / C_t",
+      "inputs": [
+        "close"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 48
+    },
+    "volume_trend_24h": {
+      "description": "Slope of volume over trailing window.",
+      "formula": "vol_trend_t = slope(V_{t-1..t-24})",
+      "inputs": [
+        "volume"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 24
+    },
+    "volume_z_24h": {
+      "description": "Volume z-score versus trailing window.",
+      "formula": "vol_z_t = (V_t - mean(V_{t-1..t-24})) / std(V_{t-1..t-24})",
+      "inputs": [
+        "volume"
+      ],
+      "shift": 1,
+      "type": "continuous",
+      "window": 24
+    }
+  },
+  "stats": {
+    "rows": 30614,
+    "rv_missingness": {
+      "aggressor_bias": 0.7109492389103025,
+      "body_1h": 0.0,
+      "direction_sign": 0.0,
+      "implied_move_ratio": 0.00019598876331090352,
+      "iv_level": 0.00019598876331090352,
+      "liquidity_intensity": 0.046253348141373225,
+      "mean_reversion_score": 0.0015679101064872282,
+      "momentum_score": 0.004017769647873522,
+      "order_imbalance_score": 0.0033318089762853598,
+      "range_1h": 0.0,
+      "realized_vol_24h": 0.0008166198471287646,
+      "ret_1h": 3.266479388515058e-05,
+      "signal_confidence": 0.004017769647873522,
+      "signal_direction_score": 0.004017769647873522,
+      "spread_cost_bps": 0.00019598876331090352,
+      "tail_risk_z": 0.002384529953615993,
+      "term_structure_slope": 0.00019598876331090352,
+      "trend_score": 0.0015679101064872282,
+      "volume_trend_24h": 0.0007839550532436141,
+      "volume_z_24h": 0.0007839550532436141
+    }
+  }
+}

@@ -488,7 +488,7 @@
   },
   "rare_classes_merged": [],
   "indicator_bins_count": 43,
-  "structure_indicators_used": 25,
+  "structure_indicators_used": 43,
   "ablation_indicators_covered": 10,
   "ablation_rows": 0
 }

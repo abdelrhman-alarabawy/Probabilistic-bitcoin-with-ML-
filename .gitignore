@@ -201,6 +201,34 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Local model/image artifacts
+*.pkl
+*.pickle
+*.joblib
+*.sav
+*.model
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.h5
+*.hdf5
+*.tflite
+*.weights
+*.bin
+*.pb
+models/
+checkpoints/
+
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.webp
+
 # Marimo
 marimo/_static/
 marimo/_lsp/
