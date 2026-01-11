@@ -1,0 +1,36 @@
+{
+  "input_csv": "pipeline\\source\\labeling\\output_1h_labels_with5m.csv",
+  "model_names": [
+    "lightgbm",
+    "xgboost"
+  ],
+  "class_order": [
+    "long",
+    "short",
+    "skip"
+  ],
+  "clean": true,
+  "min_range_pct": null,
+  "config": {
+    "seed": 42,
+    "test_size": 0.2,
+    "cv_splits": 5,
+    "min_trade_coverage": 0.01,
+    "threshold_grid": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "model_names": [
+      "lightgbm",
+      "xgboost"
+    ],
+    "imputer_strategy": "median",
+    "val_size": 0.1
+  },
+  "feature_count": 48
+}
