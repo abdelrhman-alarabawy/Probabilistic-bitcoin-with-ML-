@@ -1,0 +1,11 @@
+{
+  "t_trade": 0.3,
+  "t_long": 0.5,
+  "t_short": 0.5,
+  "relaxation_log": [
+    "t_trade_relaxed_to=0.30",
+    "coverage_relaxed_to=0.0050",
+    "min_count_relaxed_to=25",
+    "precision_target_relaxed_to=long:0.30,short:0.30"
+  ]
+}

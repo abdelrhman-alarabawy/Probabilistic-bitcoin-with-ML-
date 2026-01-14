@@ -1,0 +1,48 @@
+{
+  "input_path": "data\\processed\\12h_features_indicators_with_ohlcv.csv",
+  "rows": 4096,
+  "columns": 56,
+  "timestamp_col": "timestamp",
+  "labeling": {
+    "base_horizon": 60,
+    "scaled_horizon": 720,
+    "tp_points": 2000.0,
+    "sl_points": 1000.0
+  },
+  "gmm": {
+    "k_strategy": "global_k_from_first_fold",
+    "selected_k": 2
+  },
+  "folds_count": 67,
+  "best_setting": "without_regime",
+  "avg_metrics": {
+    "without_regime": {
+      "accuracy_mean": 0.614954486268799,
+      "accuracy_std": 0.15534960967389716,
+      "macro_f1_mean": 0.5015199787036585,
+      "macro_f1_std": 0.12484277850161124,
+      "weighted_f1_mean": 0.6190056825200982,
+      "weighted_f1_std": 0.1559322937732054,
+      "long_f1_mean": 0.4056106406203117,
+      "long_f1_std": 0.17922760906787102,
+      "short_f1_mean": 0.40843765747888733,
+      "short_f1_std": 0.1967631866998295,
+      "skip_f1_mean": 0.6905116380117764,
+      "skip_f1_std": 0.1793237752978126
+    },
+    "with_regime": {
+      "accuracy_mean": 0.614954486268799,
+      "accuracy_std": 0.15534960967389716,
+      "macro_f1_mean": 0.5015199787036585,
+      "macro_f1_std": 0.12484277850161124,
+      "weighted_f1_mean": 0.6190056825200982,
+      "weighted_f1_std": 0.1559322937732054,
+      "long_f1_mean": 0.4056106406203117,
+      "long_f1_std": 0.17922760906787102,
+      "short_f1_mean": 0.40843765747888733,
+      "short_f1_std": 0.1967631866998295,
+      "skip_f1_mean": 0.6905116380117764,
+      "skip_f1_std": 0.1793237752978126
+    }
+  }
+}

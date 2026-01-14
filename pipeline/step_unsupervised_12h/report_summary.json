@@ -1,0 +1,43 @@
+{
+  "input": "data\\processed\\12h_features_indicators_with_ohlcv.csv",
+  "rows": 4096,
+  "columns": 58,
+  "timestamp_col": "timestamp",
+  "hmm_selected": {
+    "n_states": 8,
+    "method": "hmmlearn"
+  },
+  "final_regime_count": 2,
+  "label_summary": {
+    "regime_0_stable": {
+      "distribution": {
+        "skip": 0.6781609195402298,
+        "long": 0.165321594521888,
+        "short": 0.15651748593788212
+      },
+      "rows": 4089
+    },
+    "regime_1_extreme": {
+      "distribution": {
+        "short": 0.7142857142857143,
+        "skip": 0.2857142857142857
+      },
+      "rows": 7
+    }
+  },
+  "outputs": {
+    "combined": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\output\\combined_with_states.csv",
+    "combined_labeled": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\output\\combined_with_states_labeled.csv",
+    "regime_files": [
+      "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\output\\regime_0_stable.csv",
+      "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\output\\regime_1_extreme.csv"
+    ]
+  },
+  "plots": {
+    "price_by_regime": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\plots\\price_by_regime.png",
+    "state_occupancy": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\plots\\state_occupancy.png",
+    "hmm_transition": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\plots\\hmm_transition_heatmap.png",
+    "final_transition": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\plots\\final_regime_transition_heatmap.png",
+    "boxplots": "D:\\GitHub\\bitcoin-probabilistic-learning\\pipeline\\step_unsupervised_12h\\plots\\regime_boxplots.png"
+  }
+}
