@@ -1,0 +1,49 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+PIPELINE_DIR = Path(__file__).resolve().parents[1]
+REPO_ROOT = PIPELINE_DIR.parents[1]
+
+DATA_PATH = REPO_ROOT / "data" / "processed" / "12h_features_indicators_with_ohlcv.csv"
+
+OUTPUTS_DIR = PIPELINE_DIR / "outputs"
+FIGURES_DIR = PIPELINE_DIR / "figures"
+ARTIFACTS_DIR = PIPELINE_DIR / "artifacts"
+REPORT_PATH = PIPELINE_DIR / "report.md"
+
+RANDOM_SEED = 42
+
+FEATURE_SHIFT = 1
+
+N_SPLITS = 4
+MIN_TRAIN_SIZE = 0.5
+TEST_SIZE = 0.1
+FOLD_STEP_SIZE = None
+
+CLIP_QUANTILES = (0.01, 0.99)
+USE_PCA = False
+PCA_N_COMPONENTS = 0.95
+
+GMM_KS = [2, 3, 4, 5, 6]
+GMM_SEEDS = [0, 1, 2]
+GMM_MAX_ITER = 200
+GMM_COV_TYPE = "full"
+
+ENTROPY_MAX = 0.70
+
+MIN_ACTION_RATE = 0.05
+MIN_DURATION = 3
+MAX_LEAVE_PROB = 0.50
+
+GATE_THRESHOLD = 0.90
+DIRECTION_THRESHOLD = 0.60
+
+MIN_DIR_TRAIN_SAMPLES = 200
+
+SWEEP_GATE_THRESHOLD = [0.70, 0.80, 0.90, 0.95, 0.98]
+SWEEP_DIRECTION_THRESHOLD = [0.55, 0.60, 0.65, 0.70]
+SWEEP_ENTROPY_MAX = [float("inf"), 0.80, 0.70, 0.60]
+SWEEP_TOPK_PERCENT = [1, 2, 5, 10]
+
+FIXED_GATE_THRESHOLDS = [0.30, 0.32, 0.35, 0.38, 0.40, 0.42, 0.44]

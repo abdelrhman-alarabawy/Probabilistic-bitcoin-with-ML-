@@ -1,0 +1,1219 @@
+{
+  "data_rows": 2434,
+  "feature_count": 53,
+  "excluded_columns": [
+    "candle_type",
+    "label_ambiguous",
+    "timestamp"
+  ],
+  "suspicious_columns": [
+    "label_ambiguous"
+  ],
+  "fold_metrics": [
+    {
+      "fold_id": 0,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0,
+      "avg_return": NaN,
+      "tail_loss_p05": NaN,
+      "eligible_regimes": 0,
+      "hmm_states": 4,
+      "gmm_states": 6,
+      "ari_hmm_gmm_test": 0.8561116180043912
+    },
+    {
+      "fold_id": 1,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0,
+      "avg_return": NaN,
+      "tail_loss_p05": NaN,
+      "eligible_regimes": 0,
+      "hmm_states": 3,
+      "gmm_states": 6,
+      "ari_hmm_gmm_test": 0.12843240169015574
+    },
+    {
+      "fold_id": 2,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0,
+      "avg_return": NaN,
+      "tail_loss_p05": NaN,
+      "eligible_regimes": 0,
+      "hmm_states": 2,
+      "gmm_states": 2,
+      "ari_hmm_gmm_test": 0.8968443153210681
+    },
+    {
+      "fold_id": 3,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0,
+      "avg_return": NaN,
+      "tail_loss_p05": NaN,
+      "eligible_regimes": 0,
+      "hmm_states": 2,
+      "gmm_states": 5,
+      "ari_hmm_gmm_test": 0.08634743872286033
+    }
+  ],
+  "strict_mode_table": [
+    {
+      "decision_threshold": 0.8,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0
+    },
+    {
+      "decision_threshold": 0.9,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0
+    },
+    {
+      "decision_threshold": 0.95,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0
+    },
+    {
+      "decision_threshold": 0.98,
+      "coverage": 0.0,
+      "precision": 0.0,
+      "trade_count": 0
+    }
+  ],
+  "hmm_available": true,
+  "selection_log": [
+    {
+      "fold_id": 0,
+      "hmm": {
+        "selection": {
+          "n_states": 4,
+          "seed": 1,
+          "log_likelihood": 13556.106369784175,
+          "avg_duration": 2.8372093023255816,
+          "min_state_frac": 0.0,
+          "degenerate": true
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "log_likelihood": 11976.741408313843,
+            "avg_duration": 244.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "log_likelihood": 12488.342106762695,
+            "avg_duration": 244.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "log_likelihood": 11382.323044608826,
+            "avg_duration": 81.33333333333333,
+            "min_state_frac": 0.004098360655737705,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "log_likelihood": -12412664.611561446,
+            "avg_duration": 18.76923076923077,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "log_likelihood": 9165.878561967986,
+            "avg_duration": 14.352941176470589,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "log_likelihood": -1451.1375787941708,
+            "avg_duration": 14.352941176470589,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "log_likelihood": -114998244.38195331,
+            "avg_duration": 40.666666666666664,
+            "min_state_frac": 0.004098360655737705,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "log_likelihood": 13556.106369784175,
+            "avg_duration": 2.8372093023255816,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "log_likelihood": -47365465.34286172,
+            "avg_duration": 17.428571428571427,
+            "min_state_frac": 0.004098360655737705,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "log_likelihood": -19917015.59163307,
+            "avg_duration": 2.681318681318681,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "log_likelihood": -92698121.31664024,
+            "avg_duration": 2.7111111111111112,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "log_likelihood": -51206007.85838835,
+            "avg_duration": 20.333333333333332,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "log_likelihood": -143264615.03704026,
+            "avg_duration": 2.323809523809524,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "log_likelihood": -122661996.75184278,
+            "avg_duration": 10.608695652173912,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "log_likelihood": -20128909.918160837,
+            "avg_duration": 2.30188679245283,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "log_likelihood": -146558624.00249678,
+            "avg_duration": 6.777777777777778,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "log_likelihood": -155127124.05129257,
+            "avg_duration": 7.176470588235294,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "log_likelihood": -161673719.91509184,
+            "avg_duration": 2.772727272727273,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          }
+        ],
+        "status": "degenerate_fallback"
+      }
+    },
+    {
+      "fold_id": 0,
+      "gmm": {
+        "selection": {
+          "n_states": 6,
+          "seed": 1,
+          "bic": -203647.8591247771,
+          "aic": -249120.678849203
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "bic": -99349.02533265046,
+            "aic": -114503.22914473043
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "bic": -102272.4577086107,
+            "aic": -117426.66152069067
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "bic": -102272.4577086107,
+            "aic": -117426.66152069067
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "bic": -146236.95734064138,
+            "aic": -168970.81513080784
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "bic": -146236.95734064138,
+            "aic": -168970.81513080784
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "bic": -146236.95734064138,
+            "aic": -168970.81513080784
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "bic": -198266.47829106817,
+            "aic": -228579.9900593211
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "bic": -198266.47829106817,
+            "aic": -228579.9900593211
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "bic": -198266.47829106817,
+            "aic": -228579.9900593211
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "bic": -175028.70516197273,
+            "aic": -212921.87090831212
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "bic": -167933.75828479056,
+            "aic": -205826.92403112995
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "bic": -190578.84887077336,
+            "aic": -228472.01461711276
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "bic": -172617.2431500559,
+            "aic": -218090.06287448178
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "bic": -203647.8591247771,
+            "aic": -249120.678849203
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "bic": -160689.25547462504,
+            "aic": -206162.07519905092
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "bic": -160575.7915914593,
+            "aic": -221207.91927205815
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "bic": -173976.0486681743,
+            "aic": -234608.17634877312
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "bic": -164375.91267373704,
+            "aic": -225008.04035433586
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "fold_id": 1,
+      "hmm": {
+        "selection": {
+          "n_states": 3,
+          "seed": 0,
+          "log_likelihood": 15301.330056291457,
+          "avg_duration": 26.545454545454547,
+          "min_state_frac": 0.0,
+          "degenerate": true
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "log_likelihood": 15022.833362524712,
+            "avg_duration": 292.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "log_likelihood": 13220.39224499497,
+            "avg_duration": 292.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "log_likelihood": 13408.90520247289,
+            "avg_duration": 58.4,
+            "min_state_frac": 0.00684931506849315,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "log_likelihood": 15301.330056291457,
+            "avg_duration": 26.545454545454547,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "log_likelihood": -365398.70156941755,
+            "avg_duration": 32.44444444444444,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "log_likelihood": -508910.3089476437,
+            "avg_duration": 32.44444444444444,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "log_likelihood": -22170341.3601935,
+            "avg_duration": 29.2,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "log_likelihood": -61935428.3240277,
+            "avg_duration": 10.428571428571429,
+            "min_state_frac": 0.00684931506849315,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "log_likelihood": -26434429.445707597,
+            "avg_duration": 10.428571428571429,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "log_likelihood": -160324555.4166762,
+            "avg_duration": 10.428571428571429,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "log_likelihood": -50920079.86191789,
+            "avg_duration": 32.44444444444444,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "log_likelihood": -54066028.505888894,
+            "avg_duration": 10.428571428571429,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "log_likelihood": -64624772.54160705,
+            "avg_duration": 12.166666666666666,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "log_likelihood": -95449488.80597784,
+            "avg_duration": 3.0103092783505154,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "log_likelihood": -78020898.44392627,
+            "avg_duration": 9.733333333333333,
+            "min_state_frac": 0.003424657534246575,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "log_likelihood": -259211152.5727861,
+            "avg_duration": 7.684210526315789,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "log_likelihood": -233152957.41607305,
+            "avg_duration": 9.419354838709678,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "log_likelihood": -86428629.54221454,
+            "avg_duration": 3.4761904761904763,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          }
+        ],
+        "status": "degenerate_fallback"
+      }
+    },
+    {
+      "fold_id": 1,
+      "gmm": {
+        "selection": {
+          "n_states": 6,
+          "seed": 2,
+          "bic": -243703.29226773488,
+          "aic": -290797.9742540184
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "bic": -241454.18124047978,
+            "aic": -257148.88444143115
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "bic": -241454.18124047978,
+            "aic": -257148.88444143115
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "bic": -241454.18124047978,
+            "aic": -257148.88444143115
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "bic": -173191.96836185435,
+            "aic": -196736.66625913876
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "bic": -173191.96836185435,
+            "aic": -196736.66625913876
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "bic": -173191.96836376263,
+            "aic": -196736.66626104704
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "bic": -183112.94585490352,
+            "aic": -214507.63844852097
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "bic": -203017.546828149,
+            "aic": -234412.23942176646
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "bic": -241441.20510733125,
+            "aic": -272835.8977009487
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "bic": -242872.07100609492,
+            "aic": -282116.7582960454
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "bic": -242872.0710028747,
+            "aic": -282116.7582928252
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "bic": -232844.854648538,
+            "aic": -272089.5419384885
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "bic": -237090.6112109822,
+            "aic": -284185.2931972657
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "bic": -237476.1184195549,
+            "aic": -284570.8004058384
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "bic": -243703.29226773488,
+            "aic": -290797.9742540184
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "bic": -222261.76038307318,
+            "aic": -285056.4317620228
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "bic": -223587.67118787434,
+            "aic": -286382.34256682394
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "bic": -224625.1645459165,
+            "aic": -287419.8359248661
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "fold_id": 2,
+      "hmm": {
+        "selection": {
+          "n_states": 2,
+          "seed": 2,
+          "log_likelihood": 27217.407978350304,
+          "avg_duration": 8.973684210526315,
+          "min_state_frac": 0.10557184750733138,
+          "degenerate": false
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "log_likelihood": 27217.40796251833,
+            "avg_duration": 8.973684210526315,
+            "min_state_frac": 0.10557184750733138,
+            "degenerate": false
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "log_likelihood": 27217.407967620904,
+            "avg_duration": 8.973684210526315,
+            "min_state_frac": 0.10557184750733138,
+            "degenerate": false
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "log_likelihood": 27217.407978350304,
+            "avg_duration": 8.973684210526315,
+            "min_state_frac": 0.10557184750733138,
+            "degenerate": false
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "log_likelihood": 8354.279217712023,
+            "avg_duration": 14.826086956521738,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "log_likelihood": 13803.724694272,
+            "avg_duration": 9.742857142857142,
+            "min_state_frac": 0.017595307917888565,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "log_likelihood": 9504.830675319905,
+            "avg_duration": 9.742857142857142,
+            "min_state_frac": 0.005865102639296188,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "log_likelihood": -30955495.071440205,
+            "avg_duration": 26.23076923076923,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "log_likelihood": -87219.01143023443,
+            "avg_duration": 26.23076923076923,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "log_likelihood": -317649.7249655728,
+            "avg_duration": 9.742857142857142,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "log_likelihood": -33901034.44040927,
+            "avg_duration": 10.029411764705882,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "log_likelihood": -43184.42596810695,
+            "avg_duration": 341.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "log_likelihood": -7512926.735967641,
+            "avg_duration": 28.416666666666668,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "log_likelihood": -14851997.55876367,
+            "avg_duration": 2.939655172413793,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "log_likelihood": -6429548.207984191,
+            "avg_duration": 2.991228070175439,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "log_likelihood": -10951299.142870622,
+            "avg_duration": 2.471014492753623,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "log_likelihood": -3919889.417054486,
+            "avg_duration": 2.471014492753623,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "log_likelihood": -1556325.2613824229,
+            "avg_duration": 2.623076923076923,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "log_likelihood": -29750970.712341413,
+            "avg_duration": 9.472222222222221,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "fold_id": 2,
+      "gmm": {
+        "selection": {
+          "n_states": 2,
+          "seed": 0,
+          "bic": -280761.14646096074,
+          "aic": -296912.94195584825
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "bic": -280761.14646096074,
+            "aic": -296912.94195584825
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "bic": -280761.14646096074,
+            "aic": -296912.94195584825
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "bic": -280761.14646096074,
+            "aic": -296912.94195584825
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "bic": -209660.7115322963,
+            "aic": -233891.1248479679
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "bic": -209660.71620094264,
+            "aic": -233891.12951661425
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "bic": -259127.7854916724,
+            "aic": -283358.198807344
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "bic": -212989.36808059807,
+            "aic": -245298.39921705378
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "bic": -263448.13913351326,
+            "aic": -295757.170269969
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "bic": -201493.10086914207,
+            "aic": -233802.13200559778
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "bic": -273888.88683639886,
+            "aic": -314276.5357936387
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "bic": -274092.0411566836,
+            "aic": -314479.6901139234
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "bic": -272818.2888238165,
+            "aic": -313205.93778105633
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "bic": -266785.4634920072,
+            "aic": -315251.73027003114
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "bic": -268328.35244306945,
+            "aic": -316794.61922109337
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "bic": -267251.64201198146,
+            "aic": -315717.9087900053
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "bic": -269528.12648322294,
+            "aic": -334151.628902815
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "bic": -261320.90653324104,
+            "aic": -325944.4089528331
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "bic": -264187.26494739816,
+            "aic": -328810.7673669902
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "fold_id": 3,
+      "hmm": {
+        "selection": {
+          "n_states": 2,
+          "seed": 0,
+          "log_likelihood": 31685.67220787471,
+          "avg_duration": 7.222222222222222,
+          "min_state_frac": 0.12564102564102564,
+          "degenerate": false
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "log_likelihood": 31685.67220787471,
+            "avg_duration": 7.222222222222222,
+            "min_state_frac": 0.12564102564102564,
+            "degenerate": false
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "log_likelihood": 31671.55935004729,
+            "avg_duration": 7.222222222222222,
+            "min_state_frac": 0.12564102564102564,
+            "degenerate": false
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "log_likelihood": 18432.607077540535,
+            "avg_duration": 7.090909090909091,
+            "min_state_frac": 0.07435897435897436,
+            "degenerate": false
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "log_likelihood": 17469.08398532119,
+            "avg_duration": 18.571428571428573,
+            "min_state_frac": 0.005128205128205128,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "log_likelihood": 17735.579613402926,
+            "avg_duration": 8.666666666666666,
+            "min_state_frac": 0.017948717948717947,
+            "degenerate": true
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "log_likelihood": 18563.96805165356,
+            "avg_duration": 11.142857142857142,
+            "min_state_frac": 0.010256410256410256,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "log_likelihood": -1762952.7346455953,
+            "avg_duration": 78.0,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "log_likelihood": 17865.790878001102,
+            "avg_duration": 6.39344262295082,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "log_likelihood": 17029.288423811107,
+            "avg_duration": 7.222222222222222,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "log_likelihood": 14199.618243626455,
+            "avg_duration": 35.45454545454545,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "log_likelihood": -20949851.097362507,
+            "avg_duration": 4.588235294117647,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "log_likelihood": -6421507.801765935,
+            "avg_duration": 7.222222222222222,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "log_likelihood": -7901936.052471545,
+            "avg_duration": 6.610169491525424,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "log_likelihood": -8340498.220778509,
+            "avg_duration": 7.647058823529412,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "log_likelihood": 19391.803948812216,
+            "avg_duration": 7.647058823529412,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "log_likelihood": 4262.373139496399,
+            "avg_duration": 5.6521739130434785,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "log_likelihood": 21142.35243156688,
+            "avg_duration": 6.842105263157895,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "log_likelihood": -2864244.965136148,
+            "avg_duration": 4.642857142857143,
+            "min_state_frac": 0.0,
+            "degenerate": true
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "fold_id": 3,
+      "gmm": {
+        "selection": {
+          "n_states": 5,
+          "seed": 2,
+          "bic": -343714.10495880217,
+          "aic": -385092.0010534281
+        },
+        "candidates": [
+          {
+            "n_states": 2,
+            "seed": 0,
+            "bic": -238142.87646006813,
+            "aic": -254690.69077916085
+          },
+          {
+            "n_states": 2,
+            "seed": 1,
+            "bic": -203032.3594647408,
+            "aic": -219580.1737838335
+          },
+          {
+            "n_states": 2,
+            "seed": 2,
+            "bic": -203032.3594647408,
+            "aic": -219580.1737838335
+          },
+          {
+            "n_states": 3,
+            "seed": 0,
+            "bic": -237556.76554040972,
+            "aic": -262381.2737846802
+          },
+          {
+            "n_states": 3,
+            "seed": 1,
+            "bic": -237557.45519773202,
+            "aic": -262381.9634420025
+          },
+          {
+            "n_states": 3,
+            "seed": 2,
+            "bic": -293513.06163415546,
+            "aic": -318337.5698784259
+          },
+          {
+            "n_states": 4,
+            "seed": 0,
+            "bic": -318080.49304251507,
+            "aic": -351181.69521196326
+          },
+          {
+            "n_states": 4,
+            "seed": 1,
+            "bic": -239023.2380638768,
+            "aic": -272124.440233325
+          },
+          {
+            "n_states": 4,
+            "seed": 2,
+            "bic": -238888.98579118523,
+            "aic": -271990.1879606334
+          },
+          {
+            "n_states": 5,
+            "seed": 0,
+            "bic": -312166.4901855368,
+            "aic": -353544.3862801627
+          },
+          {
+            "n_states": 5,
+            "seed": 1,
+            "bic": -313919.7860839515,
+            "aic": -355297.6821785774
+          },
+          {
+            "n_states": 5,
+            "seed": 2,
+            "bic": -343714.10495880217,
+            "aic": -385092.0010534281
+          },
+          {
+            "n_states": 6,
+            "seed": 0,
+            "bic": -309888.8460045249,
+            "aic": -359543.4360243286
+          },
+          {
+            "n_states": 6,
+            "seed": 1,
+            "bic": -340535.86957493547,
+            "aic": -390190.45959473914
+          },
+          {
+            "n_states": 6,
+            "seed": 2,
+            "bic": -306609.9435952284,
+            "aic": -356264.5336150321
+          },
+          {
+            "n_states": 8,
+            "seed": 0,
+            "bic": -303105.9440167805,
+            "aic": -369313.9218869396
+          },
+          {
+            "n_states": 8,
+            "seed": 1,
+            "bic": -304148.1199875455,
+            "aic": -370356.0978577046
+          },
+          {
+            "n_states": 8,
+            "seed": 2,
+            "bic": -327790.4968673888,
+            "aic": -393998.4747375479
+          }
+        ],
+        "status": "ok"
+      }
+    }
+  ]
+}

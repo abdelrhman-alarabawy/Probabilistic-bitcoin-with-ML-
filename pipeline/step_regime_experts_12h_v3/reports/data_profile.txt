@@ -1,0 +1,10 @@
+Rows: 2414
+Columns: 70
+Timestamp column: timestamp
+Time span: 2020-04-04 12:00:00+00:00 to 2023-10-03 00:00:00+00:00
+Label column: candle_type
+
+Label distribution:
+- skip: 1547
+- long: 450
+- short: 417

@@ -1,0 +1,15 @@
+{
+  "train_start": "2023-08-14 12:00:00+00:00",
+  "train_end": "2025-02-14 12:00:00+00:00",
+  "test_start": "2025-02-14 12:00:00+00:00",
+  "test_end": "2025-08-14 12:00:00+00:00",
+  "features_hash": "bdd0e7dd54dc835733653e7d916ff999",
+  "features_count": 116,
+  "params": {
+    "C": 10,
+    "solver": "saga",
+    "max_iter": 10000,
+    "calibration_method": "isotonic",
+    "calibration_splits": 3
+  }
+}
