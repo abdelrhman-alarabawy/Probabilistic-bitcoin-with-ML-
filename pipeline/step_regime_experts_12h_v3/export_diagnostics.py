@@ -12,7 +12,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from sklearn.decomposition import PCA
 from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
@@ -73,6 +72,12 @@ CONFIG = {
     "rolling_step_months": 2,
     "use_robust_scaler": True,
     "max_plot_points": 5000,
+    "stack_allow_regimes": ["low", "mid", "high"],
+    "stack_conf_threshold": 0.6,
+    "stack_weight_anomaly": 1.0,
+    "stack_weight_model": 1.0,
+    "anomaly_signal_candidates": ["anomaly_signal", "anomaly_sig", "anomaly_pred", "anomaly_decision"],
+    "anomaly_score_candidates": ["anomaly_score", "score_robustz", "anomaly_score_raw"],
 }
 
 
@@ -83,9 +88,7 @@ OUTPUT_DIR = ROOT_DIR
 REPORTS_DIR = OUTPUT_DIR / "reports"
 RESULTS_DIR = OUTPUT_DIR / "results"
 ARTIFACTS_DIR = OUTPUT_DIR / "artifacts"
-FIGURES_DIR = OUTPUT_DIR / "figures"
 CONFUSION_DIR = RESULTS_DIR / "confusion_matrices"
-FINAL_EXPERT_DIR = ARTIFACTS_DIR / "final_expert_models"
 
 
 @dataclass
@@ -127,7 +130,21 @@ def detect_label_column(columns: list[str]) -> str:
     )
 
 
-def load_data(path: Path) -> tuple[pd.DataFrame, str, str]:
+def detect_anomaly_columns(columns: list[str], label_col: str) -> tuple[str | None, str | None]:
+    signal_col = None
+    for candidate in CONFIG["anomaly_signal_candidates"]:
+        if candidate in columns and candidate != label_col:
+            signal_col = candidate
+            break
+    score_col = None
+    for candidate in CONFIG["anomaly_score_candidates"]:
+        if candidate in columns and candidate != label_col:
+            score_col = candidate
+            break
+    return signal_col, score_col
+
+
+def load_data(path: Path) -> tuple[pd.DataFrame, str, str, str | None, str | None]:
     df = pd.read_csv(path)
     df.columns = df.columns.str.strip()
     if CONFIG["timestamp_col"] not in df.columns:
@@ -137,7 +154,8 @@ def load_data(path: Path) -> tuple[pd.DataFrame, str, str]:
     )
     df = df.sort_values(CONFIG["timestamp_col"]).reset_index(drop=True)
     label_col = detect_label_column(df.columns.tolist())
-    return df, CONFIG["timestamp_col"], label_col
+    anomaly_signal_col, anomaly_score_col = detect_anomaly_columns(df.columns.tolist(), label_col)
+    return df, CONFIG["timestamp_col"], label_col, anomaly_signal_col, anomaly_score_col
 
 
 def rolling_zscore(series: pd.Series, window: int) -> pd.Series:
@@ -211,7 +229,7 @@ def engineer_features(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
         engineered.append("fly_slope")
 
     if "close" in df.columns:
-        df["next_return"] = df["close"].shift(-1) / df["close"] - 1.0
+        df["forward_return_1"] = df["close"].shift(-1) / df["close"] - 1.0
 
     return df, engineered
 
@@ -222,7 +240,7 @@ def build_feature_matrices(
     df = df.copy()
     df["row_idx"] = np.arange(len(df))
 
-    exclude = {label_col, "row_idx", "next_return"}
+    exclude = {label_col, "row_idx", "forward_return_1"}
     for col in df.columns:
         col_lower = col.lower()
         if col == label_col:
@@ -466,7 +484,6 @@ def map_regimes_3(
     return mapping
 
 
-
 def compute_class_weights(y_train: np.ndarray) -> tuple[np.ndarray, dict]:
     classes = np.unique(y_train)
     weights = compute_class_weight(class_weight="balanced", classes=classes, y=y_train)
@@ -566,6 +583,7 @@ def train_expert_models(
         if len(np.unique(y_cluster)) < 2:
             cluster_to_model[cid] = None
             continue
+
         classes, weight_dict = compute_class_weights(y_cluster)
         _, model = build_classifier(classes, weight_dict)
         model.fit(X_train[cluster_train == cid], y_cluster)
@@ -575,14 +593,34 @@ def train_expert_models(
     return experts, cluster_to_model, cluster_sizes
 
 
+def predict_proba_aligned(model: object, X: np.ndarray, label_values: list) -> np.ndarray:
+    if not hasattr(model, "predict_proba"):
+        return np.full((len(X), len(label_values)), np.nan)
+
+    proba = model.predict_proba(X)
+    classes = getattr(model, "classes_", None)
+    if classes is None:
+        return np.full((len(X), len(label_values)), np.nan)
+
+    aligned = np.full((len(X), len(label_values)), np.nan)
+    for idx, label in enumerate(label_values):
+        matches = np.where(classes == label)[0]
+        if len(matches) == 0:
+            continue
+        aligned[:, idx] = proba[:, matches[0]]
+    return aligned
+
+
 def predict_with_routing(
     X_test: np.ndarray,
     cluster_test: np.ndarray,
     global_model: object,
     experts: dict[int, object],
     cluster_to_model: dict[int, int | None],
-) -> np.ndarray:
+    label_values: list,
+) -> tuple[np.ndarray, np.ndarray]:
     preds = np.empty(len(X_test), dtype=object)
+    probas = np.full((len(X_test), len(label_values)), np.nan)
     for cid in np.unique(cluster_test):
         idx = np.where(cluster_test == cid)[0]
         target_cid = cluster_to_model.get(int(cid))
@@ -590,7 +628,8 @@ def predict_with_routing(
         if model is None:
             model = global_model
         preds[idx] = model.predict(X_test[idx])
-    return preds
+        probas[idx] = predict_proba_aligned(model, X_test[idx], label_values)
+    return preds, probas
 
 
 
@@ -630,106 +669,58 @@ def infer_trade_label_mapping(labels: list) -> tuple[str | None, str | None, str
     return long_label, short_label, skip_label
 
 
-def compute_trade_metrics(
-    df_test: pd.DataFrame,
-    preds: np.ndarray,
-    label_values: list,
-) -> dict:
+def proba_column_name(label: object) -> str:
+    label_str = str(label).strip().lower().replace(" ", "_")
+    if label_str in {"long", "short", "skip"}:
+        return f"proba_{label_str}"
+    return f"proba_{label_str}"
+
+
+def compute_pnl_proxy(preds: np.ndarray, forward_returns: np.ndarray, label_values: list) -> np.ndarray:
     long_label, short_label, skip_label = infer_trade_label_mapping(label_values)
-    if skip_label is None:
-        return {
-            "coverage": np.nan,
-            "avg_pnl": np.nan,
-            "win_rate": np.nan,
-            "max_drawdown": np.nan,
-            "cvar95": np.nan,
-            "trade_count": 0,
-        }
-
-    trade_mask = preds != skip_label
-    coverage = float(trade_mask.mean())
-    pnl_mask = trade_mask & df_test["next_return"].notna().to_numpy()
-    trade_count = int(pnl_mask.sum())
-
-    if trade_count == 0:
-        return {
-            "coverage": coverage,
-            "avg_pnl": np.nan,
-            "win_rate": np.nan,
-            "max_drawdown": np.nan,
-            "cvar95": np.nan,
-            "trade_count": trade_count,
-        }
-
-    next_returns = df_test.loc[pnl_mask, "next_return"].to_numpy()
-    pred_trades = preds[pnl_mask]
-    trade_returns = np.zeros(len(next_returns))
-
-    for i, label in enumerate(pred_trades):
-        if label == long_label:
-            trade_returns[i] = next_returns[i] - CONFIG["fee_per_trade"]
-        elif label == short_label:
-            trade_returns[i] = -next_returns[i] - CONFIG["fee_per_trade"]
+    pnl = np.zeros(len(preds))
+    for i, label in enumerate(preds):
+        if not np.isfinite(forward_returns[i]):
+            pnl[i] = np.nan
+            continue
+        if long_label is not None and label == long_label:
+            pnl[i] = forward_returns[i] - CONFIG["fee_per_trade"]
+        elif short_label is not None and label == short_label:
+            pnl[i] = -forward_returns[i] - CONFIG["fee_per_trade"]
+        elif skip_label is not None and label == skip_label:
+            pnl[i] = 0.0
         else:
-            trade_returns[i] = 0.0
-
-    avg_pnl = float(np.mean(trade_returns))
-    win_rate = float((trade_returns > 0).mean())
-
-    cumulative = np.cumsum(trade_returns)
-    peak = np.maximum.accumulate(cumulative)
-    drawdown = cumulative - peak
-    max_drawdown = float(drawdown.min()) if len(drawdown) else np.nan
-
-    tail_size = max(1, int(0.05 * len(trade_returns)))
-    cvar95 = float(np.mean(np.sort(trade_returns)[:tail_size]))
-
-    return {
-        "coverage": coverage,
-        "avg_pnl": avg_pnl,
-        "win_rate": win_rate,
-        "max_drawdown": max_drawdown,
-        "cvar95": cvar95,
-        "trade_count": trade_count,
-    }
+            pnl[i] = 0.0
+    return pnl
 
 
 def evaluate_predictions(
-    df_test: pd.DataFrame,
-    y_test: np.ndarray,
-    preds: np.ndarray,
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
     label_values: list,
 ) -> tuple[dict, np.ndarray]:
-    accuracy = accuracy_score(y_test, preds)
+    accuracy = accuracy_score(y_true, y_pred)
     precision, recall, f1, _ = precision_recall_fscore_support(
-        y_test,
-        preds,
+        y_true,
+        y_pred,
         labels=label_values,
         average="macro",
         zero_division=0,
     )
     report = classification_report(
-        y_test,
-        preds,
+        y_true,
+        y_pred,
         labels=label_values,
         zero_division=0,
         output_dict=True,
     )
-    cm = confusion_matrix(y_test, preds, labels=label_values)
-
-    trade_metrics = compute_trade_metrics(df_test, preds, label_values)
+    cm = confusion_matrix(y_true, y_pred, labels=label_values)
 
     metrics = {
         "accuracy": float(accuracy),
         "macro_precision": float(precision),
         "macro_recall": float(recall),
         "macro_f1": float(f1),
-        "coverage": trade_metrics["coverage"],
-        "avg_pnl": trade_metrics["avg_pnl"],
-        "win_rate": trade_metrics["win_rate"],
-        "max_drawdown": trade_metrics["max_drawdown"],
-        "cvar95": trade_metrics["cvar95"],
-        "trade_count": trade_metrics["trade_count"],
     }
 
     for label in label_values:
@@ -742,197 +733,224 @@ def evaluate_predictions(
     return metrics, cm
 
 
-
-def plot_bic_aic(metrics: pd.DataFrame, output_path: Path) -> None:
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.plot(metrics["k"], metrics["bic"], marker="o", label="BIC")
-    ax.plot(metrics["k"], metrics["aic"], marker="o", label="AIC")
-    ax.set_xlabel("K")
-    ax.set_ylabel("Score")
-    ax.set_title("GMM BIC/AIC vs K")
-    ax.grid(True, alpha=0.3)
-    ax.legend()
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
+def compute_drawdown(trade_returns: np.ndarray) -> float:
+    if len(trade_returns) == 0:
+        return np.nan
+    cumulative = np.cumsum(trade_returns)
+    peak = np.maximum.accumulate(cumulative)
+    drawdown = cumulative - peak
+    return float(drawdown.min())
 
 
-def plot_silhouette(metrics: pd.DataFrame, output_path: Path) -> None:
-    fig, ax = plt.subplots(figsize=(6, 4))
-    ax.plot(metrics["k"], metrics["silhouette"], marker="o", label="silhouette")
-    ax.set_xlabel("K")
-    ax.set_ylabel("Silhouette")
-    ax.set_title("Silhouette vs K")
-    ax.grid(True, alpha=0.3)
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
+def compute_profit_factor(trade_returns: np.ndarray) -> float:
+    gains = trade_returns[trade_returns > 0].sum()
+    losses = trade_returns[trade_returns < 0].sum()
+    if losses == 0:
+        return np.nan
+    return float(gains / abs(losses))
 
 
-def plot_embedding(
-    X: np.ndarray,
-    labels: np.ndarray,
-    output_path: Path,
-    max_points: int,
-) -> None:
-    if len(X) > max_points:
-        idx = np.random.choice(len(X), size=max_points, replace=False)
-        X_plot = X[idx]
-        labels_plot = labels[idx]
+def compute_group_metrics(
+    df_group: pd.DataFrame,
+    label_values: list,
+    months_in_test: int,
+) -> dict:
+    support = len(df_group)
+    y_true = df_group["y_true"].to_numpy()
+    y_pred = df_group["y_pred"].to_numpy()
+
+    metrics, _ = evaluate_predictions(y_true, y_pred, label_values)
+
+    long_label, short_label, skip_label = infer_trade_label_mapping(label_values)
+    if skip_label is None:
+        trade_mask = np.ones(len(df_group), dtype=bool)
     else:
-        X_plot = X
-        labels_plot = labels
+        trade_mask = y_pred != skip_label
 
-    pca = PCA(n_components=2, random_state=CONFIG["random_seed"])
-    coords = pca.fit_transform(X_plot)
+    trade_count = int(trade_mask.sum())
+    coverage = float(trade_count / support) if support else np.nan
 
-    fig, ax = plt.subplots(figsize=(6, 4))
-    scatter = ax.scatter(coords[:, 0], coords[:, 1], c=labels_plot, s=8, cmap="tab20")
-    ax.set_title("Cluster Embedding (PCA)")
-    ax.set_xlabel("PC1")
-    ax.set_ylabel("PC2")
-    fig.colorbar(scatter, ax=ax, label="Cluster")
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
-
-
-def plot_clusters_over_time(df: pd.DataFrame, timestamp_col: str, output_path: Path) -> None:
-    sample = df
-    if len(df) > CONFIG["max_plot_points"]:
-        sample = df.sample(CONFIG["max_plot_points"], random_state=CONFIG["random_seed"])
-    sample = sample.sort_values(timestamp_col)
-
-    fig, ax = plt.subplots(figsize=(8, 3))
-    ax.scatter(sample[timestamp_col], sample["cluster_id"], s=5, alpha=0.6)
-    ax.set_title("Clusters Over Time")
-    ax.set_xlabel("Time")
-    ax.set_ylabel("Cluster")
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
-
-
-def plot_cluster_feature_means(df: pd.DataFrame, cluster_features: list[str], output_path: Path) -> None:
-    means = df.groupby("cluster_id")[cluster_features].mean().to_numpy()
-    fig, ax = plt.subplots(figsize=(8, 4))
-    im = ax.imshow(means, aspect="auto", cmap="viridis")
-    ax.set_title("Cluster Feature Means")
-    ax.set_xlabel("Feature")
-    ax.set_ylabel("Cluster")
-    ax.set_xticks(range(len(cluster_features)))
-    ax.set_xticklabels(cluster_features, rotation=90, fontsize=6)
-    fig.colorbar(im, ax=ax)
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
-
-
-def plot_label_distribution_by_cluster(
-    df: pd.DataFrame, label_col: str, output_path: Path
-) -> None:
-    dist = (
-        df.groupby(["cluster_id", label_col]).size().groupby(level=0).apply(lambda s: s / s.sum())
+    trade_returns = df_group.loc[trade_mask, "pnl_proxy"].dropna().to_numpy()
+    avg_pnl = float(np.mean(trade_returns)) if len(trade_returns) else np.nan
+    median_pnl = float(np.median(trade_returns)) if len(trade_returns) else np.nan
+    win_rate = float((trade_returns > 0).mean()) if len(trade_returns) else np.nan
+    profit_factor = compute_profit_factor(trade_returns) if len(trade_returns) else np.nan
+    max_dd = compute_drawdown(trade_returns)
+    cvar95 = (
+        float(np.percentile(trade_returns, 5)) if len(trade_returns) else np.nan
     )
-    dist_df = dist.unstack(fill_value=0.0)
-    fig, ax = plt.subplots(figsize=(6, 4))
-    im = ax.imshow(dist_df.values, aspect="auto", cmap="Blues")
-    ax.set_title("Label Distribution by Cluster")
-    ax.set_xlabel("Label")
-    ax.set_ylabel("Cluster")
-    ax.set_xticks(range(len(dist_df.columns)))
-    ax.set_xticklabels(dist_df.columns.tolist(), rotation=45, ha="right")
-    ax.set_yticks(range(len(dist_df.index)))
-    ax.set_yticklabels(dist_df.index.tolist())
-    fig.colorbar(im, ax=ax)
-    fig.tight_layout()
-    fig.savefig(output_path)
-    plt.close(fig)
+
+    prfs = precision_recall_fscore_support(
+        y_true, y_pred, labels=label_values, zero_division=0
+    )
+    label_metrics = {label: idx for idx, label in enumerate(label_values)}
+
+    def get_label_metric(target_label: object, metric_idx: int) -> float:
+        idx = label_metrics.get(target_label)
+        if idx is None:
+            return np.nan
+        return float(prfs[metric_idx][idx])
+
+    return {
+        "support": support,
+        "trade_count": trade_count,
+        "coverage": coverage,
+        "accuracy": metrics["accuracy"],
+        "macro_f1": metrics["macro_f1"],
+        "precision_long": get_label_metric(long_label, 0),
+        "recall_long": get_label_metric(long_label, 1),
+        "f1_long": get_label_metric(long_label, 2),
+        "precision_short": get_label_metric(short_label, 0),
+        "recall_short": get_label_metric(short_label, 1),
+        "f1_short": get_label_metric(short_label, 2),
+        "avg_pnl_per_trade": avg_pnl,
+        "median_pnl_per_trade": median_pnl,
+        "win_rate": win_rate,
+        "profit_factor": profit_factor,
+        "max_drawdown": max_dd,
+        "cvar95": cvar95,
+        "trades_per_month": float(trade_count / months_in_test) if months_in_test else np.nan,
+    }
 
 
-
-def data_profile(df: pd.DataFrame, label_col: str, timestamp_col: str) -> str:
-    lines = []
-    lines.append(f"Rows: {len(df)}")
-    lines.append(f"Columns: {df.shape[1]}")
-    lines.append(f"Timestamp column: {timestamp_col}")
-    lines.append(f"Time span: {df[timestamp_col].min()} to {df[timestamp_col].max()}")
-    lines.append(f"Label column: {label_col}")
-    lines.append("\nLabel distribution:")
-    label_counts = df[label_col].value_counts(dropna=False)
-    for label, count in label_counts.items():
-        lines.append(f"- {label}: {count}")
-    missing = df.isna().mean()
-    missing = missing[missing > 0].sort_values(ascending=False)
-    if not missing.empty:
-        lines.append("\nMissing rate (non-zero):")
-        for col, rate in missing.items():
-            lines.append(f"- {col}: {rate:.4f}")
-    return "\n".join(lines)
-
-
-def build_cv_report(df: pd.DataFrame, title: str) -> str:
-    lines = [f"# {title}", ""]
-    for approach, group in df.groupby("approach"):
-        lines.append(f"## {approach}")
-        lines.append(f"- folds: {len(group)}")
-        lines.append(f"- accuracy: {group['accuracy'].mean():.4f}")
-        lines.append(f"- macro_f1: {group['macro_f1'].mean():.4f}")
-        lines.append(f"- coverage: {group['coverage'].mean():.4f}")
-        lines.append(f"- avg_pnl: {group['avg_pnl'].mean():.6f}")
-        lines.append("")
-    return "\n".join(lines)
-
-
-def summarize_overall(df: pd.DataFrame) -> pd.DataFrame:
+def aggregate_group_summaries(
+    df: pd.DataFrame,
+    group_col: str,
+    split_type: str,
+) -> pd.DataFrame:
     metric_cols = [
-        "accuracy",
-        "macro_precision",
-        "macro_recall",
-        "macro_f1",
+        "support",
+        "trade_count",
         "coverage",
-        "avg_pnl",
+        "accuracy",
+        "macro_f1",
+        "precision_long",
+        "recall_long",
+        "f1_long",
+        "precision_short",
+        "recall_short",
+        "f1_short",
+        "avg_pnl_per_trade",
+        "median_pnl_per_trade",
         "win_rate",
+        "profit_factor",
         "max_drawdown",
         "cvar95",
-        "trade_count",
+        "trades_per_month",
     ]
     rows = []
-    for (split_type, approach), group in df.groupby(["split_type", "approach"]):
+    group_keys = ["approach", group_col]
+    for (approach, group_val), group in df.groupby(group_keys):
+        row = {
+            "split_type": split_type,
+            "approach": approach,
+            group_col: group_val,
+        }
         for metric in metric_cols:
-            if metric not in group:
-                continue
-            rows.append(
-                {
-                    "summary_type": "mean_std",
-                    "split_type": split_type,
-                    "approach": approach,
-                    "metric": metric,
-                    "mean": float(group[metric].mean()),
-                    "std": float(group[metric].std()),
-                }
+            row[f"{metric}_mean"] = float(group[metric].mean())
+            row[f"{metric}_std"] = float(group[metric].std())
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+
+def tpsl_suggestions(df: pd.DataFrame, label_values: list) -> pd.DataFrame:
+    long_label, short_label, _ = infer_trade_label_mapping(label_values)
+    rows = []
+
+    for approach, df_app in df.groupby("approach"):
+        for regime, df_reg in df_app.groupby("regime3"):
+            for direction, label in [("long", long_label), ("short", short_label)]:
+                if label is None:
+                    continue
+                df_trades = df_reg[df_reg["y_pred"] == label]
+                if df_trades.empty:
+                    continue
+                if direction == "long":
+                    signed_returns = df_trades["forward_return_1"].dropna().to_numpy()
+                else:
+                    signed_returns = -df_trades["forward_return_1"].dropna().to_numpy()
+                if len(signed_returns) == 0:
+                    continue
+
+                percentiles = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]
+                pct_values = np.percentile(signed_returns, percentiles)
+                pct_map = {f"p{p:02d}": float(v) for p, v in zip(percentiles, pct_values)}
+
+                vol_mean = (
+                    float(df_reg["realized_vol_rolling_20"].mean())
+                    if "realized_vol_rolling_20" in df_reg
+                    else np.nan
+                )
+                vol_std = (
+                    float(df_reg["realized_vol_rolling_20"].std())
+                    if "realized_vol_rolling_20" in df_reg
+                    else np.nan
+                )
+
+                tp_candidates = [pct_map["p60"], pct_map["p70"], pct_map["p80"]]
+                tp_candidates = [v for v in tp_candidates if v > CONFIG["fee_per_trade"]]
+                sl_candidates = [abs(pct_map["p20"]), abs(pct_map["p10"])]
+                sl_candidates = [v for v in sl_candidates if v > CONFIG["fee_per_trade"]]
+
+                rows.append(
+                    {
+                        "approach": approach,
+                        "regime3": regime,
+                        "direction": direction,
+                        **pct_map,
+                        "realized_vol_mean": vol_mean,
+                        "realized_vol_std": vol_std,
+                        "tp_candidates": json.dumps(tp_candidates),
+                        "sl_candidates": json.dumps(sl_candidates),
+                    }
+                )
+    return pd.DataFrame(rows)
+
+
+def add_stacking_columns(
+    df: pd.DataFrame,
+    label_values: list,
+    anomaly_signal_col: str | None,
+    anomaly_score_col: str | None,
+) -> pd.DataFrame:
+    df = df.copy()
+    long_label, short_label, skip_label = infer_trade_label_mapping(label_values)
+    skip_value = skip_label if skip_label is not None else "skip"
+
+    if anomaly_signal_col and anomaly_signal_col in df.columns:
+        df["anomaly_signal"] = df[anomaly_signal_col]
+    else:
+        df["anomaly_signal"] = np.nan
+
+    allow_regimes = set(CONFIG["stack_allow_regimes"])
+    conf_thr = CONFIG["stack_conf_threshold"]
+
+    def gate_signal(row: pd.Series) -> object:
+        if pd.isna(row["anomaly_signal"]):
+            return skip_value
+        if row["regime3"] in allow_regimes and row["cluster_confidence"] >= conf_thr:
+            return row["anomaly_signal"]
+        return skip_value
+
+    df["final_signal_stack1_gate"] = df.apply(gate_signal, axis=1)
+
+    proba_long = df.get("proba_long")
+    proba_short = df.get("proba_short")
+    if proba_long is None or proba_short is None:
+        df["final_signal_stack2_score"] = np.nan
+    else:
+        model_score = proba_long - proba_short
+        if anomaly_score_col and anomaly_score_col in df.columns:
+            anomaly_score = df[anomaly_score_col]
+            df["final_signal_stack2_score"] = (
+                CONFIG["stack_weight_anomaly"] * anomaly_score
+                + CONFIG["stack_weight_model"] * model_score
             )
+        else:
+            df["final_signal_stack2_score"] = np.nan
 
-    best_rows = []
-    for split_type, group in df.groupby("split_type"):
-        summary = group.groupby("approach")["macro_f1"].mean().sort_values(ascending=False)
-        if summary.empty:
-            continue
-        best_approach = summary.index[0]
-        best_rows.append(
-            {
-                "summary_type": "best_macro_f1",
-                "split_type": split_type,
-                "approach": best_approach,
-                "metric": "macro_f1",
-                "mean": float(summary.iloc[0]),
-                "std": np.nan,
-            }
-        )
-
-    summary_df = pd.DataFrame(rows)
-    best_df = pd.DataFrame(best_rows)
-    return pd.concat([summary_df, best_df], ignore_index=True)
+    return df
 
 
 def run_fold(
@@ -942,7 +960,7 @@ def run_fold(
     model_features: list[str],
     label_col: str,
     label_values: list,
-) -> list[dict]:
+) -> tuple[list[pd.DataFrame], list[dict], list[dict]]:
     df_train = df.iloc[fold.train_idx]
     df_test = df.iloc[fold.test_idx]
 
@@ -950,7 +968,7 @@ def run_fold(
     y_test = df_test[label_col].to_numpy()
     if len(np.unique(y_train)) < 2:
         warnings.warn(f"Fold {fold.fold_id} skipped: only one class in training.")
-        return []
+        return [], [], []
 
     cluster_preprocessor = build_preprocessor()
     X_cluster_train = cluster_preprocessor.fit_transform(df_train[cluster_features].values)
@@ -958,7 +976,7 @@ def run_fold(
 
     cluster_selection = fit_cluster_model(X_cluster_train)
     cluster_train, _ = assign_clusters(cluster_selection.model, X_cluster_train)
-    cluster_test, _ = assign_clusters(cluster_selection.model, X_cluster_test)
+    cluster_test, cluster_conf_test = assign_clusters(cluster_selection.model, X_cluster_test)
 
     regime_map = map_regimes_3(
         df_train,
@@ -966,7 +984,7 @@ def run_fold(
         primary_col="realized_vol_rolling_20",
         secondary_col="range_pct",
     )
-    _ = pd.Series(cluster_test).map(regime_map).fillna("mid").to_numpy()
+    regime_test = pd.Series(cluster_test).map(regime_map).fillna("mid").to_numpy()
 
     model_preprocessor = build_preprocessor()
     X_train = model_preprocessor.fit_transform(df_train[model_features].values)
@@ -988,41 +1006,74 @@ def run_fold(
         )
 
     preds_global = global_model.predict(X_test)
-    metrics_global, cm_global = evaluate_predictions(df_test, y_test, preds_global, label_values)
+    probas_global = predict_proba_aligned(global_model, X_test, label_values)
 
-    preds_expert = predict_with_routing(
+    preds_expert, probas_expert = predict_with_routing(
         X_test,
         cluster_test,
         global_model,
         experts,
         cluster_to_model,
+        label_values,
     )
-    metrics_expert, cm_expert = evaluate_predictions(df_test, y_test, preds_expert, label_values)
 
     rows = []
-    for approach, metrics, cm in [
-        ("global", metrics_global, cm_global),
-        ("experts", metrics_expert, cm_expert),
+    group_cluster_rows = []
+    group_regime_rows = []
+
+    for approach, preds, probas in [
+        ("global", preds_global, probas_global),
+        ("experts", preds_expert, probas_expert),
     ]:
-        rows.append(
+        pnl_proxy = compute_pnl_proxy(
+            preds,
+            df_test["forward_return_1"].to_numpy(),
+            label_values,
+        )
+
+        pred_df = pd.DataFrame(
             {
+                "timestamp": df_test[CONFIG["timestamp_col"]].to_numpy(),
                 "fold_id": fold.fold_id,
                 "split_type": fold.split_type,
                 "approach": approach,
-                "model": model_name,
-                "k": cluster_selection.best_k,
-                "train_months": ",".join(fold.train_months),
-                "test_months": ",".join(fold.test_months),
-                **metrics,
+                "y_true": y_test,
+                "y_pred": preds,
+                "cluster_id": cluster_test,
+                "cluster_confidence": cluster_conf_test,
+                "regime3": regime_test,
+                "close": df_test["close"].to_numpy(),
+                "forward_return_1": df_test["forward_return_1"].to_numpy(),
+                "pnl_proxy": pnl_proxy,
+                "realized_vol_rolling_20": df_test.get("realized_vol_rolling_20"),
             }
         )
-        cm_path = (
-            CONFUSION_DIR
-            / f"confusion_{fold.split_type}_fold{fold.fold_id}_{approach}.csv"
-        )
-        pd.DataFrame(cm, index=label_values, columns=label_values).to_csv(cm_path)
 
-    return rows
+        for idx, label in enumerate(label_values):
+            pred_df[proba_column_name(label)] = probas[:, idx]
+
+        rows.append(pred_df)
+
+        months_in_test = max(1, len(set(fold.test_months)))
+        for group_col in ["cluster_id", "regime3"]:
+            grouped = []
+            for group_val, df_group in pred_df.groupby(group_col):
+                metrics = compute_group_metrics(df_group, label_values, months_in_test)
+                grouped.append(
+                    {
+                        "fold_id": fold.fold_id,
+                        "split_type": fold.split_type,
+                        "approach": approach,
+                        group_col: group_val,
+                        **metrics,
+                    }
+                )
+            if group_col == "cluster_id":
+                group_cluster_rows.extend(grouped)
+            else:
+                group_regime_rows.extend(grouped)
+
+    return rows, group_cluster_rows, group_regime_rows
 
 
 def main() -> None:
@@ -1030,194 +1081,93 @@ def main() -> None:
     ensure_dir(REPORTS_DIR)
     ensure_dir(RESULTS_DIR)
     ensure_dir(ARTIFACTS_DIR)
-    ensure_dir(FIGURES_DIR)
     ensure_dir(CONFUSION_DIR)
-    ensure_dir(FINAL_EXPERT_DIR)
 
-    df, timestamp_col, label_col = load_data(DATA_PATH)
+    df, timestamp_col, label_col, anomaly_signal_col, anomaly_score_col = load_data(DATA_PATH)
     df, _ = engineer_features(df)
     df, cluster_features, model_features = build_feature_matrices(df, label_col, timestamp_col)
-
     label_values = resolve_label_order(df[label_col].to_numpy())
-
-    REPORTS_DIR.joinpath("data_profile.txt").write_text(
-        data_profile(df, label_col, timestamp_col), encoding="utf-8"
-    )
-
-    cluster_preprocessor_full = build_preprocessor()
-    X_cluster_full = cluster_preprocessor_full.fit_transform(df[cluster_features].values)
-    gmm_selection_full = fit_cluster_model(X_cluster_full)
-    gmm_model_full = gmm_selection_full.model
-
-    hmm_selection_full = fit_hmm_model(X_cluster_full)
-
-    cluster_labels_full, cluster_conf_full = assign_clusters(gmm_model_full, X_cluster_full)
-    df_full_clusters = df.copy()
-    df_full_clusters["cluster_id"] = cluster_labels_full
-    df_full_clusters["cluster_confidence"] = cluster_conf_full
-
-    regime_mapping_full = map_regimes_3(
-        df_full_clusters,
-        cluster_labels_full,
-        primary_col="realized_vol_rolling_20",
-        secondary_col="range_pct",
-    )
-    df_full_clusters["regime3"] = df_full_clusters["cluster_id"].map(regime_mapping_full)
-
-    df_full_clusters[
-        [
-            "row_idx",
-            timestamp_col,
-            "cluster_id",
-            "cluster_confidence",
-            "regime3",
-        ]
-    ].to_csv(ARTIFACTS_DIR / "cluster_assignments_full.csv", index=False)
-
-    joblib.dump(cluster_preprocessor_full, ARTIFACTS_DIR / "final_cluster_preprocessor.joblib")
-    joblib.dump(gmm_model_full, ARTIFACTS_DIR / "final_cluster_model.joblib")
-
-    plot_bic_aic(gmm_selection_full.metrics, FIGURES_DIR / "bic_aic_vs_k.png")
-    plot_silhouette(gmm_selection_full.metrics, FIGURES_DIR / "silhouette_vs_k.png")
-    plot_embedding(
-        X_cluster_full,
-        cluster_labels_full,
-        FIGURES_DIR / "embedding_2d.png",
-        CONFIG["max_plot_points"],
-    )
-    plot_clusters_over_time(df_full_clusters, timestamp_col, FIGURES_DIR / "clusters_over_time.png")
-    plot_cluster_feature_means(
-        df_full_clusters,
-        cluster_features,
-        FIGURES_DIR / "cluster_feature_means.png",
-    )
-    plot_label_distribution_by_cluster(
-        df_full_clusters,
-        label_col,
-        FIGURES_DIR / "label_distribution_by_cluster.png",
-    )
-
-    clustering_report = []
-    clustering_report.append("# Clustering Report")
-    clustering_report.append("")
-    clustering_report.append("## Feature Sets")
-    clustering_report.append(f"- Cluster features: {', '.join(cluster_features)}")
-    clustering_report.append(f"- Model features count: {len(model_features)}")
-    clustering_report.append("")
-    clustering_report.append("## GMM Selection (Full Data)")
-    for _, row in gmm_selection_full.metrics.iterrows():
-        clustering_report.append(
-            f"- K={int(row['k'])}: BIC={row['bic']:.2f}, AIC={row['aic']:.2f}, "
-            f"silhouette={row['silhouette']:.4f}"
-        )
-    clustering_report.append("")
-    clustering_report.append(f"Chosen K (BIC): {gmm_selection_full.best_k}")
-    if hmm_selection_full is None:
-        clustering_report.append("\nHMM: hmmlearn not available, skipped.")
-    else:
-        clustering_report.append("\n## HMM Selection (Full Data)")
-        for _, row in hmm_selection_full.metrics.iterrows():
-            clustering_report.append(
-                f"- K={int(row['k'])}: loglik={row['loglik']:.2f}, "
-                f"BIC={row['bic']:.2f}, AIC={row['aic']:.2f}"
-            )
-        clustering_report.append("")
-        clustering_report.append(f"Chosen K (BIC): {hmm_selection_full.best_k}")
-
-    REPORTS_DIR.joinpath("clustering_report.md").write_text(
-        "\n".join(clustering_report), encoding="utf-8"
-    )
 
     folds_mode1 = make_splits_mode1_walkforward(df, timestamp_col)
     folds_mode2 = make_splits_mode2_expanding(df, timestamp_col)
     folds_mode3_w6 = make_splits_mode3_rolling(df, timestamp_col, 6)
     folds_mode3_w7 = make_splits_mode3_rolling(df, timestamp_col, 7)
 
-    all_rows = []
-    mode1_rows = []
-    mode2_rows = []
-    mode3_w6_rows = []
-    mode3_w7_rows = []
+    split_map = {
+        "mode1_walkforward": folds_mode1,
+        "mode2_expanding": folds_mode2,
+        "mode3_rolling_W6": folds_mode3_w6,
+        "mode3_rolling_W7": folds_mode3_w7,
+    }
 
-    for fold in folds_mode1:
-        rows = run_fold(df, fold, cluster_features, model_features, label_col, label_values)
-        mode1_rows.extend(rows)
-        all_rows.extend(rows)
+    report_lines = []
+    report_lines.append("# Diagnostics Export Report")
+    report_lines.append("")
+    report_lines.append(f"Label column: {label_col}")
+    report_lines.append(f"Anomaly signal column: {anomaly_signal_col}")
+    report_lines.append(f"Anomaly score column: {anomaly_score_col}")
+    report_lines.append("")
 
-    for fold in folds_mode2:
-        rows = run_fold(df, fold, cluster_features, model_features, label_col, label_values)
-        mode2_rows.extend(rows)
-        all_rows.extend(rows)
+    for split_type, folds in split_map.items():
+        pred_rows = []
+        cluster_rows = []
+        regime_rows = []
+        for fold in folds:
+            rows, group_cluster_rows, group_regime_rows = run_fold(
+                df,
+                fold,
+                cluster_features,
+                model_features,
+                label_col,
+                label_values,
+            )
+            pred_rows.extend(rows)
+            cluster_rows.extend(group_cluster_rows)
+            regime_rows.extend(group_regime_rows)
 
-    for fold in folds_mode3_w6:
-        rows = run_fold(df, fold, cluster_features, model_features, label_col, label_values)
-        mode3_w6_rows.extend(rows)
-        all_rows.extend(rows)
+        if not pred_rows:
+            report_lines.append(f"- {split_type}: no folds evaluated")
+            continue
 
-    for fold in folds_mode3_w7:
-        rows = run_fold(df, fold, cluster_features, model_features, label_col, label_values)
-        mode3_w7_rows.extend(rows)
-        all_rows.extend(rows)
+        preds_df = pd.concat(pred_rows, ignore_index=True)
+        preds_path = RESULTS_DIR / f"preds_per_row_{split_type}.csv"
+        preds_df.to_csv(preds_path, index=False)
 
-    if mode1_rows:
-        pd.DataFrame(mode1_rows).to_csv(
-            RESULTS_DIR / "fold_metrics_mode1_walkforward.csv", index=False
+        cluster_df = pd.DataFrame(cluster_rows)
+        regime_df = pd.DataFrame(regime_rows)
+
+        cluster_summary = aggregate_group_summaries(cluster_df, "cluster_id", split_type)
+        regime_summary = aggregate_group_summaries(regime_df, "regime3", split_type)
+
+        cluster_path = RESULTS_DIR / f"per_cluster_summary_{split_type}.csv"
+        regime_path = RESULTS_DIR / f"per_regime3_summary_{split_type}.csv"
+        cluster_summary.to_csv(cluster_path, index=False)
+        regime_summary.to_csv(regime_path, index=False)
+
+        tpsl_df = tpsl_suggestions(preds_df, label_values)
+        tpsl_path = RESULTS_DIR / f"tpsl_suggestions_by_regime3_{split_type}.csv"
+        tpsl_df.to_csv(tpsl_path, index=False)
+
+        stack_df = add_stacking_columns(
+            preds_df,
+            label_values,
+            anomaly_signal_col,
+            anomaly_score_col,
         )
-        REPORTS_DIR.joinpath("cv_report_mode1_walkforward.md").write_text(
-            build_cv_report(pd.DataFrame(mode1_rows), "Mode1 Walkforward CV Report"),
-            encoding="utf-8",
-        )
+        stacking_path = RESULTS_DIR / f"stacking_rows_{split_type}.csv"
+        stack_df.to_csv(stacking_path, index=False)
 
-    if mode2_rows:
-        pd.DataFrame(mode2_rows).to_csv(
-            RESULTS_DIR / "fold_metrics_mode2_expanding.csv", index=False
-        )
-        REPORTS_DIR.joinpath("cv_report_mode2_expanding.md").write_text(
-            build_cv_report(pd.DataFrame(mode2_rows), "Mode2 Expanding CV Report"),
-            encoding="utf-8",
-        )
+        report_lines.append(f"- {split_type}: rows={len(preds_df)}")
+        report_lines.append(f"  - preds: {preds_path}")
+        report_lines.append(f"  - per_cluster: {cluster_path}")
+        report_lines.append(f"  - per_regime3: {regime_path}")
+        report_lines.append(f"  - tpsl: {tpsl_path}")
+        report_lines.append(f"  - stacking: {stacking_path}")
 
-    if mode3_w6_rows:
-        pd.DataFrame(mode3_w6_rows).to_csv(
-            RESULTS_DIR / "fold_metrics_mode3_rolling_W6.csv", index=False
-        )
-        REPORTS_DIR.joinpath("cv_report_mode3_rolling.md").write_text(
-            build_cv_report(pd.DataFrame(mode3_w6_rows), "Mode3 Rolling CV Report"),
-            encoding="utf-8",
-        )
+    report_path = REPORTS_DIR / "diagnostics_export_report.md"
+    report_path.write_text("\n".join(report_lines), encoding="utf-8")
 
-    if mode3_w7_rows:
-        pd.DataFrame(mode3_w7_rows).to_csv(
-            RESULTS_DIR / "fold_metrics_mode3_rolling_W7.csv", index=False
-        )
-
-    if all_rows:
-        summary_df = summarize_overall(pd.DataFrame(all_rows))
-        summary_df.to_csv(RESULTS_DIR / "overall_summary.csv", index=False)
-
-    model_preprocessor_full = build_preprocessor()
-    X_model_full = model_preprocessor_full.fit_transform(df[model_features].values)
-    y_full = df[label_col].to_numpy()
-
-    global_model_full, _ = train_global_model(X_model_full, y_full)
-    experts_full, _, _ = train_expert_models(
-        X_model_full,
-        y_full,
-        cluster_labels_full,
-        X_cluster_full,
-    )
-
-    joblib.dump(model_preprocessor_full, ARTIFACTS_DIR / "final_model_preprocessor.joblib")
-    joblib.dump(global_model_full, ARTIFACTS_DIR / "final_global_model.joblib")
-
-    for cid, model in experts_full.items():
-        joblib.dump(model, FINAL_EXPERT_DIR / f"expert_cluster_{cid}.joblib")
-
-    print(f"Processed rows: {len(df)}")
-    print(f"Mode1 folds: {len(folds_mode1)}")
-    print(f"Mode2 folds: {len(folds_mode2)}")
-    print(f"Mode3 W6 folds: {len(folds_mode3_w6)}")
-    print(f"Mode3 W7 folds: {len(folds_mode3_w7)}")
+    print("Diagnostics export complete.")
     print("Outputs saved to:", OUTPUT_DIR.resolve())
 
 

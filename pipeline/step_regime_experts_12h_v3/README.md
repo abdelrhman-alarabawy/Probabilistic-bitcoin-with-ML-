@@ -1,6 +1,6 @@
 # Regime/Cluster Experts (12h, v3)
 
-This module adds regime discovery and expert models on top of the existing 12h anomaly labeling pipeline output. It uses the same dataset and strict no-leakage rules.
+This module adds unsupervised regime discovery and per-regime expert models on top of the 12h (v3) setup while preserving strict no-leakage rules (shift=1).
 
 ## How to run
 
@@ -10,54 +10,65 @@ From the repo root:
 python pipeline/step_regime_experts_12h_v3/main.py
 ```
 
-Key settings live in `pipeline/step_regime_experts_12h_v3/main.py` under `CONFIG` (seed, fold sizes, K range, small-cluster strategy, anomaly baseline path).
+Key settings live in `pipeline/step_regime_experts_12h_v3/main.py` under `CONFIG`.
 
 ## Outputs
 
 Created under `pipeline/step_regime_experts_12h_v3/`:
 
 - `reports/`
-  - `data_profile.txt`: row counts, label distribution, missingness summary
-  - `clustering_report.md`: K selection metrics, feature lists, HMM status
-  - `cv_report_expanding.md`: expanding-window CV summary
-  - `cv_report_rolling.md`: rolling-window CV summary
-- `artifacts/`
-  - `scaler.joblib`: clustering scaler fit on full data (for reference)
-  - `cluster_model.joblib`: final GMM fit on full data (for reference)
-  - `cluster_assignments.csv`: timestamp, cluster_id, confidence, regime3
-  - `cluster_sizes_*.json`: per-fold cluster sizes and small-cluster handling
-  - `cluster_assignments_*.csv`: per-fold cluster assignments
+  - `data_profile.txt`: rows, columns, date range, missingness
+  - `clustering_report.md`: GMM/HMM selection summary and feature lists
+  - `cv_report_mode1_walkforward.md`
+  - `cv_report_mode2_expanding.md`
+  - `cv_report_mode3_rolling.md`
 - `results/`
-  - `fold_metrics_expanding.csv`: per-fold metrics (expanding CV)
-  - `fold_metrics_rolling.csv`: per-fold metrics (rolling CV)
-  - `overall_summary.csv`: mean/std metrics by approach and split
-  - `confusion_matrices/*.csv`: per-fold confusion matrices
+  - `fold_metrics_mode1_walkforward.csv`
+  - `fold_metrics_mode2_expanding.csv`
+  - `fold_metrics_mode3_rolling_W6.csv`
+  - `fold_metrics_mode3_rolling_W7.csv`
+  - `overall_summary.csv`
+  - `confusion_matrices/*.csv`
+- `artifacts/`
+  - `cluster_assignments_full.csv` (timestamp, cluster_id, confidence, regime3)
+  - `final_cluster_model.joblib`
+  - `final_cluster_preprocessor.joblib`
+  - `final_model_preprocessor.joblib`
+  - `final_global_model.joblib`
+  - `final_expert_models/`
 - `figures/`
-  - `bic_vs_k.png`
+  - `bic_aic_vs_k.png`
+  - `silhouette_vs_k.png`
   - `embedding_2d.png`
   - `clusters_over_time.png`
   - `cluster_feature_means.png`
+  - `label_distribution_by_cluster.png`
 
 ## Leakage prevention
 
 Inside each fold:
-- Feature engineering uses only past data, then all model and cluster features are shifted by 1 (t uses up to t-1).
-- Scaler and clustering model are fit on train rows only.
-- Cluster assignment for train/test uses the trained clustering model only.
-- Expert classifiers are trained only on train rows (per cluster).
-- Test predictions are routed to the expert for the assigned cluster (or fallback model for small clusters).
+- All engineered features are computed from historical data, then shifted by 1 so row t uses info up to t-1.
+- Imputer + scaler are fit on TRAIN only.
+- GMM/HMM are fit on TRAIN only.
+- Cluster assignment for TRAIN and TEST uses the trained clustering model only.
+- Expert models train on TRAIN rows only.
+- TEST predictions are routed by cluster to the matching expert.
 
-No test data is used for K selection, thresholds, or regime mapping inside folds.
+## Regimes and routing
 
-## Regimes and mapping
+- GMM is the primary clustering method (K selected by BIC; silhouette reported).
+- HMM is attempted if `hmmlearn` is installed; otherwise it is skipped.
+- Clusters are mapped to 3 regimes (low/mid/high) using TRAIN-only mean realized volatility (fallback to range).
+- Small clusters (< `min_cluster_samples`) are routed to the global model unless the merge strategy is enabled.
 
-- GMM is the primary clustering method; K is selected by lowest BIC within each fold.
-- HMM is attempted if `hmmlearn` is installed; otherwise it is skipped and documented.
-- Clusters are mapped to 3 regimes (low/mid/high) by training-only mean realized volatility (fallback to range if needed).
+## Evaluation modes
 
-## Expert routing
+- Mode1 walk-forward: train=18m, test=6m, step=3m
+- Mode2 expanding: train months 1-2 ? test 3; train 1-3 ? test 4; ...
+- Mode3 rolling: W in {6,7} months ? test next 2 months; step=2 months
 
-- Global baseline: one classifier trained on all train rows.
-- Regime experts: one classifier per cluster.
-- Small clusters (`min_cluster_samples`) are either routed to the global model or merged to the nearest large cluster (configurable).
-- If anomaly baseline outputs are present, they are evaluated alongside the models.
+## How outputs map to decisions
+
+- `overall_summary.csv` aggregates metrics by split type and approach (global vs experts) and notes the best macro-F1 per split.
+- Confusion matrices are saved per fold and approach.
+- Trade-proxy metrics use next-period return and apply `fee_per_trade` for long/short predictions.
