@@ -1,0 +1,38 @@
+{
+  "0.25": {
+    "policy": "gate_only",
+    "prob_threshold": 0.5,
+    "entropy_threshold": 0.02,
+    "topN": NaN,
+    "min_precision": 0.14681208053691275,
+    "profit_factor": 1.5204738525350037,
+    "trades_per_month": 67.38275932899691
+  },
+  "0.5": {
+    "policy": "gate_only",
+    "prob_threshold": 0.5,
+    "entropy_threshold": 0.02,
+    "topN": NaN,
+    "min_precision": 0.14681208053691275,
+    "profit_factor": 1.5204738525350037,
+    "trades_per_month": 67.38275932899691
+  },
+  "1.0": {
+    "policy": "gate_only",
+    "prob_threshold": 0.5,
+    "entropy_threshold": 0.02,
+    "topN": NaN,
+    "min_precision": 0.14681208053691275,
+    "profit_factor": 1.5204738525350037,
+    "trades_per_month": 67.38275932899691
+  },
+  "2.0": {
+    "policy": "gate_only",
+    "prob_threshold": 0.5,
+    "entropy_threshold": 0.02,
+    "topN": NaN,
+    "min_precision": 0.14681208053691275,
+    "profit_factor": 1.5204738525350037,
+    "trades_per_month": 67.38275932899691
+  }
+}

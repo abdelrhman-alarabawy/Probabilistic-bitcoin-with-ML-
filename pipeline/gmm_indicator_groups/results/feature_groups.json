@@ -1,0 +1,135 @@
+{
+  "corr_6": {
+    "method": "corr",
+    "group_name": "corr_6",
+    "features": [
+      "spot_opt",
+      "bid_last",
+      "ask_last",
+      "mid_last",
+      "microprice_last"
+    ]
+  },
+  "corr_11": {
+    "method": "corr",
+    "group_name": "corr_11",
+    "features": [
+      "atm_iv_1d",
+      "call25_iv_1d",
+      "put25_iv_1d",
+      "atm_iv_2d",
+      "call25_iv_2d",
+      "put25_iv_2d",
+      "atm_iv_7d",
+      "call25_iv_7d",
+      "implied_move_1h_pct_1sigma",
+      "implied_move_4h_pct_1sigma",
+      "implied_move_24h_pct_1sigma"
+    ]
+  },
+  "corr_5": {
+    "method": "corr",
+    "group_name": "corr_5",
+    "features": [
+      "implied_move_1h_usd_1sigma",
+      "implied_move_4h_usd_1sigma",
+      "implied_move_24h_usd_1sigma"
+    ]
+  },
+  "corr_10": {
+    "method": "corr",
+    "group_name": "corr_10",
+    "features": [
+      "spread_mean",
+      "spread_std"
+    ]
+  },
+  "corr_4": {
+    "method": "corr",
+    "group_name": "corr_4",
+    "features": [
+      "spread_last",
+      "spread_bps_last"
+    ]
+  },
+  "pca_pc1": {
+    "method": "pca",
+    "group_name": "PC1",
+    "features": [
+      "implied_move_4h_pct_1sigma",
+      "atm_iv_1d",
+      "implied_move_24h_pct_1sigma",
+      "implied_move_1h_pct_1sigma",
+      "atm_iv_2d",
+      "call25_iv_1d",
+      "call25_iv_2d",
+      "put25_iv_2d",
+      "put25_iv_1d",
+      "atm_iv_7d"
+    ]
+  },
+  "pca_pc2": {
+    "method": "pca",
+    "group_name": "PC2",
+    "features": [
+      "bid_last",
+      "mid_last",
+      "microprice_last",
+      "ask_last",
+      "spot_opt",
+      "implied_move_4h_usd_1sigma",
+      "implied_move_1h_usd_1sigma",
+      "implied_move_24h_usd_1sigma",
+      "local_timestamp_last",
+      "fly25_2d"
+    ]
+  },
+  "pca_pc3": {
+    "method": "pca",
+    "group_name": "PC3",
+    "features": [
+      "rr25_2d",
+      "rr25_7d",
+      "rr25_1d",
+      "fly25_1d",
+      "fly25_2d",
+      "spread_last",
+      "spread_bps_last",
+      "fly25_7d",
+      "ask_amt_last",
+      "bid_last"
+    ]
+  },
+  "pca_pc4": {
+    "method": "pca",
+    "group_name": "PC4",
+    "features": [
+      "imbalance_last",
+      "ask_amt_last",
+      "bid_amt_last",
+      "spread_last",
+      "spread_bps_last",
+      "fly25_7d",
+      "term_slope_1d_7d",
+      "fly25_2d",
+      "rr25_1d",
+      "imbalance_mean"
+    ]
+  },
+  "pca_pc5": {
+    "method": "pca",
+    "group_name": "PC5",
+    "features": [
+      "spread_last",
+      "spread_bps_last",
+      "imbalance_last",
+      "bid_amt_last",
+      "ask_amt_last",
+      "fly25_7d",
+      "term_slope_1d_7d",
+      "fly25_2d",
+      "rr25_7d",
+      "rr25_2d"
+    ]
+  }
+}

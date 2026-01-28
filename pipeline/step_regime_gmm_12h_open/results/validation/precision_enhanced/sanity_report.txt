@@ -1,0 +1,23 @@
+SANITY REPORT
+
+
+Agreement gate diagnostics:
+- total_rows: 4095
+- regime_pass: 1302
+- prob_pass: 4041
+- entropy_pass: 3841
+- combined_pass: 1249
+WARNING: profit_factor is inf (n_losses=0).
+WARNING: win_rate==1.0 with n_trades=995. Sample trades:
+timestamp,open,horizon_high,horizon_low,final_label
+2020-11-25 12:00:00+00:00,19300.5,18923.0,16350.0,short
+2020-11-26 00:00:00+00:00,18737.5,17400.0,16202.0,short
+2020-12-16 00:00:00+00:00,19414.0,21599.5,19691.0,long
+2020-12-16 12:00:00+00:00,19749.5,23893.0,21256.0,long
+2020-12-17 00:00:00+00:00,21364.0,23729.0,22348.5,long
+2020-12-26 00:00:00+00:00,24713.5,26919.0,24759.0,long
+2020-12-26 12:00:00+00:00,24866.5,28468.0,26500.0,long
+2021-01-02 00:00:00+00:00,29325.0,33450.0,29771.0,long
+2021-01-02 12:00:00+00:00,29782.5,34820.0,32016.5,long
+2021-01-03 00:00:00+00:00,32230.0,34650.0,32391.0,long
+WARNING: No negative pnl trades found after ambiguity resolution.

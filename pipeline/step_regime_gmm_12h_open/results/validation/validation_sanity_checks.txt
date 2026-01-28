@@ -1,0 +1,16 @@
+VALIDATION SANITY CHECKS
+
+PASS: pct_negative_pnl shows negatives in at least one regime.
+
+TOP 10 SUSPICIOUS ROWS
+timestamp,side,entry_open,tp_price,sl_price,horizon_high,horizon_low,tp_hit,sl_hit,outcome,pnl_after_fee,regime_id,suspicious_score
+2020-03-29 12:00:00+00:00,short,6134.5,6011.8099999999995,6195.845,6386.0,5841.5,1,1,both_hit_unresolved,,0,4
+2020-04-01 00:00:00+00:00,short,6405.0,6276.9,6469.05,6687.0,6145.0,1,1,both_hit_unresolved,,0,4
+2020-04-15 12:00:00+00:00,short,6774.0,6638.5199999999995,6841.74,7155.0,6465.5,1,1,both_hit_unresolved,,0,4
+2020-04-30 12:00:00+00:00,short,8840.5,8663.69,8928.905,9060.5,8619.0,1,1,both_hit_unresolved,,0,4
+2020-06-15 00:00:00+00:00,short,9340.0,9153.2,9433.4,9487.0,9044.5,1,1,both_hit_unresolved,,0,4
+2020-09-04 00:00:00+00:00,long,10145.5,10348.41,10044.045,10624.5,9883.0,1,1,both_hit_unresolved,,3,4
+2020-09-07 00:00:00+00:00,short,10255.5,10050.39,10358.055,10414.5,9881.0,1,1,both_hit_unresolved,,3,4
+2020-11-04 00:00:00+00:00,short,14012.0,13731.76,14152.12,14249.0,13690.0,1,1,both_hit_unresolved,,0,4
+2020-11-23 12:00:00+00:00,short,18619.0,18246.62,18805.19,19130.5,18050.0,1,1,both_hit_unresolved,,0,4
+2020-12-20 00:00:00+00:00,short,23848.5,23371.53,24086.985,24344.0,23130.0,1,1,both_hit_unresolved,,4,4
