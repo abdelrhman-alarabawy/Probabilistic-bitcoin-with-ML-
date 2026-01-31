@@ -1,0 +1,2 @@
+Fold 2020_2021_test_2022 feature custom_example: plots only generated for best test-LL config; per-config plots skipped to limit file volume.
+Per-state mixture responsibilities are saved as summary stats in state_gmm_metrics; full component posterior matrices are not saved (save_component_posteriors=false).

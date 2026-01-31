@@ -1,0 +1,55 @@
+seed: 7
+
+data:
+  path: data/processed/data_1d_indicators.csv
+  timestamp_col: timestamp
+  label_col: null
+  drop_cols: []
+  start_date: null
+  end_date: null
+
+features:
+  price_columns: [open, high, low, close, volume]
+  indicator_columns: null
+  exclude_columns: [local_timestamp_last]
+  feature_sets:
+    - name: custom_example
+      type: custom
+      columns: [atm_iv_1d, rr25_1d, fly25_1d]
+
+preprocess:
+  missing: median
+  scale: standard
+  max_samples_metrics: 5000
+
+walkforward:
+  min_train_years: 2
+  test_years: 1
+  start_year: 2020
+  end_year: 2022
+
+models:
+  gmm:
+    components: [2]
+    cov_types: [full]
+    n_runs: 1
+    n_init: 1
+    max_iter: 200
+  hmm:
+    states: [2]
+    cov_types: [full]
+    n_mix: [1]
+    n_runs: 1
+    n_iter: 100
+    tol: 0.001
+    init_params: "stmcw"
+    params: "stmcw"
+    min_covar: 1.0e-4
+
+output:
+  dir: pipeline/step_regime_hmm_gmm/results_smoke
+  summary_dir: pipeline/step_regime_hmm_gmm/results_smoke/summary
+  save_plots: false
+  save_state_posteriors: true
+  save_component_posteriors: false
+  verbose: true
