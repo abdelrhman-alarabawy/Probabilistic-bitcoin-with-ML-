@@ -234,3 +234,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 *.csv
+
+# Ignore data artifacts
+*.csv
+*.xlsx
+
