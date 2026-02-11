@@ -1,0 +1,30 @@
+{
+  "covariance_type": "full",
+  "fit_mode": "fit_train_predict_all",
+  "fold_id_from_top10": "walkforward_014",
+  "group_name": "ohlcv_with_volume_indicators",
+  "init_params": "kmeans",
+  "max_iter": 500,
+  "model_rank": 8,
+  "n_components": 2,
+  "n_init": 5,
+  "reg_covar": 1e-06,
+  "seed_used": 50,
+  "selected_features_used": [
+    "money_flow",
+    "money_flow_sma_10",
+    "eom_14",
+    "eom_20",
+    "force_index",
+    "force_index_ema_13",
+    "klinger_volume_osc",
+    "ad_line",
+    "obv",
+    "intraday_intensity_sum_30"
+  ],
+  "shift_features": 1,
+  "source_csv": "D:\\GitHub\\bitcoin-probabilistic-learning\\data\\external\\1d\\ohlcv_with_volume_indicators.csv",
+  "tol": 0.001,
+  "train_end_from_top10": "2024-12-25 00:00:00",
+  "train_start_from_top10": "2023-06-26 00:00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "coverage": 0.0,
+  "precision_macro": 0.2826086956521739,
+  "recall_macro": 0.3333333333333333,
+  "f1_macro": 0.30588235294117644,
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      14
+    ],
+    [
+      0,
+      0,
+      14
+    ],
+    [
+      0,
+      0,
+      156
+    ]
+  ],
+  "labels": [
+    "long",
+    "short",
+    "skip"
+  ]
+}

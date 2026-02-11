@@ -1,0 +1,65 @@
+{
+  "ohlcv_with_market_structure_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.001899592944369064,
+    "state_freq": {
+      "0": 0.994572591587517,
+      "1": 0.0006784260515603799,
+      "3": 0.0047489823609226595
+    },
+    "train_rows": 1474
+  },
+  "ohlcv_with_orderflow_derivatives_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.09430122116689281,
+    "state_freq": {
+      "0": 0.13161465400271372,
+      "1": 0.2327001356852103,
+      "2": 0.5719131614654003,
+      "3": 0.06377204884667571
+    },
+    "train_rows": 1474
+  },
+  "ohlcv_with_oscillator_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.28392130257801895,
+    "state_freq": {
+      "0": 0.19131614654002713,
+      "1": 0.8086838534599728
+    },
+    "train_rows": 1474
+  },
+  "ohlcv_with_trend_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.21316146540027137,
+    "state_freq": {
+      "0": 0.09023066485753053,
+      "1": 0.9097693351424695
+    },
+    "train_rows": 1474
+  },
+  "ohlcv_with_volatility_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.27632293080054277,
+    "state_freq": {
+      "0": 0.819538670284939,
+      "1": 0.18046132971506107
+    },
+    "train_rows": 1474
+  },
+  "ohlcv_with_volume_indicators": {
+    "entropy_threshold": -1.000088900581841e-12,
+    "probmax_threshold": 1.0,
+    "rarity_threshold": 0.36607869742198096,
+    "state_freq": {
+      "0": 0.30868385345997285,
+      "1": 0.6913161465400272
+    },
+    "train_rows": 1474
+  }
+}

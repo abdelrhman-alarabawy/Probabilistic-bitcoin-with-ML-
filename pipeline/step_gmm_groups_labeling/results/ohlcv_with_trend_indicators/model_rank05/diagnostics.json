@@ -1,0 +1,68 @@
+{
+  "feature_columns_used": [
+    "sma_5",
+    "momentum_20",
+    "momentum_14",
+    "momentum_10",
+    "macd",
+    "qstick_8",
+    "macd_histogram",
+    "cci_14",
+    "aroon_oscillator_14",
+    "aroon_oscillator_25"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 11,
+  "group_name": "ohlcv_with_trend_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  443 (21.00%)\nshort:  404 (19.15%)\nskip:  1263 (59.86%)\n\n=== With 5m tie-break ===\nlong:  565 (26.78%)\nshort:  546 (25.88%)\nskip:  999 (47.35%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   443,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     999\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 5,
+  "prediction_rows": 2111,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 257,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.21632996632996632,
+      "trade_label": "long"
+    },
+    {
+      "count": 227,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.19107744107744107,
+      "trade_label": "short"
+    },
+    {
+      "count": 704,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.5925925925925926,
+      "trade_label": "skip"
+    },
+    {
+      "count": 186,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.20151679306608883,
+      "trade_label": "long"
+    },
+    {
+      "count": 177,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.19176598049837487,
+      "trade_label": "short"
+    },
+    {
+      "count": 560,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.6067172264355363,
+      "trade_label": "skip"
+    }
+  ],
+  "train_end_effective": "2022-03-25 00:00:00",
+  "train_start_effective": "2020-09-26 00:00:00",
+  "training_rows": 546
+}

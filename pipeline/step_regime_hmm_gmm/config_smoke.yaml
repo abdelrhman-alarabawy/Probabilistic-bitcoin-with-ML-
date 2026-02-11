@@ -1,4 +1,4 @@
-seed: 7
+seed: 42
 
 data:
   path: data/processed/data_1d_indicators.csv
@@ -36,9 +36,9 @@ models:
     n_init: 1
     max_iter: 200
   hmm:
-    states: [2]
+    states: [3]
     cov_types: [full]
-    n_mix: [1]
+    n_mix: [3]
     n_runs: 1
     n_iter: 100
     tol: 0.001

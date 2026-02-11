@@ -1,0 +1,30 @@
+{
+  "covariance_type": "full",
+  "fit_mode": "fit_train_predict_all",
+  "fold_id_from_top10": "year_based_train_2020_2020_test_2021",
+  "group_name": "ohlcv_with_market_structure_indicators",
+  "init_params": "kmeans",
+  "max_iter": 500,
+  "model_rank": 10,
+  "n_components": 2,
+  "n_init": 5,
+  "reg_covar": 1e-05,
+  "seed_used": 52,
+  "selected_features_used": [
+    "body",
+    "lower_shadow_pct",
+    "lower_shadow",
+    "upper_shadow",
+    "upper_shadow_pct",
+    "tr_percentile_14d",
+    "tr_percentile_50d",
+    "position_in_range_10d",
+    "position_in_range_20d",
+    "days_above_sma_50"
+  ],
+  "shift_features": 1,
+  "source_csv": "D:\\GitHub\\bitcoin-probabilistic-learning\\data\\external\\1d\\ohlcv_with_market_structure_indicators.csv",
+  "tol": 0.001,
+  "train_end_from_top10": "2020-12-31 00:00:00",
+  "train_start_from_top10": "2020-03-26 00:00:00"
+}

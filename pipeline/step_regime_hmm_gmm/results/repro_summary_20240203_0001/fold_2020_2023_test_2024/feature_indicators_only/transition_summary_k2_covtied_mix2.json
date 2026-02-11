@@ -1,0 +1,15 @@
+{
+  "mean_self_transition": 0.9059599724413476,
+  "stationary_dist": {
+    "0": 0.5,
+    "1": 0.5
+  },
+  "expected_durations": [
+    8.082730718802132,
+    15.537723753043267
+  ],
+  "startprob": [
+    0.0,
+    1.0
+  ]
+}

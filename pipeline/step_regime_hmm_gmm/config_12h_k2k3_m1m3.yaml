@@ -1,0 +1,55 @@
+seed: 42
+
+data:
+  path: data_12h_indicators.csv
+  timestamp_col: timestamp
+  label_col: null
+  drop_cols: []
+  start_date: null
+  end_date: null
+
+features:
+  price_columns: [open, high, low, close, volume]
+  indicator_columns: null
+  exclude_columns: [local_timestamp_last]
+  feature_sets:
+    - name: indicators_only
+      type: indicators_only
+
+preprocess:
+  missing: median
+  scale: standard
+  max_samples_metrics: 10000
+
+walkforward:
+  min_train_years: 3
+  test_years: 1
+  start_year: 2020
+  end_year: 2025
+
+models:
+  gmm:
+    components: [2, 3]
+    cov_types: [tied]
+    n_runs: 3
+    n_init: 1
+    max_iter: 500
+  hmm:
+    states: [2, 3]
+    cov_types: [tied]
+    n_mix: [1, 2, 3]
+    n_runs: 1
+    n_iter: 300
+    tol: 0.001
+    init_params: "stmcw"
+    params: "stmcw"
+    min_covar: 1.0e-4
+    force_gmmhmm_for_mix1: true
+
+output:
+  dir: pipeline/step_regime_hmm_gmm/results/12h/raw_v2
+  summary_dir: pipeline/step_regime_hmm_gmm/results/12h/raw_v2/summary
+  save_plots: false
+  save_state_posteriors: false
+  save_component_posteriors: false
+  verbose: true

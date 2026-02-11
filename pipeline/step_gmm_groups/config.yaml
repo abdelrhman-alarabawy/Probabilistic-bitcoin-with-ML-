@@ -1,0 +1,98 @@
+root_group_folder: data/external/1d
+output_dir: pipeline/step_gmm_groups/results
+expected_num_groups: 6
+
+data:
+  timestamp_candidates:
+    - timestamp
+    - time
+    - date
+    - datetime
+  label_column_patterns:
+    - label
+    - target
+    - long
+    - short
+    - skip
+    - signal
+  drop_ohlcv_columns: true
+  ohlcv_columns:
+    - open
+    - high
+    - low
+    - close
+    - volume
+  shift: 0
+  sort_by_timestamp: true
+  missing_col_threshold: 0.5
+  near_constant_std_threshold: 1.0e-12
+  min_samples_after_cleaning: 50
+
+features:
+  mode: selected_top10
+  selector_method: variance_prune
+  top_n_features: 10
+  variance_top_m: 30
+  corr_prune_threshold: 0.9
+  scaler: robust
+  pseudo_mi_k: 3
+  pseudo_mi_random_state: 7
+  pseudo_mi_n_init: 1
+  pseudo_mi_max_iter: 200
+
+folds:
+  enabled:
+    - holdout
+    - walkforward
+    - year_based
+  holdout_train_ratio: 0.8
+  walkforward:
+    train_months: 18
+    test_months: 6
+    step_months: 3
+    min_train_samples: 100
+    fallback_row_train_size: 540
+    fallback_row_test_size: 180
+    fallback_row_step_size: 90
+    max_folds: null
+  year_based:
+    min_train_years: 1
+
+gmm:
+  n_components:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  covariance_types:
+    - tied
+    - full
+  init_params: kmeans
+  n_init: 5
+  reg_covar:
+    - 1.0e-6
+    - 1.0e-5
+  max_iter: 500
+  tol: 1.0e-3
+
+run:
+  seeds:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  save_diagnostics: false
+  save_plots: true
+  verbose: true
+
+ranking:
+  top_n: 10
+  weights:
+    test_avg_loglik_mean: 1.0
+    bic_train_mean: 1.0
+    avg_entropy_test_mean: 1.0
+

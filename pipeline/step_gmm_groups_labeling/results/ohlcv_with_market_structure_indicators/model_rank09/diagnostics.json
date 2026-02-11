@@ -1,0 +1,62 @@
+{
+  "feature_columns_used": [
+    "body",
+    "lower_shadow",
+    "days_since_high",
+    "upper_shadow",
+    "lower_shadow_pct",
+    "upper_shadow_pct",
+    "days_above_sma_200",
+    "tr_percentile_50d",
+    "tr_percentile_14d",
+    "position_in_range_10d"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 2,
+  "group_name": "ohlcv_with_market_structure_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  443 (21.00%)\nshort:  404 (19.15%)\nskip:  1263 (59.86%)\n\n=== With 5m tie-break ===\nlong:  565 (26.78%)\nshort:  546 (25.88%)\nskip:  999 (47.35%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   443,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     999\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 9,
+  "prediction_rows": 2111,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 442,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.20957799905168326,
+      "trade_label": "long"
+    },
+    {
+      "count": 404,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.19155998103366526,
+      "trade_label": "short"
+    },
+    {
+      "count": 1263,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.5988620199146515,
+      "trade_label": "skip"
+    },
+    {
+      "count": 1,
+      "gmm_hard_state": 1,
+      "pct_within_state": 1.0,
+      "trade_label": "skip"
+    },
+    {
+      "count": 1,
+      "gmm_hard_state": 2,
+      "pct_within_state": 1.0,
+      "trade_label": "long"
+    }
+  ],
+  "train_end_effective": "2025-03-25 00:00:00",
+  "train_start_effective": "2023-09-26 00:00:00",
+  "training_rows": 547
+}

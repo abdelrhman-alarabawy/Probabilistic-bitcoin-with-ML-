@@ -1,0 +1,1990 @@
+[
+  {
+    "fold_id": "2020_2021_test_2022",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2021-12-31T00:00:00",
+    "test_start": "2022-01-01T00:00:00",
+    "test_end": "2022-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 646,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.57168009846524,
+      "gmm_test_avg_loglik": 69.72285967363,
+      "gmm_AIC": -89622.61068721708,
+      "gmm_BIC": -86144.32867327421,
+      "gmm_resp_entropy_train_mean": 0.005743712198128276,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 79.93637315209129,
+      "hmm_test_avg_loglik": 65.04724629970373,
+      "hmm_AIC": -100159.79411250194,
+      "hmm_BIC": -93189.81768610487,
+      "posterior_entropy_mean": 0.012108341814962164,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 2.7631021115928546e-11,
+      "posterior_entropy_p90": 0.00029976896038921917,
+      "mean_diag_A": 0.9787144895761664,
+      "n_switches_viterbi": 20,
+      "occupancy_soft_train": {
+        "0": 0.5990713775208458,
+        "1": 0.4009286224791651
+      },
+      "occupancy_soft_test": {
+        "0": 0.7328312505534696,
+        "1": 0.2671687494465238
+      },
+      "N_eff_train": {
+        "0": 387.0001098784664,
+        "1": 258.99989012154066
+      },
+      "N_eff_test": {
+        "0": 267.4834064520164,
+        "1": 97.51659354798119
+      },
+      "expected_duration": [
+        64.33342160301528,
+        37.00003600841837
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.9844559798766691,
+        0.015544020123330797
+      ],
+      [
+        0.02702700072433634,
+        0.9729729992756635
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 387.0001098784664,
+        "occupancy": 0.5990713775208458,
+        "component_masses": [
+          0.8430993027590731,
+          0.15690069724092767
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.015499613877252004
+      },
+      {
+        "state": 1,
+        "N_eff": 258.99989012154066,
+        "occupancy": 0.4009286224791651,
+        "component_masses": [
+          0.8076578827538506,
+          0.19234211724614997
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.014401949975338026
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 387,
+        "silhouette": 0.3854898258119735,
+        "davies_bouldin": 1.4178460538873365
+      },
+      {
+        "state": 1,
+        "n_selected": 259,
+        "silhouette": 0.29779478822769573,
+        "davies_bouldin": 1.308910991845885
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2021_test_2022",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2021-12-31T00:00:00",
+    "test_start": "2022-01-01T00:00:00",
+    "test_end": "2022-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 646,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.57168009846524,
+      "gmm_test_avg_loglik": 69.72285967363,
+      "gmm_AIC": -89622.61068721708,
+      "gmm_BIC": -86144.32867327421,
+      "gmm_resp_entropy_train_mean": 0.005743712198128276,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 80.3336614949811,
+      "hmm_test_avg_loglik": 61.58103172137268,
+      "hmm_AIC": -100521.09065151558,
+      "hmm_BIC": -93211.33346283103,
+      "posterior_entropy_mean": 0.010835319047286303,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 2.7631021115928546e-11,
+      "posterior_entropy_p90": 8.191558358764001e-06,
+      "mean_diag_A": 0.9787144686293635,
+      "n_switches_viterbi": 16,
+      "occupancy_soft_train": {
+        "0": 0.5990712152891122,
+        "1": 0.4009287847108837
+      },
+      "occupancy_soft_test": {
+        "0": 0.7315877434933352,
+        "1": 0.26841225650668965
+      },
+      "N_eff_train": {
+        "0": 387.0000050767665,
+        "1": 258.9999949232309
+      },
+      "N_eff_test": {
+        "0": 267.02952637506735,
+        "1": 97.97047362494172
+      },
+      "expected_duration": [
+        64.33334329499202,
+        37.00000455825486
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.9844559609561307,
+        0.015544039043869294
+      ],
+      [
+        0.027027023697403833,
+        0.9729729763025963
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 387.0000050767665,
+        "occupancy": 0.5990712152891122,
+        "component_masses": [
+          0.1829044990182104,
+          0.7732887676831491,
+          0.04380673329864077
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.03315833942785491
+      },
+      {
+        "state": 1,
+        "N_eff": 258.9999949232309,
+        "occupancy": 0.4009287847108837,
+        "component_masses": [
+          0.13509298395976926,
+          0.6721705202637654,
+          0.19273649577646526
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.014721101946871564
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 387,
+        "silhouette": 0.29327275466777325,
+        "davies_bouldin": 1.712132871008137
+      },
+      {
+        "state": 1,
+        "n_selected": 259,
+        "silhouette": 0.058938143753691594,
+        "davies_bouldin": 1.9488170160307412
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2021_test_2022",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2021-12-31T00:00:00",
+    "test_start": "2022-01-01T00:00:00",
+    "test_end": "2022-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 646,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.93694925433925,
+      "gmm_test_avg_loglik": 69.80543938020284,
+      "gmm_AIC": -90018.53843660632,
+      "gmm_BIC": -86370.36604151972,
+      "gmm_resp_entropy_train_mean": 0.013706196043207216,
+      "gmm_stability_ari": "0.879\u00b10.135"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.52180755092772,
+      "hmm_test_avg_loglik": 65.18028354775964,
+      "hmm_AIC": -103226.17535579861,
+      "hmm_BIC": -92755.56291793975,
+      "posterior_entropy_mean": 0.048751412311202266,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 2.1631187506376142e-08,
+      "posterior_entropy_p90": 0.1457791432771546,
+      "mean_diag_A": 0.8406209517473903,
+      "n_switches_viterbi": 74,
+      "occupancy_soft_train": {
+        "0": 0.3385516467566513,
+        "1": 0.4009284481261762,
+        "2": 0.2605199051171833
+      },
+      "occupancy_soft_test": {
+        "0": 0.23160176478320382,
+        "1": 0.31718477510080656,
+        "2": 0.4512134601160042
+      },
+      "N_eff_train": {
+        "0": 218.70436380479674,
+        "1": 258.9997774895098,
+        "2": 168.29585870570043
+      },
+      "N_eff_test": {
+        "0": 84.5346441458694,
+        "1": 115.7724429117944,
+        "2": 164.69291294234154
+      },
+      "expected_duration": [
+        5.601140760385082,
+        37.000336570598826,
+        3.6687109423963937
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8214649403077581,
+        0.0,
+        0.17853505969224195
+      ],
+      [
+        0.0,
+        0.9729732188221601,
+        0.02702678117783989
+      ],
+      [
+        0.23692159609835278,
+        0.03565370778939418,
+        0.7274246961122529
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 218.70436380479674,
+        "occupancy": 0.3385516467566513,
+        "component_masses": [
+          0.10952429351644644,
+          0.890475706483553
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.001827283988777212
+      },
+      {
+        "state": 1,
+        "N_eff": 258.9997774895098,
+        "occupancy": 0.4009284481261762,
+        "component_masses": [
+          0.192342207871911,
+          0.807657792128089
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.014401968083076366
+      },
+      {
+        "state": 2,
+        "N_eff": 168.29585870570043,
+        "occupancy": 0.2605199051171833,
+        "component_masses": [
+          0.9287159346631905,
+          0.0712840653368088
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.0005086928214404741
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 219,
+        "silhouette": 0.2687815544484402,
+        "davies_bouldin": 1.8823970640109813
+      },
+      {
+        "state": 1,
+        "n_selected": 259,
+        "silhouette": 0.29779478822769573,
+        "davies_bouldin": 1.308910991845885
+      },
+      {
+        "state": 2,
+        "n_selected": 168,
+        "silhouette": 0.24564560881986586,
+        "davies_bouldin": 2.181044894508236
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2021_test_2022",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2021-12-31T00:00:00",
+    "test_start": "2022-01-01T00:00:00",
+    "test_end": "2022-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 646,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.93694925433925,
+      "gmm_test_avg_loglik": 69.80543938020284,
+      "gmm_AIC": -90018.53843660632,
+      "gmm_BIC": -86370.36604151972,
+      "gmm_resp_entropy_train_mean": 0.013706196043207216,
+      "gmm_stability_ari": "0.879\u00b10.135"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 85.84972542072347,
+      "hmm_test_avg_loglik": 66.82369268369351,
+      "hmm_AIC": -106005.84524357473,
+      "hmm_BIC": -95025.56166228466,
+      "posterior_entropy_mean": 0.025934310414560617,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 1.4207761559465368e-09,
+      "posterior_entropy_p90": 0.012677429909650414,
+      "mean_diag_A": 0.8064897610804717,
+      "n_switches_viterbi": 73,
+      "occupancy_soft_train": {
+        "0": 0.35602456552032136,
+        "1": 0.39938079625015577,
+        "2": 0.24459463822960967
+      },
+      "occupancy_soft_test": {
+        "0": 0.28676355572137696,
+        "1": 0.2739158921354846,
+        "2": 0.4393205521431602
+      },
+      "N_eff_train": {
+        "0": 229.9918693261276,
+        "1": 257.9999943776006,
+        "2": 158.00813629632785
+      },
+      "N_eff_test": {
+        "0": 104.66869783830259,
+        "1": 99.97930062945188,
+        "2": 160.35200153225347
+      },
+      "expected_duration": [
+        4.87243551653159,
+        36.85715163822304,
+        2.87221978632481
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.7947638308178487,
+        0.0,
+        0.20523616918215115
+      ],
+      [
+        0.0,
+        0.9728682235183106,
+        0.027131776481689452
+      ],
+      [
+        0.3038535943998414,
+        0.0443091766949029,
+        0.6518372289052557
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 229.9918693261276,
+        "occupancy": 0.35602456552032136,
+        "component_masses": [
+          0.10357124867760509,
+          0.6875802228127696,
+          0.2088485285096254
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.006127104463384313
+      },
+      {
+        "state": 1,
+        "N_eff": 257.9999943776006,
+        "occupancy": 0.39938079625015577,
+        "component_masses": [
+          0.1472787185551147,
+          0.6629106806455121,
+          0.18981060079937265
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.01525323610460081
+      },
+      {
+        "state": 2,
+        "N_eff": 158.00813629632785,
+        "occupancy": 0.24459463822960967,
+        "component_masses": [
+          0.08823916274667512,
+          0.7461651823825296,
+          0.1655956548707955
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.009702212801342319
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 230,
+        "silhouette": 0.22253399022364215,
+        "davies_bouldin": 1.584405200602326
+      },
+      {
+        "state": 1,
+        "n_selected": 258,
+        "silhouette": 0.059567421686341354,
+        "davies_bouldin": 2.0189284687852482
+      },
+      {
+        "state": 2,
+        "n_selected": 158,
+        "silhouette": 0.16324706261358202,
+        "davies_bouldin": 1.7829406269999266
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2022_test_2023",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2022-12-31T00:00:00",
+    "test_start": "2023-01-01T00:00:00",
+    "test_end": "2023-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1011,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.04292496696506,
+      "gmm_test_avg_loglik": 70.44219961736998,
+      "gmm_AIC": -140070.79428320334,
+      "gmm_BIC": -136244.04940280542,
+      "gmm_resp_entropy_train_mean": 0.03503608559578922,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 78.61130013909361,
+      "hmm_test_avg_loglik": 80.44571851003943,
+      "hmm_AIC": -155834.0488812473,
+      "hmm_BIC": -148165.80303479437,
+      "posterior_entropy_mean": 2.4755811981539056e-05,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 1.0459974273808128e-10,
+      "posterior_entropy_p90": 8.589238402741701e-07,
+      "mean_diag_A": 0.7446951128382524,
+      "n_switches_viterbi": 5,
+      "occupancy_soft_train": {
+        "0": 0.7440181104872098,
+        "1": 0.25598188951276096
+      },
+      "occupancy_soft_test": {
+        "0": 0.9917782524043818,
+        "1": 0.008221747595580302
+      },
+      "N_eff_train": {
+        "0": 752.2023097025691,
+        "1": 258.79769029740135
+      },
+      "N_eff_test": {
+        "0": 361.99906212759936,
+        "1": 3.00093787238681
+      },
+      "expected_duration": [
+        7.783085935641382,
+        2.616937642618079
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8715162586833762,
+        0.12848374131662388
+      ],
+      [
+        0.3821260330068714,
+        0.6178739669931287
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 752.2023097025691,
+        "occupancy": 0.7440181104872098,
+        "component_masses": [
+          0.6998348522828354,
+          0.3001651477171658
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.004512477397516907
+      },
+      {
+        "state": 1,
+        "N_eff": 258.79769029740135,
+        "occupancy": 0.25598188951276096,
+        "component_masses": [
+          0.22151983765601332,
+          0.7784801623439864
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.03060218919522628
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 754,
+        "silhouette": 0.20680860800977954,
+        "davies_bouldin": 1.948431745052917
+      },
+      {
+        "state": 1,
+        "n_selected": 260,
+        "silhouette": 0.2941132578832754,
+        "davies_bouldin": 1.8755793904633824
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2022_test_2023",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2022-12-31T00:00:00",
+    "test_start": "2023-01-01T00:00:00",
+    "test_end": "2023-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1011,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.04292496696506,
+      "gmm_test_avg_loglik": 70.44219961736998,
+      "gmm_AIC": -140070.79428320334,
+      "gmm_BIC": -136244.04940280542,
+      "gmm_resp_entropy_train_mean": 0.03503608559578922,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 79.00204241165343,
+      "hmm_test_avg_loglik": 80.74751810997779,
+      "hmm_AIC": -156472.12975636325,
+      "hmm_BIC": -148430.06307326478,
+      "posterior_entropy_mean": 5.586315904148229e-05,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 6.244052754219873e-11,
+      "posterior_entropy_p90": 5.509770936780644e-07,
+      "mean_diag_A": 0.7509930480514573,
+      "n_switches_viterbi": 4,
+      "occupancy_soft_train": {
+        "0": 0.7449636800939595,
+        "1": 0.2550363199061233
+      },
+      "occupancy_soft_test": {
+        "0": 0.9945140859185801,
+        "1": 0.005485914081500078
+      },
+      "N_eff_train": {
+        "0": 753.1582805749931,
+        "1": 257.8417194250907
+      },
+      "N_eff_test": {
+        "0": 362.99764136028176,
+        "1": 2.0023586397475284
+      },
+      "expected_duration": [
+        7.934803349230918,
+        2.68826717257739
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8739729321588133,
+        0.12602706784118675
+      ],
+      [
+        0.37198683605589883,
+        0.6280131639441012
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 753.1582805749931,
+        "occupancy": 0.7449636800939595,
+        "component_masses": [
+          0.07993735439879356,
+          0.6973264457084929,
+          0.22273619989271368
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.007350069003539169
+      },
+      {
+        "state": 1,
+        "N_eff": 257.8417194250907,
+        "occupancy": 0.2550363199061233,
+        "component_masses": [
+          0.4322307594784717,
+          0.10069068961318768,
+          0.4670785509083397
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.052217000320710937
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 756,
+        "silhouette": 0.19815642531470395,
+        "davies_bouldin": 1.6287028418006564
+      },
+      {
+        "state": 1,
+        "n_selected": 259,
+        "silhouette": 0.11431455566886489,
+        "davies_bouldin": 2.231453137719616
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2022_test_2023",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2022-12-31T00:00:00",
+    "test_start": "2023-01-01T00:00:00",
+    "test_end": "2023-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1011,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.38450593656098,
+      "gmm_test_avg_loglik": 70.79166278393664,
+      "gmm_AIC": -140685.4710037263,
+      "gmm_BIC": -136671.8157050056,
+      "gmm_resp_entropy_train_mean": 0.04407516859358539,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.28442337935432,
+      "hmm_test_avg_loglik": 72.29080951582962,
+      "hmm_AIC": -163717.10407305445,
+      "hmm_BIC": -152197.51987010852,
+      "posterior_entropy_mean": 0.021344357487509513,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 2.596927634347657e-07,
+      "posterior_entropy_p90": 0.0078041804922520065,
+      "mean_diag_A": 0.7397198739551416,
+      "n_switches_viterbi": 29,
+      "occupancy_soft_train": {
+        "0": 0.368936317488356,
+        "1": 0.4270392676478644,
+        "2": 0.20402441486378747
+      },
+      "occupancy_soft_test": {
+        "0": 0.11456676276795,
+        "1": 0.8608792002168929,
+        "2": 0.02455403701517835
+      },
+      "N_eff_train": {
+        "0": 372.99461698072787,
+        "1": 431.7366995919909,
+        "2": 206.26868342728915
+      },
+      "N_eff_test": {
+        "0": 41.81686841030175,
+        "1": 314.2209080791659,
+        "2": 8.962223510540097
+      },
+      "expected_duration": [
+        30.998073121758022,
+        4.3623260251439495,
+        1.9255030363123633
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.9677399302830186,
+        0.008065018748465392,
+        0.0241950509685159
+      ],
+      [
+        0.0023426860291154293,
+        0.7707644971430118,
+        0.22689281682787293
+      ],
+      [
+        0.0533310125326699,
+        0.4660137930279355,
+        0.4806551944393945
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 372.99461698072787,
+        "occupancy": 0.368936317488356,
+        "component_masses": [
+          0.33236110859040763,
+          0.6676388914095924
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.007759631188247288
+      },
+      {
+        "state": 1,
+        "N_eff": 431.7366995919909,
+        "occupancy": 0.4270392676478644,
+        "component_masses": [
+          0.752935204441936,
+          0.24706479555806463
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.02288074186571167
+      },
+      {
+        "state": 2,
+        "N_eff": 206.26868342728915,
+        "occupancy": 0.20402441486378747,
+        "component_masses": [
+          0.6172380793368452,
+          0.38276192066315445
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.047540105281896484
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 373,
+        "silhouette": 0.034619495627398154,
+        "davies_bouldin": 4.131222847828253
+      },
+      {
+        "state": 1,
+        "n_selected": 432,
+        "silhouette": 0.1625285434588785,
+        "davies_bouldin": 1.9019297155733208
+      },
+      {
+        "state": 2,
+        "n_selected": 206,
+        "silhouette": 0.1672909273698846,
+        "davies_bouldin": 2.197083900136321
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2022_test_2023",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2022-12-31T00:00:00",
+    "test_start": "2023-01-01T00:00:00",
+    "test_end": "2023-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1011,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.38450593656098,
+      "gmm_test_avg_loglik": 70.79166278393664,
+      "gmm_AIC": -140685.4710037263,
+      "gmm_BIC": -136671.8157050056,
+      "gmm_resp_entropy_train_mean": 0.04407516859358539,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.70736336309295,
+      "hmm_test_avg_loglik": 72.386582005175,
+      "hmm_AIC": -164344.28872017394,
+      "hmm_BIC": -152263.97326225965,
+      "posterior_entropy_mean": 0.01831979577743721,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 5.699722171360464e-07,
+      "posterior_entropy_p90": 0.005086997722101735,
+      "mean_diag_A": 0.7403600722091402,
+      "n_switches_viterbi": 31,
+      "occupancy_soft_train": {
+        "0": 0.36893701524179723,
+        "1": 0.42654049509155273,
+        "2": 0.20452248966672162
+      },
+      "occupancy_soft_test": {
+        "0": 0.1594374153952863,
+        "1": 0.8141206414199921,
+        "2": 0.026441943184682102
+      },
+      "N_eff_train": {
+        "0": 372.995322409457,
+        "1": 431.2324405375598,
+        "2": 206.77223705305556
+      },
+      "N_eff_test": {
+        "0": 58.1946566192795,
+        "1": 297.1540341182971,
+        "2": 9.651309262408967
+      },
+      "expected_duration": [
+        30.99814296991195,
+        4.370532339737858,
+        1.9310435668928063
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.9677400029746737,
+        0.008045565117010798,
+        0.02421443190831554
+      ],
+      [
+        0.0022384866210542007,
+        0.7711949203743955,
+        0.22656659300455015
+      ],
+      [
+        0.05349178112502834,
+        0.46436292559662,
+        0.4821452932783516
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 372.995322409457,
+        "occupancy": 0.36893701524179723,
+        "component_masses": [
+          0.13442276071643097,
+          0.5956820796695078,
+          0.26989515961406163
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.023783199626985607
+      },
+      {
+        "state": 1,
+        "N_eff": 431.2324405375598,
+        "occupancy": 0.42654049509155273,
+        "component_masses": [
+          0.34863677184126396,
+          0.2173805721806427,
+          0.43398265597809327
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.018886887490341724
+      },
+      {
+        "state": 2,
+        "N_eff": 206.77223705305556,
+        "occupancy": 0.20452248966672162,
+        "component_masses": [
+          0.867154183813193,
+          0.06019888324368306,
+          0.07264693294312288
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.0016370291192537034
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 373,
+        "silhouette": 0.06517547683186967,
+        "davies_bouldin": 2.57105106754728
+      },
+      {
+        "state": 1,
+        "n_selected": 432,
+        "silhouette": 0.11458573127144939,
+        "davies_bouldin": 2.296201090282068
+      },
+      {
+        "state": 2,
+        "n_selected": 207,
+        "silhouette": 0.3076061532157736,
+        "davies_bouldin": 1.3857719869889475
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2023_test_2024",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2023-12-31T00:00:00",
+    "test_start": "2024-01-01T00:00:00",
+    "test_end": "2024-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1376,
+    "n_test": 366,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.26755161984296,
+      "gmm_test_avg_loglik": 53.10931106073497,
+      "gmm_AIC": -191820.30205780783,
+      "gmm_BIC": -187753.74583542004,
+      "gmm_resp_entropy_train_mean": 0.0500499714011131,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 79.22618401980404,
+      "hmm_test_avg_loglik": 48.157325010158985,
+      "hmm_AIC": -214912.45842250073,
+      "hmm_BIC": -206763.6651696697,
+      "posterior_entropy_mean": 0.017557899100135915,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 2.7631021115928546e-11,
+      "posterior_entropy_p90": 0.0009383807410577795,
+      "mean_diag_A": 0.9059599724413476,
+      "n_switches_viterbi": 25,
+      "occupancy_soft_train": {
+        "0": 0.34537490823936706,
+        "1": 0.6546250917607144
+      },
+      "occupancy_soft_test": {
+        "0": 0.8093938336426101,
+        "1": 0.1906061663574778
+      },
+      "N_eff_train": {
+        "0": 475.23587373736905,
+        "1": 900.764126262743
+      },
+      "N_eff_test": {
+        "0": 296.2381431131953,
+        "1": 69.76185688683687
+      },
+      "expected_duration": [
+        8.082730718802132,
+        15.537723753043267
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8762794363947088,
+        0.12372056360529123
+      ],
+      [
+        0.06435949151201363,
+        0.9356405084879864
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 475.23587373736905,
+        "occupancy": 0.34537490823936706,
+        "component_masses": [
+          0.09975189613753788,
+          0.9002481038624622
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.013195438920426465
+      },
+      {
+        "state": 1,
+        "N_eff": 900.764126262743,
+        "occupancy": 0.6546250917607144,
+        "component_masses": [
+          0.3604802967581561,
+          0.6395197032418444
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.0349591455680858
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 475,
+        "silhouette": 0.4250065919630362,
+        "davies_bouldin": 1.5770364418005938
+      },
+      {
+        "state": 1,
+        "n_selected": 902,
+        "silhouette": 0.13235643127079927,
+        "davies_bouldin": 1.9698490666192994
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2023_test_2024",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2023-12-31T00:00:00",
+    "test_start": "2024-01-01T00:00:00",
+    "test_end": "2024-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1376,
+    "n_test": 366,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.26755161984296,
+      "gmm_test_avg_loglik": 53.10931106073497,
+      "gmm_AIC": -191820.30205780783,
+      "gmm_BIC": -187753.74583542004,
+      "gmm_resp_entropy_train_mean": 0.0500499714011131,
+      "gmm_stability_ari": "1.000\u00b10.000"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 80.05720858540923,
+      "hmm_test_avg_loglik": 53.52129733813739,
+      "hmm_AIC": -217047.43802704618,
+      "hmm_BIC": -208501.39763680965,
+      "posterior_entropy_mean": 0.008885483810637263,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 3.48560542962762e-11,
+      "posterior_entropy_p90": 0.00019789485781455534,
+      "mean_diag_A": 0.8243688109921321,
+      "n_switches_viterbi": 37,
+      "occupancy_soft_train": {
+        "0": 0.2381300897060426,
+        "1": 0.761869910293932
+      },
+      "occupancy_soft_test": {
+        "0": 0.0921691588865656,
+        "1": 0.9078308411134886
+      },
+      "N_eff_train": {
+        "0": 327.66700343551463,
+        "1": 1048.3329965644505
+      },
+      "N_eff_test": {
+        "0": 33.73391215248301,
+        "1": 332.2660878475368
+      },
+      "expected_duration": [
+        3.713819010183762,
+        12.195452806376506
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.7307353973745426,
+        0.26926460262545726
+      ],
+      [
+        0.08199777539027832,
+        0.9180022246097217
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 327.66700343551463,
+        "occupancy": 0.2381300897060426,
+        "component_masses": [
+          0.5082746004873547,
+          0.4335512091171849,
+          0.05817419039545956
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.08219756745829632
+      },
+      {
+        "state": 1,
+        "N_eff": 1048.3329965644505,
+        "occupancy": 0.761869910293932,
+        "component_masses": [
+          0.19575475702392314,
+          0.6001765180303495,
+          0.20406872494572695
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.020589717410090316
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 326,
+        "silhouette": 0.12452334396948396,
+        "davies_bouldin": 2.576985294916283
+      },
+      {
+        "state": 1,
+        "n_selected": 1051,
+        "silhouette": 0.18942355879171552,
+        "davies_bouldin": 1.9659148343721522
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2023_test_2024",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2023-12-31T00:00:00",
+    "test_start": "2024-01-01T00:00:00",
+    "test_end": "2024-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1376,
+    "n_test": 366,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.51303440435072,
+      "gmm_test_avg_loglik": 52.86482604835986,
+      "gmm_AIC": -192419.87068077317,
+      "gmm_BIC": -188154.69088968265,
+      "gmm_resp_entropy_train_mean": 0.05750618446648056,
+      "gmm_stability_ari": "0.667\u00b10.266"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.24816190528281,
+      "hmm_test_avg_loglik": 50.97479544908963,
+      "hmm_AIC": -224414.9415633383,
+      "hmm_BIC": -212173.45740802702,
+      "posterior_entropy_mean": 0.020502900435896487,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 7.192752332462162e-08,
+      "posterior_entropy_p90": 0.021678637661890328,
+      "mean_diag_A": 0.7569973693923644,
+      "n_switches_viterbi": 42,
+      "occupancy_soft_train": {
+        "0": 0.43595149907739283,
+        "1": 0.3966878288025514,
+        "2": 0.16736067212009778
+      },
+      "occupancy_soft_test": {
+        "0": 8.298954138897012e-23,
+        "1": 0.7704266858058377,
+        "2": 0.22957331419420618
+      },
+      "N_eff_train": {
+        "0": 599.8692627304926,
+        "1": 545.8424524323107,
+        "2": 230.28828483725454
+      },
+      "N_eff_test": {
+        "0": 3.0374172148363064e-20,
+        "1": 281.9761670049366,
+        "2": 84.02383299507946
+      },
+      "expected_duration": [
+        20.233893103082497,
+        4.982696021266326,
+        2.0881565290525104
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.9505779735562774,
+        0.026220574771757394,
+        0.023201451671965266
+      ],
+      [
+        0.026845419722378673,
+        0.7993054371103587,
+        0.17384914316726252
+      ],
+      [
+        0.06539601188338937,
+        0.4134952906061537,
+        0.521108697510457
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 599.8692627304926,
+        "occupancy": 0.43595149907739283,
+        "component_masses": [
+          0.7038024448094808,
+          0.29619755519051866
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.0010056068313215722
+      },
+      {
+        "state": 1,
+        "N_eff": 545.8424524323107,
+        "occupancy": 0.3966878288025514,
+        "component_masses": [
+          0.8047958812023155,
+          0.19520411879768695
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.014918078799661802
+      },
+      {
+        "state": 2,
+        "N_eff": 230.28828483725454,
+        "occupancy": 0.16736067212009778,
+        "component_masses": [
+          0.6364219248905308,
+          0.36357807510946993
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.07161433012154154
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 603,
+        "silhouette": 0.12206261499086889,
+        "davies_bouldin": 1.7736828830563096
+      },
+      {
+        "state": 1,
+        "n_selected": 548,
+        "silhouette": 0.19140143338756904,
+        "davies_bouldin": 1.6335316166980356
+      },
+      {
+        "state": 2,
+        "n_selected": 230,
+        "silhouette": 0.1698172215580908,
+        "davies_bouldin": 2.096338583734433
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2023_test_2024",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2023-12-31T00:00:00",
+    "test_start": "2024-01-01T00:00:00",
+    "test_end": "2024-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1376,
+    "n_test": 366,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 70.51303440435072,
+      "gmm_test_avg_loglik": 52.86482604835986,
+      "gmm_AIC": -192419.87068077317,
+      "gmm_BIC": -188154.69088968265,
+      "gmm_resp_entropy_train_mean": 0.05750618446648056,
+      "gmm_stability_ari": "0.667\u00b10.266"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.71976020992892,
+      "hmm_test_avg_loglik": 50.638605554737445,
+      "hmm_AIC": -225484.7800977244,
+      "hmm_BIC": -212647.42523630487,
+      "posterior_entropy_mean": 0.022976861952633487,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 7.472632245816631e-09,
+      "posterior_entropy_p90": 0.004481243164770287,
+      "mean_diag_A": 0.7757215519712849,
+      "n_switches_viterbi": 52,
+      "occupancy_soft_train": {
+        "0": 0.43612622894377323,
+        "1": 0.386755434922241,
+        "2": 0.177118336134158
+      },
+      "occupancy_soft_test": {
+        "0": 3.029895747132513e-27,
+        "1": 0.7530273143001426,
+        "2": 0.24697268569988606
+      },
+      "N_eff_train": {
+        "0": 600.1096910266319,
+        "1": 532.1754784530036,
+        "2": 243.71483052060142
+      },
+      "N_eff_test": {
+        "0": 1.1089418434504998e-24,
+        "1": 275.6079970338522,
+        "2": 90.3920029661583
+      },
+      "expected_duration": [
+        20.98276119532059,
+        5.21669803519285,
+        2.306884706248523
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.952341830005528,
+        0.023193679665265716,
+        0.02446449032920617
+      ],
+      [
+        0.023764264917708455,
+        0.8083078619360738,
+        0.16792787314621782
+      ],
+      [
+        0.06587990387503405,
+        0.36760513215271323,
+        0.5665149639722528
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 600.1096910266319,
+        "occupancy": 0.43612622894377323,
+        "component_masses": [
+          0.29758188249696627,
+          0.3639019745572751,
+          0.3385161429457583
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.006003890880006624
+      },
+      {
+        "state": 1,
+        "N_eff": 532.1754784530036,
+        "occupancy": 0.386755434922241,
+        "component_masses": [
+          0.28704015544354333,
+          0.17107998143695954,
+          0.5418798631194963
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.0405428972952682
+      },
+      {
+        "state": 2,
+        "N_eff": 243.71483052060142,
+        "occupancy": 0.177118336134158,
+        "component_masses": [
+          0.8722417064770817,
+          0.09083112187036227,
+          0.03692717165255566
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.0036816859371463936
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 602,
+        "silhouette": 0.062429118896798065,
+        "davies_bouldin": 2.729811550431478
+      },
+      {
+        "state": 1,
+        "n_selected": 533,
+        "silhouette": 0.14649598463274874,
+        "davies_bouldin": 1.9545423297169797
+      },
+      {
+        "state": 2,
+        "n_selected": 243,
+        "silhouette": 0.2557903666944362,
+        "davies_bouldin": 2.061347012190376
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2024_test_2025",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2024-12-31T00:00:00",
+    "test_start": "2025-01-01T00:00:00",
+    "test_end": "2025-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1742,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 69.34038840516929,
+      "gmm_test_avg_loglik": 29.712222462857373,
+      "gmm_AIC": -240025.91320360982,
+      "gmm_BIC": -235775.86323914293,
+      "gmm_resp_entropy_train_mean": 0.07316795838641897,
+      "gmm_stability_ari": "0.986\u00b10.010"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 78.4803103901915,
+      "hmm_test_avg_loglik": 32.9764856357879,
+      "hmm_AIC": -270307.4013994272,
+      "hmm_BIC": -261790.91310302122,
+      "posterior_entropy_mean": 0.0029745475248506075,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 2.7631021115928546e-11,
+      "posterior_entropy_p90": 2.7631021115928546e-11,
+      "mean_diag_A": 0.7939725844550614,
+      "n_switches_viterbi": 17,
+      "occupancy_soft_train": {
+        "0": 0.18194240659150684,
+        "1": 0.8180575934088965
+      },
+      "occupancy_soft_test": {
+        "0": 0.046514779304612335,
+        "1": 0.9534852206953763
+      },
+      "N_eff_train": {
+        "0": 316.9436722824049,
+        "1": 1425.0563277182978
+      },
+      "N_eff_test": {
+        "0": 16.9778944461835,
+        "1": 348.02210555381237
+      },
+      "expected_duration": [
+        2.9448515435804796,
+        13.797073324127185
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.6604243082542096,
+        0.3395756917457905
+      ],
+      [
+        0.07247913934408702,
+        0.927520860655913
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 316.9436722824049,
+        "occupancy": 0.18194240659150684,
+        "component_masses": [
+          0.8384962978723474,
+          0.16150370212765242
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.01766660860898982
+      },
+      {
+        "state": 1,
+        "N_eff": 1425.0563277182978,
+        "occupancy": 0.8180575934088965,
+        "component_masses": [
+          0.6067183696910893,
+          0.3932816303089103
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.04444197472795778
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 318,
+        "silhouette": 0.3144223436648528,
+        "davies_bouldin": 2.1286694693090964
+      },
+      {
+        "state": 1,
+        "n_selected": 1426,
+        "silhouette": 0.2312397533404659,
+        "davies_bouldin": 1.6104915083824078
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2024_test_2025",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2024-12-31T00:00:00",
+    "test_start": "2025-01-01T00:00:00",
+    "test_end": "2025-12-31T00:00:00",
+    "k": 2,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1742,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 69.34038840516929,
+      "gmm_test_avg_loglik": 29.712222462857373,
+      "gmm_AIC": -240025.91320360982,
+      "gmm_BIC": -235775.86323914293,
+      "gmm_resp_entropy_train_mean": 0.07316795838641897,
+      "gmm_stability_ari": "0.986\u00b10.010"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 78.74524408274277,
+      "hmm_test_avg_loglik": 29.287646275683787,
+      "hmm_AIC": -271078.4303842758,
+      "hmm_BIC": -262146.77011190646,
+      "posterior_entropy_mean": 0.010688006937429691,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 2.7631021115928546e-11,
+      "posterior_entropy_p90": 2.7631021115928546e-11,
+      "mean_diag_A": 0.8092210037954353,
+      "n_switches_viterbi": 15,
+      "occupancy_soft_train": {
+        "0": 0.18938392855174593,
+        "1": 0.8106160714487244
+      },
+      "occupancy_soft_test": {
+        "0": 0.03245164237889834,
+        "1": 0.9675483576210904
+      },
+      "N_eff_train": {
+        "0": 329.9068035371414,
+        "1": 1412.093196463678
+      },
+      "N_eff_test": {
+        "0": 11.844849468297895,
+        "1": 353.155150531698
+      },
+      "expected_duration": [
+        3.2084177714687305,
+        14.310679544969565
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.6883198912271871,
+        0.3116801087728128
+      ],
+      [
+        0.06987788363631664,
+        0.9301221163636834
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 329.9068035371414,
+        "occupancy": 0.18938392855174593,
+        "component_masses": [
+          0.0579748869694528,
+          0.14056463680219045,
+          0.8014604762283561
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.022223915162193977
+      },
+      {
+        "state": 1,
+        "N_eff": 1412.093196463678,
+        "occupancy": 0.8106160714487244,
+        "component_masses": [
+          0.19031418007314227,
+          0.4813441020596312,
+          0.3283417178672274
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.09363250095664241
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 331,
+        "silhouette": 0.204230164578076,
+        "davies_bouldin": 2.32012533099917
+      },
+      {
+        "state": 1,
+        "n_selected": 1414,
+        "silhouette": 0.13857989745468863,
+        "davies_bouldin": 1.790600444989522
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2024_test_2025",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2024-12-31T00:00:00",
+    "test_start": "2025-01-01T00:00:00",
+    "test_end": "2025-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 2,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1742,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 69.69970728629146,
+      "gmm_test_avg_loglik": 29.892786893751058,
+      "gmm_AIC": -241201.78018543942,
+      "gmm_BIC": -236744.14423299086,
+      "gmm_resp_entropy_train_mean": 0.08210931749143861,
+      "gmm_stability_ari": "0.507\u00b10.401"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 82.46153801137027,
+      "hmm_test_avg_loglik": 31.853665868035037,
+      "hmm_AIC": -282611.998431614,
+      "hmm_BIC": -269818.14622495405,
+      "posterior_entropy_mean": 0.0018519757218571676,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 5.526204223185709e-11,
+      "posterior_entropy_p90": 5.526204223185709e-11,
+      "mean_diag_A": 0.818034348861974,
+      "n_switches_viterbi": 15,
+      "occupancy_soft_train": {
+        "0": 0.4185047674634607,
+        "1": 0.4174518574494193,
+        "2": 0.16404337508746664
+      },
+      "occupancy_soft_test": {
+        "0": 0.9769681307154505,
+        "1": 1.9491228955563862e-54,
+        "2": 0.02303186928454674
+      },
+      "N_eff_train": {
+        "0": 729.0353049213486,
+        "1": 727.2011356768885,
+        "2": 285.76355940236687
+      },
+      "N_eff_test": {
+        "0": 356.5933677111394,
+        "1": 7.11429856878081e-52,
+        "2": 8.40663228885956
+      },
+      "expected_duration": [
+        9.012807765394669,
+        23.54257295516557,
+        2.5479816977046084
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8890467847500784,
+        3.4372059655237564e-33,
+        0.11095321524992159
+      ],
+      [
+        0.0013738401314974083,
+        0.9575237591105952,
+        0.0411024007579074
+      ],
+      [
+        0.2838655203720993,
+        0.10860197690265208,
+        0.6075325027252485
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 729.0353049213486,
+        "occupancy": 0.4185047674634607,
+        "component_masses": [
+          0.310734161184695,
+          0.6892658388153031
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.07225253966913212
+      },
+      {
+        "state": 1,
+        "N_eff": 727.2011356768885,
+        "occupancy": 0.4174518574494193,
+        "component_masses": [
+          0.31657763082101725,
+          0.6834223691789834
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.012111170518022418
+      },
+      {
+        "state": 2,
+        "N_eff": 285.76355940236687,
+        "occupancy": 0.16404337508746664,
+        "component_masses": [
+          0.8651860266029047,
+          0.13481397339709475
+        ],
+        "effective_components": 2,
+        "within_state_entropy": 0.03022980904200581
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 729,
+        "silhouette": 0.15602156130141873,
+        "davies_bouldin": 2.0689056569182145
+      },
+      {
+        "state": 1,
+        "n_selected": 728,
+        "silhouette": 0.11415707662523261,
+        "davies_bouldin": 1.8755378413045056
+      },
+      {
+        "state": 2,
+        "n_selected": 286,
+        "silhouette": 0.29672746838513586,
+        "davies_bouldin": 1.5874400870809398
+      }
+    ]
+  },
+  {
+    "fold_id": "2020_2024_test_2025",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-26T00:00:00",
+    "train_end": "2024-12-31T00:00:00",
+    "test_start": "2025-01-01T00:00:00",
+    "test_end": "2025-12-31T00:00:00",
+    "k": 3,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 89250,
+    "n_train": 1742,
+    "n_test": 365,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 69.69970728629146,
+      "gmm_test_avg_loglik": 29.892786893751058,
+      "gmm_AIC": -241201.78018543942,
+      "gmm_BIC": -236744.14423299086,
+      "gmm_resp_entropy_train_mean": 0.08210931749143861,
+      "gmm_stability_ari": "0.507\u00b10.401"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 83.09828000521323,
+      "hmm_test_avg_loglik": 35.82032118451291,
+      "hmm_AIC": -284602.4075381629,
+      "hmm_BIC": -271185.79736755794,
+      "posterior_entropy_mean": 5.52620422318571e-11,
+      "posterior_entropy_p10": 5.526204223185709e-11,
+      "posterior_entropy_p50": 5.526204223185709e-11,
+      "posterior_entropy_p90": 5.526204223185709e-11,
+      "mean_diag_A": 0.8245982987251924,
+      "n_switches_viterbi": 5,
+      "occupancy_soft_train": {
+        "0": 0.4426887899425079,
+        "1": 0.39759425315457086,
+        "2": 0.15971695690314022
+      },
+      "occupancy_soft_test": {
+        "0": 0.9917808219178083,
+        "1": 8.152725298740451e-70,
+        "2": 0.008219178082191792
+      },
+      "N_eff_train": {
+        "0": 771.1638720798487,
+        "1": 692.6091889952625,
+        "2": 278.22693892527025
+      },
+      "N_eff_test": {
+        "0": 362.0,
+        "1": 2.975744734040265e-67,
+        "2": 3.000000000000004
+      },
+      "expected_duration": [
+        9.498979445733431,
+        27.895101484852187,
+        2.5968491741284545
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.8947255328098261,
+        1.0662543389691967e-75,
+        0.10527446719017386
+      ],
+      [
+        0.0014400758714024436,
+        0.9641514120124988,
+        0.03440851211609881
+      ],
+      [
+        0.29482751144703045,
+        0.09025453719971736,
+        0.6149179513532523
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 771.1638720798487,
+        "occupancy": 0.4426887899425079,
+        "component_masses": [
+          0.42045532045801515,
+          0.517300775344591,
+          0.06224390419739413
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.052666552284558285
+      },
+      {
+        "state": 1,
+        "N_eff": 692.6091889952625,
+        "occupancy": 0.39759425315457086,
+        "component_masses": [
+          0.18283467091908173,
+          0.5098686417887935,
+          0.30729668729212445
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.009234763148400093
+      },
+      {
+        "state": 2,
+        "N_eff": 278.22693892527025,
+        "occupancy": 0.15971695690314022,
+        "component_masses": [
+          0.12207553252693662,
+          0.8026175422543621,
+          0.0753069252187
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.019215425668159685
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 772,
+        "silhouette": 0.18734441909205943,
+        "davies_bouldin": 1.676637592928821
+      },
+      {
+        "state": 1,
+        "n_selected": 693,
+        "silhouette": 0.07984497699309952,
+        "davies_bouldin": 2.4563259457621283
+      },
+      {
+        "state": 2,
+        "n_selected": 277,
+        "silhouette": 0.29143617104399555,
+        "davies_bouldin": 1.7655321882713035
+      }
+    ]
+  }
+]

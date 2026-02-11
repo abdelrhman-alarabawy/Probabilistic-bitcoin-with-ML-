@@ -1,0 +1,30 @@
+{
+  "covariance_type": "tied",
+  "fit_mode": "fit_train_predict_all",
+  "fold_id_from_top10": "walkforward_014",
+  "group_name": "ohlcv_with_orderflow_derivatives_indicators",
+  "init_params": "kmeans",
+  "max_iter": 500,
+  "model_rank": 7,
+  "n_components": 2,
+  "n_init": 5,
+  "reg_covar": 1e-05,
+  "seed_used": 49,
+  "selected_features_used": [
+    "local_timestamp_last",
+    "obv",
+    "quote_updates",
+    "quote_intensity_ma_20",
+    "bid_amt_last",
+    "ask_amt_last",
+    "volume_delta",
+    "buy_volume",
+    "vw_sell_pressure",
+    "spot_opt"
+  ],
+  "shift_features": 1,
+  "source_csv": "D:\\GitHub\\bitcoin-probabilistic-learning\\data\\external\\1d\\ohlcv_with_orderflow_derivatives_indicators.csv",
+  "tol": 0.001,
+  "train_end_from_top10": "2024-12-26 00:00:00",
+  "train_start_from_top10": "2023-06-27 00:00:00"
+}

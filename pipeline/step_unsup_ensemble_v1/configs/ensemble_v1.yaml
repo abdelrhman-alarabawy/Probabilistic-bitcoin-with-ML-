@@ -1,0 +1,85 @@
+data:
+  csv_path: "../../../data/processed/12h_features_indicators_with_ohlcv.csv"
+  timestamp_col: "timestamp"
+  ohlcv_cols: ["open", "high", "low", "close", "volume"]
+  label_col: "candle_type"
+  timezone: "UTC"
+
+featuresets:
+  - name: "indicators_only"
+    include: "ALL_NUMERIC"
+    exclude: ["timestamp", "open", "high", "low", "close", "volume", "candle_type"]
+
+splits:
+  mode: "walk_forward_months"
+  train_months: 6
+  test_months: 3
+  step_months: 3
+  min_train_rows: 300
+
+labeling:
+  script_path: "../../../scripts/signals_code_hour_version_1_0.py"
+  merge_on: ["timestamp"]
+  horizon_minutes: 720
+  tp_points: 2000
+  sl_points: 1000
+  five_min_csv: null
+
+regime_models:
+  - name: "gmm"
+    enabled: true
+    sweep:
+      Ks: [2, 3, 4, 5, 6, 8]
+      covariance_types: ["full", "diag", "tied", "spherical"]
+      reg_covar: [1e-6, 1e-5]
+      max_iter: [200]
+      n_init: [3]
+      init_params: ["kmeans"]
+      repeats_per_config: 5
+      seed: 42
+    selection:
+      top_k_per_fold: 5
+      primary_metric: "test_avg_loglik_mean"
+      tie_breakers: ["test_bic_mean", "entropy_mean"]
+      deduplicate_on: ["K", "covariance_type", "reg_covar"]
+
+state_to_label:
+  smoothing_alpha: 1.0
+
+ensemble:
+  methods: ["weighted_average", "poe"]
+  weights:
+    scheme: "softmax"
+    alpha: 1.0
+    score_components:
+      test_avg_loglik_mean: 1.0
+      test_bic_mean: -0.2
+      entropy_mean: -0.5
+      repeats_test_avg_loglik_std: -0.5
+  calibration:
+    enabled: false
+
+decision_policy:
+  tau_trade: 0.70
+  tau_margin: 0.15
+  tau_entropy: null
+  abstain_label: "skip"
+
+anomaly_gate:
+  enabled: true
+  model: "mahalanobis"
+  mode: "force_skip"
+  raised_tau_trade: 0.80
+  raised_tau_margin: 0.20
+  contamination: 0.01
+  mahalanobis_robust: true
+  anomaly_threshold_quantile: 0.99
+
+evaluation:
+  consistency_metrics: ["coverage", "precision_macro", "recall_macro", "f1_macro", "confusion_matrix"]
+  trading_metrics: ["signals_per_month", "winrate", "avg_pnl", "profit_factor", "max_drawdown"]
+  fee: 0.0005
+
+output:
+  root_dir: "../../../pipeline/step_unsup_ensemble_v1/results"
+  float_format: "%.8f"

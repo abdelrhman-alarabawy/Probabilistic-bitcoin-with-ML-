@@ -1,0 +1,56 @@
+seed: 42
+
+data:
+  path: data/processed/data_1d_indicators.csv
+  timestamp_col: timestamp
+  label_col: null
+  drop_cols: []
+  start_date: null
+  end_date: null
+
+features:
+  price_columns: [open, high, low, close, volume]
+  indicator_columns: null
+  exclude_columns: [local_timestamp_last]
+  feature_sets:
+    - name: indicators_only
+      type: indicators_only
+
+preprocess:
+  missing: median  # options: median, mean, drop
+  scale: standard  # options: standard, none
+  max_samples_metrics: 10000
+
+walkforward:
+  min_train_years: 2
+  test_years: 1
+  start_year: 2020
+  end_year: 2022
+
+models:
+  gmm:
+    components: [2, 3, 4, 5, 6]
+    cov_types: [full, tied]
+    n_runs: 5
+    n_init: 1
+    max_iter: 500
+  hmm:
+    states: [2]
+    cov_types: [tied]
+    n_mix: [2]
+    n_runs: 1
+    n_iter: 300
+    tol: 0.001
+    init_params: "stmcw"
+    params: "stmcw"
+    min_covar: 1.0e-6
+    reg_covar_list: [1.0e-6, 1.0e-5, 1.0e-4]
+    fixed_seeds: [89250]
+
+output:
+  dir: pipeline/step_regime_hmm_gmm/results
+  summary_dir: pipeline/step_regime_hmm_gmm/results/summary
+  save_plots: true
+  save_state_posteriors: true
+  save_component_posteriors: false
+  verbose: true

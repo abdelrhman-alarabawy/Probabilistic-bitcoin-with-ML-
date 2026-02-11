@@ -6,28 +6,43 @@ import pandas as pd
 
 
 # === CONFIGURATION ===
-# Which timeframes to run in this execution. Default to ["1h"] for local run.
-TIMEFRAMES_TO_RUN: Iterable[str] = ["1h"]
+# Which timeframes to run in this execution. Default to ["12h"] for local run.
+TIMEFRAMES_TO_RUN: Iterable[str] = ["12h"]
 
 # Forward horizon (minutes) and TP/SL distances (in price points) per timeframe.
 TIMEFRAME_CONFIG = {
     "4h": {
         "input_csv": Path(r"D:\GitHub\Technical-Analysis-BTC\data\hourly\4h\BTCUSDT_4h_2025-08-31 (1).csv"),
-        "output_csv": Path("pipeline/source/labeling/output_4h_labels.csv"),
+        "output_baseline": Path("pipeline/source/labeling/output_4h_labels_baseline_no5m.csv"),
+        "output_with5m": Path("pipeline/source/labeling/output_4h_labels_with5m.csv"),
+        "transition_output": Path("pipeline/source/labeling/label_transition_4h_no5m_vs_with5m.csv"),
         "horizon_minutes": 240,
         "tp_points": 1200,
         "sl_points": 650,
     },
     "1h": {
         "input_csv": Path("data/processed/features_1h_ALL-2025_merged_prev_indicators.csv"),
-        "output_csv": Path("data/processed/features_1h_ALL-2025_merged_prev_indicators_labeled.csv"),
+        "output_baseline": Path("pipeline/source/labeling/output_1h_labels_baseline_no5m.csv"),
+        "output_with5m": Path("pipeline/source/labeling/output_1h_labels_with5m.csv"),
+        "transition_output": Path("pipeline/source/labeling/label_transition_1h_no5m_vs_with5m.csv"),
         "horizon_minutes": 60,
         "tp_points": 400,
         "sl_points": 200,
     },
+    "12h": {
+        "input_csv": Path("data_12h_indicators.csv"),
+        "output_baseline": Path("pipeline/source/labeling/output_12h_labels_baseline_no5m.csv"),
+        "output_with5m": Path("pipeline/source/labeling/output_12h_labels_with5m.csv"),
+        "transition_output": Path("pipeline/source/labeling/label_transition_12h_no5m_vs_with5m.csv"),
+        "horizon_minutes": 720,
+        "tp_points": 2000,
+        "sl_points": 1000,
+    },
     "1d": {
         "input_csv": Path("data/raw/BTCUSDT_1d_test.csv"),
-        "output_csv": Path("pipeline/source/labeling/output_1d_labels.csv"),
+        "output_baseline": Path("pipeline/source/labeling/output_1d_labels_baseline_no5m.csv"),
+        "output_with5m": Path("pipeline/source/labeling/output_1d_labels_with5m.csv"),
+        "transition_output": Path("pipeline/source/labeling/label_transition_1d_no5m_vs_with5m.csv"),
         # Use full 24h horizon per updated instructions.
         "horizon_minutes": 1440,
         "tp_points": 2000,
@@ -43,11 +58,6 @@ FIVE_MIN_CSV: Optional[Path] = Path(
 
 # Run both modes in a single execution.
 RUN_MODES: Sequence[str] = ("no5m", "with5m")
-
-# Output locations for 1h relabeling runs.
-OUTPUT_1H_BASELINE = Path("pipeline/source/labeling/output_1h_labels_baseline_no5m.csv")
-OUTPUT_1H_WITH5M = Path("pipeline/source/labeling/output_1h_labels_with5m.csv")
-TRANSITION_OUTPUT = Path("pipeline/source/labeling/label_transition_1h_no5m_vs_with5m.csv")
 
 # Date range filter (UTC dates). If None, will use full range of each file.
 START_DATE: Optional[pd.Timestamp] = None
@@ -216,8 +226,6 @@ for timeframe in TIMEFRAMES_TO_RUN:
     tp_points = cfg["tp_points"]
     sl_points = cfg["sl_points"]
 
-    if timeframe != "1h":
-        raise ValueError("This script execution is configured to run 1h only.")
     if not input_csv.exists():
         raise FileNotFoundError(f"Input CSV not found: {input_csv}")
 
@@ -275,8 +283,12 @@ for timeframe in TIMEFRAMES_TO_RUN:
         output_df.to_csv(output_path, index=False)
         return labels, ambiguous_flags
 
-    labels_baseline, ambiguous_baseline = run_mode("no5m", None, OUTPUT_1H_BASELINE)
-    labels_with5m, ambiguous_with5m = run_mode("with5m", five_min_index, OUTPUT_1H_WITH5M)
+    output_baseline = cfg["output_baseline"]
+    output_with5m = cfg["output_with5m"]
+    transition_output = cfg["transition_output"]
+
+    labels_baseline, ambiguous_baseline = run_mode("no5m", None, output_baseline)
+    labels_with5m, ambiguous_with5m = run_mode("with5m", five_min_index, output_with5m)
 
     if len(labels_baseline) != len(labels_with5m):
         raise ValueError("Baseline and with-5m outputs have different row counts.")
@@ -296,8 +308,8 @@ for timeframe in TIMEFRAMES_TO_RUN:
     ).reindex(index=ALLOWED_LABELS, columns=ALLOWED_LABELS, fill_value=0)
     transition_df.index.name = "from\\to"
 
-    TRANSITION_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    transition_df.to_csv(TRANSITION_OUTPUT)
+    transition_output.parent.mkdir(parents=True, exist_ok=True)
+    transition_df.to_csv(transition_output)
 
     print("\n=== Label transition matrix ===")
     print("from\\to, long, short, skip")
@@ -317,5 +329,5 @@ for timeframe in TIMEFRAMES_TO_RUN:
         print(f"\nWARNING: {len(non_ambiguous_changes)} label changes occurred outside ambiguous cases.")
 
     print(
-        f"\nTimeframe {timeframe}: Done. Outputs: {OUTPUT_1H_BASELINE} and {OUTPUT_1H_WITH5M}"
+        f"\nTimeframe {timeframe}: Done. Outputs: {output_baseline} and {output_with5m}"
     )

@@ -1,0 +1,122 @@
+Fold 2020_2021_test_2022: train=2020-2021 test=2022
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=full seed=111 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":76.76864048080607,"gmm_test_avg_loglik":64.1975073300717,"gmm_AIC":-96223.08350120144,"gmm_BIC":-89601.8294360994,"gmm_resp_entropy_train_mean":0.0001693367648156372,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":94.6205295644245,"hmm_test_avg_loglik":80.13836683351059,"hmm_AIC":-119283.72419723646,"hmm_BIC":-112653.52853312685,"posterior_entropy_mean":0.0123167741218485,"posterior_entropy_p10":2.7631021115928546e-11,"posterior_entropy_p50":2.7631021115928546e-11,"posterior_entropy_p90":0.0006070764089262478,"mean_diag_A":0.9787145239427973,"n_switches_viterbi":18,"occupancy_soft_train":{"0":0.40092869518391566,"1":0.5990713048160976},"occupancy_soft_test":{"0":0.2672264945064999,"1":0.7327735054935124},"N_eff_train":{"0":258.99993708880953,"1":387.00006291119905},"N_eff_test":{"0":97.53767049487246,"1":267.462329505132},"expected_duration":[37.000089648920685,64.33354390920005]}
+TRANSITION_MATRIX
+  [0.973 0.027]
+  [0.016 0.984]
+TOP_TRANSITIONS s0->s0:0.973 s1->s1:0.984
+WARNINGS
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=259.000 occ=0.401 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=387.000 occ=0.599 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=259 silhouette=NA db=NA
+state 1: n_selected=387 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+Model is not converging.  Current: 61124.86209537338 is not greater than 61124.862097094105. Delta is -1.7207275959663093e-06
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=full seed=222 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":76.76864048080607,"gmm_test_avg_loglik":64.1975073300717,"gmm_AIC":-96223.08350120144,"gmm_BIC":-89601.8294360994,"gmm_resp_entropy_train_mean":0.0001693367648156372,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":94.62052956431442,"hmm_test_avg_loglik":80.13836683340179,"hmm_AIC":-119283.72419709423,"hmm_BIC":-112653.52853298462,"posterior_entropy_mean":0.012316774122671867,"posterior_entropy_p10":2.7631021115928546e-11,"posterior_entropy_p50":2.7631021115928546e-11,"posterior_entropy_p90":0.0006070764090509518,"mean_diag_A":0.978714523940015,"n_switches_viterbi":18,"occupancy_soft_train":{"0":0.40092869518391566,"1":0.5990713048160976},"occupancy_soft_test":{"0":0.2672264945069445,"1":0.7327735054930652},"N_eff_train":{"0":258.99993708880953,"1":387.00006291119905},"N_eff_test":{"0":97.53767049503476,"1":267.4623295049688},"expected_duration":[37.00008964381594,64.33354390160176]}
+TRANSITION_MATRIX
+  [0.973 0.027]
+  [0.016 0.984]
+TOP_TRANSITIONS s0->s0:0.973 s1->s1:0.984
+WARNINGS
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=259.000 occ=0.401 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=387.000 occ=0.599 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=259 silhouette=NA db=NA
+state 1: n_selected=387 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=full seed=333 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":76.76864048080607,"gmm_test_avg_loglik":64.1975073300717,"gmm_AIC":-96223.08350120144,"gmm_BIC":-89601.8294360994,"gmm_resp_entropy_train_mean":0.0001693367648156372,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":94.62052956238571,"hmm_test_avg_loglik":80.13836683104279,"hmm_AIC":-119283.72419460234,"hmm_BIC":-112653.52853049274,"posterior_entropy_mean":0.012316774138687411,"posterior_entropy_p10":2.7631021115928546e-11,"posterior_entropy_p50":2.7631021115928546e-11,"posterior_entropy_p90":0.0006070764134781935,"mean_diag_A":0.9787145239383022,"n_switches_viterbi":18,"occupancy_soft_train":{"0":0.5990713048160973,"1":0.40092869518391566},"occupancy_soft_test":{"0":0.7327735054774753,"1":0.2672264945224958},"N_eff_train":{"0":387.0000629111988,"1":258.99993708880953},"N_eff_test":{"0":267.4623294992785,"1":97.53767050071096},"expected_duration":[64.33354388767295,37.00008964373356]}
+TRANSITION_MATRIX
+  [0.984 0.016]
+  [0.027 0.973]
+TOP_TRANSITIONS s0->s0:0.984 s1->s1:0.973
+WARNINGS
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=387.000 occ=0.599 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=259.000 occ=0.401 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=387 silhouette=NA db=NA
+state 1: n_selected=259 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+Model is not converging.  Current: 66779.15913040205 is not greater than 66779.15913693092. Delta is -6.528862286359072e-06
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+Model is not converging.  Current: 69529.27046183281 is not greater than 69529.27048612859. Delta is -2.4295775801874697e-05
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=tied seed=111 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":70.57168009846524,"gmm_test_avg_loglik":69.72285967363,"gmm_AIC":-89622.61068721708,"gmm_BIC":-86144.32867327421,"gmm_resp_entropy_train_mean":0.005743712198128276,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":86.03421357957262,"hmm_test_avg_loglik":86.29161161281198,"hmm_AIC":-109596.20394480783,"hmm_BIC":-106108.9803318574,"posterior_entropy_mean":0.004273663072693638,"posterior_entropy_p10":2.63190645255354e-08,"posterior_entropy_p50":2.685399599086745e-06,"posterior_entropy_p90":0.00011741622563991297,"mean_diag_A":0.9954029830419808,"n_switches_viterbi":2,"occupancy_soft_train":{"0":0.519539468086064,"1":0.48046053191404536},"occupancy_soft_test":{"0":0.6640525862505992,"1":0.3359474137493733},"N_eff_train":{"0":335.6224963835973,"1":310.3775036164733},"N_eff_test":{"0":242.3791939814687,"1":122.62080601852126},"expected_duration":[167.78178560295615,309.2230675841912]}
+TRANSITION_MATRIX
+  [0.994 0.006]
+  [0.003 0.997]
+TOP_TRANSITIONS s0->s0:0.994 s1->s1:0.997
+WARNINGS
+- Sticky state 1: A_kk=0.9968
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=335.622 occ=0.520 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=310.378 occ=0.480 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=336 silhouette=NA db=NA
+state 1: n_selected=310 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=tied seed=222 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":70.57168009846524,"gmm_test_avg_loglik":69.72285967363,"gmm_AIC":-89622.61068721708,"gmm_BIC":-86144.32867327421,"gmm_resp_entropy_train_mean":0.005743712198128276,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":85.4391138791566,"hmm_test_avg_loglik":86.42652609403281,"hmm_AIC":-108827.33513187032,"hmm_BIC":-105340.11151891989,"posterior_entropy_mean":0.006071671065251356,"posterior_entropy_p10":6.709639876073511e-11,"posterior_entropy_p50":2.8168209863636746e-09,"posterior_entropy_p90":1.6441536018150947e-05,"mean_diag_A":0.5356185720959645,"n_switches_viterbi":16,"occupancy_soft_train":{"0":0.06763723766220875,"1":0.9323627623378264},"occupancy_soft_test":{"0":0.026811905689590458,"1":0.9731880943103988},"N_eff_train":{"0":43.69365552978685,"1":602.3063444702359},"N_eff_test":{"0":9.786345576700517,"1":355.21365442329557},"expected_duration":[1.1549831458919506,15.885786079294396]}
+TRANSITION_MATRIX
+  [0.134 0.866]
+  [0.063 0.937]
+TOP_TRANSITIONS s0->s1:0.866 s1->s1:0.937
+WARNINGS
+- Ghost state 0: N_eff=43.69 occ=0.068
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=43.694 occ=0.068 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=602.306 occ=0.932 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=45 silhouette=NA db=NA
+state 1: n_selected=604 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+FIRST_RESULTS_PACK | fold=2020_2021_test_2022 train=2020-03-26T00:00:00..2021-12-31T00:00:00 test=2022-01-01T00:00:00..2022-12-31T00:00:00 | K=2 M=1 cov=tied seed=333 | n_train=646 n_test=365 n_features=37
+GMM_BASELINE {"gmm_train_avg_loglik":70.57168009846524,"gmm_test_avg_loglik":69.72285967363,"gmm_AIC":-89622.61068721708,"gmm_BIC":-86144.32867327421,"gmm_resp_entropy_train_mean":0.005743712198128276,"gmm_stability_ari":"1.000\u00b10.000"}
+HMM_GMM {"hmm_train_avg_loglik":86.35092528869927,"hmm_test_avg_loglik":84.98893959286448,"hmm_AIC":-110005.39547299946,"hmm_BIC":-106518.17186004903,"posterior_entropy_mean":0.0017149576366892565,"posterior_entropy_p10":2.7631021115928546e-11,"posterior_entropy_p50":2.7631021115928546e-11,"posterior_entropy_p90":2.7631021115928546e-11,"mean_diag_A":0.9981925006002382,"n_switches_viterbi":2,"occupancy_soft_train":{"0":0.571788492837278,"1":0.4282115071627308},"occupancy_soft_test":{"0":0.4703767119989308,"1":0.5296232880010818},"N_eff_train":{"0":369.37536637288156,"1":276.6246336271241},"N_eff_test":{"0":171.68749987960973,"1":193.31250012039487},"expected_duration":[1000000028.2819322,276.6252647530066]}
+TRANSITION_MATRIX
+  [1.000 0.000]
+  [0.004 0.996]
+TOP_TRANSITIONS s0->s0:1.000 s1->s1:0.996
+WARNINGS
+- Sticky state 0: A_kk=1.0000
+- Sticky state 1: A_kk=0.9964
+- Collapse risk: non-PD covariance detected in emissions.
+STATE_INTERNAL_GMM
+state 0: N_eff=369.375 occ=0.572 masses=[1.000] eff_comps=1 H_within=-0.000
+state 1: N_eff=276.625 occ=0.428 masses=[1.000] eff_comps=1 H_within=-0.000
+STATE_QUALITY tau=0.40
+state 0: n_selected=369 silhouette=NA db=NA
+state 1: n_selected=277 silhouette=NA db=NA
+FIRST_PACK_SUMMARY_SAVED pipeline\step_regime_hmm_gmm\results\grid_k2_m_sweep\20260202_212520\first_pack_summary.json
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')

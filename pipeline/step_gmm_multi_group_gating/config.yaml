@@ -1,0 +1,18 @@
+labeled_root: pipeline/step_gmm_groups_labeling/results
+model_rank: 1
+
+mode: k_of_n
+k_required: 4
+score_threshold: 0.6
+align_mode: intersection
+
+prob_q: 0.90
+ent_q: 0.10
+rare_q: 0.15
+train_fraction: 0.70
+
+vote_mode: majority
+reference_group: null
+weights: {}
+
+out_dir: pipeline/step_gmm_multi_group_gating/results

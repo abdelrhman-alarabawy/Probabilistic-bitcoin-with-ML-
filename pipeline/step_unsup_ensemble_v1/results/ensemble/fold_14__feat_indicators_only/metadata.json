@@ -1,0 +1,11 @@
+{
+  "fold_id": 14,
+  "featureset": "indicators_only",
+  "anomaly_threshold": 8.140175998969303,
+  "n_models": 3,
+  "model_ids": [
+    "gmm__k_2__cov_spherical__reg_1e-06",
+    "gmm__k_2__cov_spherical__reg_1e-05",
+    "gmm__k_3__cov_spherical__reg_1e-05"
+  ]
+}

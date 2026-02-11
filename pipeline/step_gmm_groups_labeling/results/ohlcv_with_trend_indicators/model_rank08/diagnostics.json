@@ -1,0 +1,122 @@
+{
+  "feature_columns_used": [
+    "sma_5",
+    "momentum_20",
+    "momentum_14",
+    "momentum_10",
+    "macd",
+    "macd_histogram",
+    "qstick_8",
+    "cci_14",
+    "aroon_oscillator_14",
+    "aroon_oscillator_25"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 22,
+  "group_name": "ohlcv_with_trend_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  443 (21.00%)\nshort:  404 (19.15%)\nskip:  1263 (59.86%)\n\n=== With 5m tie-break ===\nlong:  565 (26.78%)\nshort:  546 (25.88%)\nskip:  999 (47.35%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   443,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     999\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 8,
+  "prediction_rows": 2111,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 17,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.2236842105263158,
+      "trade_label": "long"
+    },
+    {
+      "count": 18,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.23684210526315788,
+      "trade_label": "short"
+    },
+    {
+      "count": 41,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.5394736842105263,
+      "trade_label": "skip"
+    },
+    {
+      "count": 113,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.21042830540037244,
+      "trade_label": "long"
+    },
+    {
+      "count": 98,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.1824953445065177,
+      "trade_label": "short"
+    },
+    {
+      "count": 326,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.6070763500931099,
+      "trade_label": "skip"
+    },
+    {
+      "count": 54,
+      "gmm_hard_state": 2,
+      "pct_within_state": 0.2151394422310757,
+      "trade_label": "long"
+    },
+    {
+      "count": 47,
+      "gmm_hard_state": 2,
+      "pct_within_state": 0.18725099601593626,
+      "trade_label": "short"
+    },
+    {
+      "count": 150,
+      "gmm_hard_state": 2,
+      "pct_within_state": 0.5976095617529881,
+      "trade_label": "skip"
+    },
+    {
+      "count": 232,
+      "gmm_hard_state": 3,
+      "pct_within_state": 0.20658949243098843,
+      "trade_label": "long"
+    },
+    {
+      "count": 222,
+      "gmm_hard_state": 3,
+      "pct_within_state": 0.19768477292965272,
+      "trade_label": "short"
+    },
+    {
+      "count": 669,
+      "gmm_hard_state": 3,
+      "pct_within_state": 0.5957257346393589,
+      "trade_label": "skip"
+    },
+    {
+      "count": 27,
+      "gmm_hard_state": 4,
+      "pct_within_state": 0.21774193548387097,
+      "trade_label": "long"
+    },
+    {
+      "count": 19,
+      "gmm_hard_state": 4,
+      "pct_within_state": 0.1532258064516129,
+      "trade_label": "short"
+    },
+    {
+      "count": 78,
+      "gmm_hard_state": 4,
+      "pct_within_state": 0.6290322580645161,
+      "trade_label": "skip"
+    }
+  ],
+  "train_end_effective": "2021-12-25 00:00:00",
+  "train_start_effective": "2020-06-26 00:00:00",
+  "training_rows": 548
+}

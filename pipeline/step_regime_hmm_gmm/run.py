@@ -21,6 +21,7 @@ from src.data import load_data
 from src.eval_hmm import occupancy_balance
 from src.eval_state_gmms import state_component_posteriors, state_gmm_metrics
 from src.features import build_feature_sets
+from src.first_results_pack import print_first_results_pack
 from src.model_gmm import run_gmm_grid
 from src.model_hmm_gmm import hmm_duration_diagnostics, run_hmm_grid
 from src.plots import (
@@ -115,6 +116,7 @@ def main(config_path: Optional[str] = None) -> None:
     cfg = load_config(config_path)
     seed = int(cfg.get("seed", 42))
     set_seed(seed)
+    rng = np.random.default_rng(seed)
 
     data_cfg = cfg.get("data", {})
     df = load_data(
@@ -189,6 +191,12 @@ def main(config_path: Optional[str] = None) -> None:
                 gmm_runs_df["stability_ari"] = gmm_runs_df.apply(
                     lambda row: float(ari_map.get((row["k"], row["cov_type"]), np.nan)), axis=1
                 )
+            if not gmm_runs_df.empty:
+                gmm_runs_df["fold_id"] = fold.name
+                gmm_runs_df["feature_set"] = feat_name
+            if not gmm_summary_df.empty:
+                gmm_summary_df["fold_id"] = fold.name
+                gmm_summary_df["feature_set"] = feat_name
             gmm_runs_df.to_csv(feature_dir / "gmm_baseline_metrics.csv", index=False)
             gmm_summary_df.to_csv(feature_dir / "gmm_baseline_summary.csv", index=False)
 
@@ -243,7 +251,7 @@ def main(config_path: Optional[str] = None) -> None:
 
             # ---- HMM-GMM ----
             hmm_cfg = cfg["models"]["hmm"]
-            hmm_runs, hmm_summaries, hmm_artifacts = run_hmm_grid(
+            hmm_runs, hmm_summaries, hmm_artifacts, hmm_state_stability = run_hmm_grid(
                 X_train,
                 X_test,
                 hmm_cfg["states"],
@@ -262,6 +270,12 @@ def main(config_path: Optional[str] = None) -> None:
                 for key, value in period.items():
                     hmm_summary_df[key] = value
 
+            if not hmm_runs_df.empty:
+                hmm_runs_df["fold_id"] = fold.name
+                hmm_runs_df["feature_set"] = feat_name
+            if not hmm_summary_df.empty:
+                hmm_summary_df["fold_id"] = fold.name
+                hmm_summary_df["feature_set"] = feat_name
             hmm_runs_df.to_csv(feature_dir / "hmm_metrics.csv", index=False)
             hmm_summary_df.to_csv(feature_dir / "hmm_summary.csv", index=False)
 
@@ -320,11 +334,58 @@ def main(config_path: Optional[str] = None) -> None:
                 )
 
                 # GMM-inside-state diagnostics
-                state_rows_train = state_gmm_metrics(
-                    model, X_train, viterbi_train, model.covariance_type, "train"
+                stability = hmm_state_stability.get(key)
+                state_rows_train = (
+                    state_gmm_metrics(
+                        model,
+                        X_train,
+                        viterbi_train,
+                        post_train,
+                        model.covariance_type,
+                        "train",
+                        "weighted",
+                        cfg["preprocess"]["max_samples_metrics"],
+                        rng,
+                        stability,
+                    )
+                    + state_gmm_metrics(
+                        model,
+                        X_train,
+                        viterbi_train,
+                        post_train,
+                        model.covariance_type,
+                        "train",
+                        "hard",
+                        cfg["preprocess"]["max_samples_metrics"],
+                        rng,
+                        stability,
+                    )
                 )
-                state_rows_test = state_gmm_metrics(
-                    model, X_test, viterbi_test, model.covariance_type, "test"
+                state_rows_test = (
+                    state_gmm_metrics(
+                        model,
+                        X_test,
+                        viterbi_test,
+                        post_test,
+                        model.covariance_type,
+                        "test",
+                        "weighted",
+                        cfg["preprocess"]["max_samples_metrics"],
+                        rng,
+                        stability,
+                    )
+                    + state_gmm_metrics(
+                        model,
+                        X_test,
+                        viterbi_test,
+                        post_test,
+                        model.covariance_type,
+                        "test",
+                        "hard",
+                        cfg["preprocess"]["max_samples_metrics"],
+                        rng,
+                        stability,
+                    )
                 )
                 state_rows = state_rows_train + state_rows_test
                 state_df = pd.DataFrame(state_rows)
@@ -366,6 +427,42 @@ def main(config_path: Optional[str] = None) -> None:
                             feature_dir / ("state_%d_component_posteriors_test_%s.csv" % (state, key)),
                             index=False,
                         )
+
+                # First results print pack (per fold/config)
+                run_context = {
+                    "fold_id": fold.name,
+                    "feature_set": feat_name,
+                    "period": period,
+                    "config": {
+                        "k": int(pack["run"].k),
+                        "n_mix": int(pack["run"].n_mix),
+                        "cov_type": str(pack["run"].cov_type),
+                        "seed": int(pack["run"].seed),
+                    },
+                    "data": {
+                        "n_train": int(X_train.shape[0]),
+                        "n_test": int(X_test.shape[0]),
+                        "n_features": int(X_train.shape[1]),
+                    },
+                    "gmm_runs_df": gmm_runs_df,
+                    "gmm_summary_df": gmm_summary_df,
+                    "hmm": {
+                        "model": model,
+                        "run": pack["run"],
+                        "post_train": post_train,
+                        "post_test": post_test,
+                        "viterbi_train": viterbi_train,
+                        "viterbi_test": viterbi_test,
+                    },
+                    "arrays": {"X_train": X_train, "X_test": X_test},
+                    "params": {
+                        "tau": 0.4,
+                        "max_samples_metrics": cfg["preprocess"]["max_samples_metrics"],
+                        "seed": seed,
+                    },
+                    "output": {"summary_path": results_dir / "first_pack_summary.json"},
+                }
+                print_first_results_pack(run_context)
 
                 # Only plot for the best-by-test LL config to avoid bloating
                 # (recorded below)

@@ -1,0 +1,30 @@
+{
+  "covariance_type": "tied",
+  "fit_mode": "fit_train_predict_all",
+  "fold_id_from_top10": "walkforward_004",
+  "group_name": "ohlcv_with_trend_indicators",
+  "init_params": "kmeans",
+  "max_iter": 500,
+  "model_rank": 3,
+  "n_components": 2,
+  "n_init": 5,
+  "reg_covar": 1e-06,
+  "seed_used": 45,
+  "selected_features_used": [
+    "sma_5",
+    "momentum_20",
+    "momentum_14",
+    "momentum_10",
+    "macd",
+    "macd_histogram",
+    "qstick_8",
+    "cci_14",
+    "aroon_oscillator_14",
+    "aroon_oscillator_25"
+  ],
+  "shift_features": 1,
+  "source_csv": "D:\\GitHub\\bitcoin-probabilistic-learning\\data\\external\\1d\\ohlcv_with_trend_indicators.csv",
+  "tol": 0.001,
+  "train_end_from_top10": "2022-06-25 00:00:00",
+  "train_start_from_top10": "2020-12-26 00:00:00"
+}

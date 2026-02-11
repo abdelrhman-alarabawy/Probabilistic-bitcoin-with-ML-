@@ -1,0 +1,68 @@
+{
+  "feature_columns_used": [
+    "klinger_oscillator",
+    "chaikin_oscillator_12_26",
+    "chaikin_oscillator_3_10",
+    "awesome_oscillator",
+    "elder_bull_power_13",
+    "elder_bear_power_13",
+    "dpo_20",
+    "dpo_14",
+    "accelerator_oscillator",
+    "cci_30"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 18,
+  "group_name": "ohlcv_with_oscillator_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  443 (21.00%)\nshort:  404 (19.15%)\nskip:  1263 (59.86%)\n\n=== With 5m tie-break ===\nlong:  565 (26.78%)\nshort:  546 (25.88%)\nskip:  999 (47.35%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   443,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     999\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 2,
+  "prediction_rows": 2111,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 359,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.20835751596053395,
+      "trade_label": "long"
+    },
+    {
+      "count": 347,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.20139291932675565,
+      "trade_label": "short"
+    },
+    {
+      "count": 1017,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.5902495647127104,
+      "trade_label": "skip"
+    },
+    {
+      "count": 84,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.21649484536082475,
+      "trade_label": "long"
+    },
+    {
+      "count": 57,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.14690721649484537,
+      "trade_label": "short"
+    },
+    {
+      "count": 247,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.6365979381443299,
+      "trade_label": "skip"
+    }
+  ],
+  "train_end_effective": "2025-06-25 00:00:00",
+  "train_start_effective": "2023-12-26 00:00:00",
+  "training_rows": 548
+}

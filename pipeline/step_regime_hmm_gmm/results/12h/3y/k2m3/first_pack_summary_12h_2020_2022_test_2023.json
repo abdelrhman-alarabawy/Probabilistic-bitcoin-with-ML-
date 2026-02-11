@@ -1,0 +1,112 @@
+[
+  {
+    "fold_id": "2020_2022_test_2023",
+    "feature_set": "indicators_only",
+    "train_start": "2020-03-25T12:00:00",
+    "train_end": "2022-12-31T12:00:00",
+    "test_start": "2023-01-01T00:00:00",
+    "test_end": "2023-12-31T12:00:00",
+    "k": 2,
+    "n_mix": 3,
+    "cov_type": "tied",
+    "seed": 654571,
+    "n_train": 2023,
+    "n_test": 730,
+    "n_features": 37,
+    "gmm_summary": {
+      "gmm_train_avg_loglik": 69.79353560513378,
+      "gmm_test_avg_loglik": 70.37478095185183,
+      "gmm_AIC": -280828.6450583713,
+      "gmm_BIC": -276462.2469990548,
+      "gmm_resp_entropy_train_mean": 0.04271193511634011,
+      "gmm_stability_ari": "0.997\u00b10.002"
+    },
+    "hmm_summary": {
+      "hmm_train_avg_loglik": 78.8812170118873,
+      "hmm_test_avg_loglik": 80.586413035994,
+      "hmm_AIC": -315883.404030096,
+      "hmm_BIC": -306707.23330132675,
+      "posterior_entropy_mean": 0.0002940470868820045,
+      "posterior_entropy_p10": 2.7631021115928546e-11,
+      "posterior_entropy_p50": 7.220510793132025e-11,
+      "posterior_entropy_p90": 6.718228777503099e-07,
+      "mean_diag_A": 0.7838185151531218,
+      "n_switches_viterbi": 8,
+      "occupancy_soft_train": {
+        "0": 0.2275971194520551,
+        "1": 0.7724028805480685
+      },
+      "occupancy_soft_test": {
+        "0": 0.005549729394884936,
+        "1": 0.9944502706052577
+      },
+      "N_eff_train": {
+        "0": 460.4289726515075,
+        "1": 1562.5710273487425
+      },
+      "N_eff_test": {
+        "0": 4.0513024582660035,
+        "1": 725.9486975418381
+      },
+      "expected_duration": [
+        2.9844902456228377,
+        10.277769604971164
+      ]
+    },
+    "transition_matrix": [
+      [
+        0.6649344049736344,
+        0.3350655950263657
+      ],
+      [
+        0.09729737466739075,
+        0.9027026253326093
+      ]
+    ],
+    "top_transitions": {
+      "0": 0,
+      "1": 1
+    },
+    "warnings": [],
+    "per_state_internal": [
+      {
+        "state": 0,
+        "N_eff": 460.4289726515075,
+        "occupancy": 0.2275971194520551,
+        "component_masses": [
+          0.49020301214231926,
+          0.09402257467184921,
+          0.4157744131858311
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.09167153471044229
+      },
+      {
+        "state": 1,
+        "N_eff": 1562.5710273487425,
+        "occupancy": 0.7724028805480685,
+        "component_masses": [
+          0.21279595043241914,
+          0.07794590354831535,
+          0.709258146019265
+        ],
+        "effective_components": 3,
+        "within_state_entropy": 0.008799416836105672
+      }
+    ],
+    "state_quality": [
+      {
+        "state": 0,
+        "n_selected": 458,
+        "silhouette": 0.10568978115571939,
+        "davies_bouldin": 2.2793355509506923
+      },
+      {
+        "state": 1,
+        "n_selected": 1566,
+        "silhouette": 0.1953267656086436,
+        "davies_bouldin": 1.664442844477769
+      }
+    ]
+  }
+]

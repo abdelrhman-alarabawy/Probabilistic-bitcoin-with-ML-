@@ -1,0 +1,68 @@
+{
+  "feature_columns_used": [
+    "local_timestamp_last",
+    "obv",
+    "quote_updates",
+    "quote_intensity_ma_20",
+    "bid_amt_last",
+    "ask_amt_last",
+    "volume_delta",
+    "buy_volume",
+    "vw_sell_pressure",
+    "spot_opt"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 7,
+  "group_name": "ohlcv_with_orderflow_derivatives_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  442 (20.99%)\nshort:  404 (19.18%)\nskip:  1260 (59.83%)\n\n=== With 5m tie-break ===\nlong:  564 (26.78%)\nshort:  546 (25.93%)\nskip:  996 (47.29%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   442,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     996\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 2,
+  "prediction_rows": 2107,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 281,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.2087667161961367,
+      "trade_label": "long"
+    },
+    {
+      "count": 258,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.19167904903417535,
+      "trade_label": "short"
+    },
+    {
+      "count": 807,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.5995542347696879,
+      "trade_label": "skip"
+    },
+    {
+      "count": 161,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.21156373193166886,
+      "trade_label": "long"
+    },
+    {
+      "count": 146,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.19185282522996058,
+      "trade_label": "short"
+    },
+    {
+      "count": 454,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.5965834428383706,
+      "trade_label": "skip"
+    }
+  ],
+  "train_end_effective": "2024-12-26 00:00:00",
+  "train_start_effective": "2023-06-27 00:00:00",
+  "training_rows": 549
+}

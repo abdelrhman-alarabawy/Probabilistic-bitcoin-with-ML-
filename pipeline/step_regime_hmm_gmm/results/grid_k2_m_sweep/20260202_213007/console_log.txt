@@ -1,0 +1,21 @@
+Fold 2020_2021_test_2022: train=2020-2021 test=2022
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+Model is not converging.  Current: 66779.15913040205 is not greater than 66779.15913693092. Delta is -6.528862286359072e-06
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+Model is not converging.  Current: 69529.27046183281 is not greater than 69529.27048612859. Delta is -2.4295775801874697e-05
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=111 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=222 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=full seed=333 error=ValueError('Covariance of state #0, mixture #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=2 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=3 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=111 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=222 error=ValueError('Covariance of state #0 is not positive definite')
+CONFIG_FAILED fold=2020_2021_test_2022 feature=indicators_only k=2 mix=4 cov=tied seed=333 error=ValueError('Covariance of state #0 is not positive definite')

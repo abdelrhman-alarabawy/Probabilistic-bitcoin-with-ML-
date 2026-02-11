@@ -1,0 +1,41 @@
+root_group_folder: data/external/1d
+prev_results_root: pipeline/step_gmm_groups/results
+prev_step_config: pipeline/step_gmm_groups/config.yaml
+label_script_path: scripts/signals_code_hour_v1_0.py
+output_dir: pipeline/step_gmm_groups_labeling/results
+expected_num_groups: 6
+
+timestamp_candidates:
+  - timestamp
+  - time
+  - date
+  - datetime
+  - ts_utc
+
+label_column_patterns:
+  - label
+  - target
+  - long
+  - short
+  - skip
+  - signal
+
+gmm_defaults:
+  init_params: kmeans
+  n_init: 5
+  max_iter: 500
+  tol: 1.0e-3
+  n_components_default: 2
+  covariance_type_default: tied
+  reg_covar_default: 1.0e-6
+
+run:
+  mode: fit_train_predict_all
+  shift: 1
+  top_n: 10
+  holdout_train_ratio: 0.8
+  scaler: robust
+  include_selected_features: true
+  label_output_mode: no5m
+  verbose: true
+

@@ -1,0 +1,68 @@
+{
+  "feature_columns_used": [
+    "money_flow",
+    "money_flow_sma_10",
+    "eom_14",
+    "eom_20",
+    "force_index",
+    "force_index_ema_13",
+    "klinger_volume_osc",
+    "ad_line",
+    "obv",
+    "intraday_intensity_sum_30"
+  ],
+  "fit_converged": true,
+  "fit_n_iter": 20,
+  "group_name": "ohlcv_with_volume_indicators",
+  "label_mode_selected": "no5m",
+  "label_script_returncode": 0,
+  "label_script_stderr_tail": "",
+  "label_script_stdout_tail": "\n=== Baseline (NO 5m) ===\nlong:  443 (21.00%)\nshort:  404 (19.15%)\nskip:  1263 (59.86%)\n\n=== With 5m tie-break ===\nlong:  565 (26.78%)\nshort:  546 (25.88%)\nskip:  999 (47.35%)\n\n=== Delta (with5m - baseline) ===\nlong:  +122\nshort:  +142\nskip:  -264\n\n=== Label transition matrix ===\nfrom\\to, long, short, skip\nlong,   443,    0,     0\nshort,   0,    404,     0\nskip,   122,    142,     999\n\nTimeframe 12h: Done. Outputs: pipeline\\source\\labeling\\output_12h_labels_baseline_no5m.csv and pipeline\\source\\labeling\\output_12h_labels_with5m.csv\n",
+  "label_warning": "",
+  "labeling_enabled": true,
+  "model_rank": 6,
+  "prediction_rows": 2111,
+  "scaler": "robust",
+  "shift_features": 1,
+  "state_label_distribution": [
+    {
+      "count": 315,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.20494469746258945,
+      "trade_label": "long"
+    },
+    {
+      "count": 303,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.19713728041639558,
+      "trade_label": "short"
+    },
+    {
+      "count": 919,
+      "gmm_hard_state": 0,
+      "pct_within_state": 0.597918022121015,
+      "trade_label": "skip"
+    },
+    {
+      "count": 128,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.2229965156794425,
+      "trade_label": "long"
+    },
+    {
+      "count": 101,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.1759581881533101,
+      "trade_label": "short"
+    },
+    {
+      "count": 345,
+      "gmm_hard_state": 1,
+      "pct_within_state": 0.6010452961672473,
+      "trade_label": "skip"
+    }
+  ],
+  "train_end_effective": "2024-12-25 00:00:00",
+  "train_start_effective": "2023-06-26 00:00:00",
+  "training_rows": 549
+}

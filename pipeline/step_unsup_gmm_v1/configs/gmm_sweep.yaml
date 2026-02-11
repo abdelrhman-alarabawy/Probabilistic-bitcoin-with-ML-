@@ -1,0 +1,51 @@
+data:
+  csv_path: "../../../data/processed/data_1d_indicators.csv"
+  timestamp_col: "timestamp"
+  ohlcv_cols: ["open", "high", "low", "close", "volume"]
+  label_col: "candle_type"
+
+featuresets:
+  - name: "indicators_only"
+    include: "ALL_NUMERIC"
+    exclude: ["timestamp", "open", "high", "low", "close", "volume", "candle_type"]
+  - name: "ohlcv_indicators"
+    include: "ALL_NUMERIC"
+    exclude: ["candle_type"]
+
+splits:
+  mode: "walk_forward_months"
+  train_months: 48
+  test_months: 12
+  step_months: 12
+  min_train_rows: 500
+  timezone: "UTC"
+
+gmm_sweep:
+  Ks: [2, 3, 4, 5, 6, 8, 10]
+  covariance_types: ["full", "diag", "tied", "spherical"]
+  reg_covar: [1e-6, 1e-5]
+  max_iter: [200]
+  n_init: [3]
+  init_params: ["kmeans"]
+  random_seed: 42
+  repeats_per_config: 5
+  convergence_tol: 1e-3
+
+selection:
+  top_k: 10
+  primary_metric: "test_avg_loglik_mean"
+  tie_breakers: ["test_bic_mean", "test_aic_mean", "entropy_mean"]
+  deduplicate_on: ["featureset", "K", "covariance_type", "reg_covar"]
+
+output:
+  root_dir: "../../../pipeline/step_unsup_gmm_v1/results"
+  save_responsibilities: true
+  save_hard_assignments: true
+  float_format: "%.8f"
+
+# Optional labeling overrides (defaults are 12h values)
+labeling:
+  horizon_minutes: 1440
+  tp_points: 2000
+  sl_points: 1000
+  five_min_csv: null

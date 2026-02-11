@@ -1,0 +1,30 @@
+{
+  "covariance_type": "full",
+  "fit_mode": "fit_train_predict_all",
+  "fold_id_from_top10": "walkforward_016",
+  "group_name": "ohlcv_with_market_structure_indicators",
+  "init_params": "kmeans",
+  "max_iter": 500,
+  "model_rank": 7,
+  "n_components": 5,
+  "n_init": 5,
+  "reg_covar": 1e-05,
+  "seed_used": 49,
+  "selected_features_used": [
+    "body",
+    "lower_shadow",
+    "upper_shadow",
+    "lower_shadow_pct",
+    "days_since_high",
+    "upper_shadow_pct",
+    "days_above_sma_200",
+    "tr_percentile_50d",
+    "tr_percentile_14d",
+    "position_in_range_10d"
+  ],
+  "shift_features": 1,
+  "source_csv": "D:\\GitHub\\bitcoin-probabilistic-learning\\data\\external\\1d\\ohlcv_with_market_structure_indicators.csv",
+  "tol": 0.001,
+  "train_end_from_top10": "2025-06-25 00:00:00",
+  "train_start_from_top10": "2023-12-26 00:00:00"
+}
