@@ -1,0 +1,31 @@
+{
+  "best_k": 6,
+  "bics": {
+    "3": 36926.4071347431,
+    "4": 35721.355145644724,
+    "5": 33550.880483573594,
+    "6": 31675.535967093474
+  },
+  "regime_features": [
+    "intraday_intensity_sum_30",
+    "intraday_intensity_20",
+    "intraday_intensity",
+    "tr",
+    "atr_7",
+    "tsi_vol_13",
+    "tsi_vol_25",
+    "schaff_trend_cycle",
+    "chaikin_volatility_10",
+    "chaikin_volatility_20",
+    "tr_percentile_50d",
+    "position_in_range_50d"
+  ],
+  "regime_sizes": {
+    "0": 207,
+    "1": 225,
+    "2": 143,
+    "3": 331,
+    "4": 264,
+    "5": 678
+  }
+}
