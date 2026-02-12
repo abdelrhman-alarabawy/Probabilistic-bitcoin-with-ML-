@@ -238,4 +238,5 @@ __marimo__/
 # Ignore data artifacts
 *.csv
 *.xlsx
+!data/external/output_1d_labels.csv
 
